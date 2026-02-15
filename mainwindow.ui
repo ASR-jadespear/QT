@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Academic Manager</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      
+      <!-- TAB 1: DASHBOARD & NOTICES -->
+      <widget class="QWidget" name="tab_dashboard">
+       <attribute name="title">
+        <string>Dashboard</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_dash">
+        <item>
+         <widget class="QLabel" name="label_welcome">
+          <property name="text">
+           <string>Welcome!</string>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_profile">
+          <property name="title">
+           <string>Academic Profile</string>
+          </property>
+          <layout class="QFormLayout" name="formLayout_profile">
+           <item row="0" column="0">
+            <widget class="QLabel" name="lbl_p_name"><property name="text"><string>Name:</string></property></widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="val_p_name"><property name="text"><string>-</string></property></widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="lbl_p_id"><property name="text"><string>ID:</string></property></widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLabel" name="val_p_id"><property name="text"><string>-</string></property></widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="lbl_p_dept"><property name="text"><string>Department:</string></property></widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLabel" name="val_p_dept"><property name="text"><string>-</string></property></widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="lbl_p_sem"><property name="text"><string>Semester:</string></property></widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLabel" name="val_p_sem"><property name="text"><string>-</string></property></widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="lbl_p_email"><property name="text"><string>Email:</string></property></widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLabel" name="val_p_email"><property name="text"><string>-</string></property></widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_nextClass">
+          <property name="text">
+           <string>Next Class: --</string>
+          </property>
+          <property name="styleSheet">
+           <string>font-weight: bold; color: #2c3e50; font-size: 14px; margin-bottom: 10px;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_notices">
+          <property name="text">
+           <string>Class Notices:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QListWidget" name="noticeListWidget"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="addNoticeButton">
+          <property name="text">
+           <string>Post Notice (Teacher Only)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="logoutButton">
+          <property name="text">
+           <string>Logout</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- TAB 2: STUDY PLANNER -->
+      <widget class="QWidget" name="tab_planner">
+       <attribute name="title">
+        <string>Study Planner</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_plan">
+        <item>
+         <widget class="QListWidget" name="taskListWidget"/>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_task">
+          <item>
+           <widget class="QLineEdit" name="taskLineEdit">
+            <property name="placeholderText">
+             <string>New Task Description...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="addTaskButton">
+            <property name="text">
+             <string>Add Task</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="completeTaskButton">
+          <property name="text">
+           <string>Mark Selected as Completed</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_timer">
+          <property name="title">
+           <string>Focus Timer</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_timer">
+           <item>
+            <widget class="QLabel" name="label_timerDisplay">
+             <property name="font">
+              <font>
+               <pointsize>72</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>00:00</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_timerControls">
+             <item>
+              <widget class="QLabel" name="label_min">
+               <property name="text">
+                <string>Minutes:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="spinTimerMinutes">
+               <property name="value">
+                <number>25</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnTimerStart">
+               <property name="text">
+                <string>Start</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnTimerPause">
+               <property name="text">
+                <string>Pause</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnTimerStop">
+               <property name="text">
+                <string>Stop</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- TAB 3: HABIT TRACKER -->
+      <widget class="QWidget" name="tab_habits">
+       <attribute name="title">
+        <string>Habit Tracker</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_habit">
+        <item>
+         <widget class="QGroupBox" name="groupBox_prayers">
+          <property name="title"><string>Daily Prayers (Today)</string></property>
+          <layout class="QHBoxLayout" name="hbox_prayers">
+           <item><widget class="QCheckBox" name="chkFajr"><property name="text"><string>Fajr</string></property></widget></item>
+           <item><widget class="QCheckBox" name="chkDhuhr"><property name="text"><string>Dhuhr</string></property></widget></item>
+           <item><widget class="QCheckBox" name="chkAsr"><property name="text"><string>Asr</string></property></widget></item>
+           <item><widget class="QCheckBox" name="chkMaghrib"><property name="text"><string>Maghrib</string></property></widget></item>
+           <item><widget class="QCheckBox" name="chkIsha"><property name="text"><string>Isha</string></property></widget></item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QListWidget" name="habitListWidget"/>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_habitButtons">
+          <item>
+           <widget class="QPushButton" name="btnAddHabit">
+            <property name="text">
+             <string>Create Habit</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnPerformHabit">
+            <property name="text">
+             <string>Perform / Start Timer</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnDeleteHabit">
+            <property name="text">
+             <string>Delete Habit</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_workoutTimer">
+          <property name="title">
+           <string>Habit Timer</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_workoutTimer">
+           <item>
+            <widget class="QLabel" name="label_workoutTimerDisplay">
+             <property name="font">
+              <font>
+               <pointsize>72</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>00:00.00</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_workoutTimerControls">
+             <item>
+              <widget class="QLabel" name="label_workoutMin">
+               <property name="text">
+                <string>Target:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="spinWorkoutMinutes">
+               <property name="value">
+                <number>30</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnWorkoutStart">
+               <property name="text">
+                <string>Start</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnWorkoutPause">
+               <property name="text">
+                <string>Pause</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnWorkoutStop">
+               <property name="text">
+                <string>Stop</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- TAB 5: ROUTINE (Student) -->
+      <widget class="QWidget" name="tab_routine">
+       <attribute name="title">
+        <string>Routine</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_routine">
+        <item>
+         <widget class="QComboBox" name="comboRoutineDay">
+          <item><property name="text"><string>Sunday</string></property></item>
+          <item><property name="text"><string>Monday</string></property></item>
+          <item><property name="text"><string>Tuesday</string></property></item>
+          <item><property name="text"><string>Wednesday</string></property></item>
+          <item><property name="text"><string>Thursday</string></property></item>
+          <item><property name="text"><string>Friday</string></property></item>
+          <item><property name="text"><string>Saturday</string></property></item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="tableRoutine">
+          <column><property name="text"><string>Time</string></property></column>
+          <column><property name="text"><string>Course</string></property></column>
+          <column><property name="text"><string>Room</string></property></column>
+          <column><property name="text"><string>Instructor</string></property></column>
+          <column><property name="text"><string>Status</string></property></column>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionBehavior"><enum>QAbstractItemView::SelectRows</enum></property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- TAB 6: ACADEMICS (Student) -->
+      <widget class="QWidget" name="tab_academics">
+       <attribute name="title">
+        <string>Academics</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_academics">
+        <item>
+         <widget class="QLabel" name="lbl_assessments"><property name="text"><string>Upcoming Assessments:</string></property></widget>
+        </item>
+        <item>
+         <widget class="QListWidget" name="listAssessments"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="lbl_attendance"><property name="text"><string>Attendance &amp; Grades:</string></property></widget>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="tableAcademics">
+          <column><property name="text"><string>Course</string></property></column>
+          <column><property name="text"><string>Attendance %</string></property></column>
+          <column><property name="text"><string>Score</string></property></column>
+          <column><property name="text"><string>Status</string></property></column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- TAB 7: TEACHER ROUTINE -->
+      <widget class="QWidget" name="tab_teacher_routine">
+       <attribute name="title">
+        <string>Routine Management</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_teacher_routine">
+        <item>
+         <widget class="QGroupBox" name="grp_routine_manage">
+          <property name="title"><string>Manage Routine</string></property>
+          <layout class="QHBoxLayout" name="hbox_routine_manage">
+           <item><widget class="QComboBox" name="comboRoutineDayInput">
+            <item><property name="text"><string>Sunday</string></property></item>
+            <item><property name="text"><string>Monday</string></property></item>
+            <item><property name="text"><string>Tuesday</string></property></item>
+            <item><property name="text"><string>Wednesday</string></property></item>
+            <item><property name="text"><string>Thursday</string></property></item>
+            <item><property name="text"><string>Friday</string></property></item>
+            <item><property name="text"><string>Saturday</string></property></item>
+           </widget></item>
+           <item><widget class="QLineEdit" name="editRoutineTime">
+            <property name="placeholderText"><string>Start (09:00)</string></property>
+           </widget></item>
+           <item><widget class="QLineEdit" name="editRoutineEndTime">
+            <property name="placeholderText"><string>End (10:30)</string></property>
+           </widget></item>
+           <item><widget class="QComboBox" name="comboRoutineCourse">
+            <property name="toolTip"><string>Select Course</string></property>
+           </widget></item>
+           <item><widget class="QLineEdit" name="editRoutineRoom">
+            <property name="placeholderText"><string>Room</string></property>
+           </widget></item>
+           <item><widget class="QPushButton" name="btnAddRoutine_Teacher"><property name="text"><string>Add</string></property></widget></item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="tableTeacherRoutine">
+          <column><property name="text"><string>Time</string></property></column>
+          <column><property name="text"><string>Course</string></property></column>
+          <column><property name="text"><string>Room</string></property></column>
+          <column><property name="text"><string>Semester</string></property></column>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionBehavior"><enum>QAbstractItemView::SelectRows</enum></property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- TAB 8: TEACHER ASSESSMENT -->
+      <widget class="QWidget" name="tab_teacher_assessment">
+       <attribute name="title">
+        <string>Post Assessment</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_teacher_assessment">
+        <item>
+         <widget class="QGroupBox" name="grp_assessment">
+          <property name="title"><string>Create Assessment</string></property>
+          <layout class="QHBoxLayout" name="hbox_assessment">
+           <item><widget class="QComboBox" name="comboTeacherCourse"/></item>
+           <item><widget class="QLineEdit" name="editAssessmentTitle"><property name="placeholderText"><string>Title</string></property></widget></item>
+           <item><widget class="QComboBox" name="comboAssessmentType">
+            <item><property name="text"><string>Quiz</string></property></item>
+            <item><property name="text"><string>Assignment</string></property></item>
+           </widget></item>
+           <item><widget class="QSpinBox" name="spinMaxMarks"><property name="value"><number>20</number></property></widget></item>
+           <item><widget class="QPushButton" name="btnCreateAssessment"><property name="text"><string>Create</string></property></widget></item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_assessment">
+          <property name="orientation"><enum>Qt::Vertical</enum></property>
+          <property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- TAB 9: TEACHER GRADING -->
+      <widget class="QWidget" name="tab_teacher_grades">
+       <attribute name="title">
+        <string>Grading</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_teacher_grades">
+        <item>
+         <widget class="QGroupBox" name="grp_grading">
+          <property name="title"><string>Enter Grades</string></property>
+          <layout class="QVBoxLayout" name="vbox_grading">
+           <item>
+            <layout class="QHBoxLayout" name="hbox_grading_controls">
+             <item><widget class="QComboBox" name="comboTeacherAssessment"/></item>
+             <item><widget class="QPushButton" name="btnSaveGrades"><property name="text"><string>Save Grades</string></property></widget></item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QTableWidget" name="tableGrading">
+             <column><property name="text"><string>Student ID</string></property></column>
+             <column><property name="text"><string>Name</string></property></column>
+             <column><property name="text"><string>Marks</string></property></column>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- TAB 10: TEACHER ATTENDANCE -->
+      <widget class="QWidget" name="tab_teacher_attendance">
+       <attribute name="title">
+        <string>Attendance</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_teacher_attendance">
+        <item>
+         <layout class="QHBoxLayout" name="hbox_attendance_controls">
+          <item><widget class="QComboBox" name="comboAttendanceCourse">
+           <property name="toolTip"><string>Select Course</string></property>
+          </widget></item>
+          <item><widget class="QPushButton" name="btnAddClassDate"><property name="text"><string>Add Class Column</string></property></widget></item>
+          <item><widget class="QPushButton" name="btnSaveAttendance"><property name="text"><string>Save Attendance</string></property></widget></item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="tableAttendance">
+          <property name="selectionBehavior"><enum>QAbstractItemView::SelectRows</enum></property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- TAB 11: QUERIES (Student & Teacher) -->
+      <widget class="QWidget" name="tab_queries">
+       <attribute name="title">
+        <string>Q&amp;A</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_queries">
+        <item>
+         <widget class="QListWidget" name="listQueries"/>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="hbox_queries">
+          <item>
+           <widget class="QLineEdit" name="editQueryInput">
+            <property name="placeholderText">
+             <string>Ask a question (Student) or Reply (Teacher)...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnQueryAction">
+            <property name="text"><string>Send</string></property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- TAB 12: ADMIN PANEL -->
+      <widget class="QWidget" name="tab_admin">
+       <attribute name="title">
+        <string>Admin Panel</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_admin">
+        
+    <!-- EXISTING UI CONTENT MOVED HERE -->
+    <item>
+     <widget class="QComboBox" name="tableComboBox">
+      <property name="toolTip">
+       <string>Select Database Table</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="searchLineEdit">
+      <property name="placeholderText">
+       <string>Search / Filter...</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QTableView" name="adminTableView">
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_buttons">
+      <item>
+       <widget class="QPushButton" name="btnAddRow">
+        <property name="text">
+         <string>Add Row</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnDeleteRow">
+        <property name="text">
+         <string>Delete Selected Row</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar"/>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
