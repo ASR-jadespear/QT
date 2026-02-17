@@ -1,56 +1,56 @@
 [
 {
-  "directory": "D:/QT/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 @CMakeFiles/MyFirstQtApp.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\MyFirstQtApp.dir\\MyFirstQtApp_autogen\\mocs_compilation.cpp.obj -c D:\\QT\\build\\MyFirstQtApp_autogen\\mocs_compilation.cpp",
-  "file": "D:/QT/build/MyFirstQtApp_autogen/mocs_compilation.cpp",
-  "output": "CMakeFiles/MyFirstQtApp.dir/MyFirstQtApp_autogen/mocs_compilation.cpp.obj"
+  "directory": "/run/media/asr/storage/QT/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtSql -g -std=gnu++17 -o CMakeFiles/MyFirstQtApp.dir/MyFirstQtApp_autogen/mocs_compilation.cpp.o -c /run/media/asr/storage/QT/build/MyFirstQtApp_autogen/mocs_compilation.cpp",
+  "file": "/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/mocs_compilation.cpp",
+  "output": "CMakeFiles/MyFirstQtApp.dir/MyFirstQtApp_autogen/mocs_compilation.cpp.o"
 },
 {
-  "directory": "D:/QT/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 @CMakeFiles/MyFirstQtApp.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\MyFirstQtApp.dir\\main.cpp.obj -c D:\\QT\\main.cpp",
-  "file": "D:/QT/main.cpp",
-  "output": "CMakeFiles/MyFirstQtApp.dir/main.cpp.obj"
+  "directory": "/run/media/asr/storage/QT/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtSql -g -std=gnu++17 -o CMakeFiles/MyFirstQtApp.dir/main.cpp.o -c /run/media/asr/storage/QT/main.cpp",
+  "file": "/run/media/asr/storage/QT/main.cpp",
+  "output": "CMakeFiles/MyFirstQtApp.dir/main.cpp.o"
 },
 {
-  "directory": "D:/QT/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 @CMakeFiles/MyFirstQtApp.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\MyFirstQtApp.dir\\mainwindow.cpp.obj -c D:\\QT\\mainwindow.cpp",
-  "file": "D:/QT/mainwindow.cpp",
-  "output": "CMakeFiles/MyFirstQtApp.dir/mainwindow.cpp.obj"
+  "directory": "/run/media/asr/storage/QT/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtSql -g -std=gnu++17 -o CMakeFiles/MyFirstQtApp.dir/mainwindow.cpp.o -c /run/media/asr/storage/QT/mainwindow.cpp",
+  "file": "/run/media/asr/storage/QT/mainwindow.cpp",
+  "output": "CMakeFiles/MyFirstQtApp.dir/mainwindow.cpp.o"
 },
 {
-  "directory": "D:/QT/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 @CMakeFiles/MyFirstQtApp.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\MyFirstQtApp.dir\\student.cpp.obj -c D:\\QT\\student.cpp",
-  "file": "D:/QT/student.cpp",
-  "output": "CMakeFiles/MyFirstQtApp.dir/student.cpp.obj"
+  "directory": "/run/media/asr/storage/QT/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtSql -g -std=gnu++17 -o CMakeFiles/MyFirstQtApp.dir/student.cpp.o -c /run/media/asr/storage/QT/student.cpp",
+  "file": "/run/media/asr/storage/QT/student.cpp",
+  "output": "CMakeFiles/MyFirstQtApp.dir/student.cpp.o"
 },
 {
-  "directory": "D:/QT/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 @CMakeFiles/MyFirstQtApp.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\MyFirstQtApp.dir\\teacher.cpp.obj -c D:\\QT\\teacher.cpp",
-  "file": "D:/QT/teacher.cpp",
-  "output": "CMakeFiles/MyFirstQtApp.dir/teacher.cpp.obj"
+  "directory": "/run/media/asr/storage/QT/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtSql -g -std=gnu++17 -o CMakeFiles/MyFirstQtApp.dir/teacher.cpp.o -c /run/media/asr/storage/QT/teacher.cpp",
+  "file": "/run/media/asr/storage/QT/teacher.cpp",
+  "output": "CMakeFiles/MyFirstQtApp.dir/teacher.cpp.o"
 },
 {
-  "directory": "D:/QT/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 @CMakeFiles/MyFirstQtApp.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\MyFirstQtApp.dir\\course.cpp.obj -c D:\\QT\\course.cpp",
-  "file": "D:/QT/course.cpp",
-  "output": "CMakeFiles/MyFirstQtApp.dir/course.cpp.obj"
+  "directory": "/run/media/asr/storage/QT/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtSql -g -std=gnu++17 -o CMakeFiles/MyFirstQtApp.dir/course.cpp.o -c /run/media/asr/storage/QT/course.cpp",
+  "file": "/run/media/asr/storage/QT/course.cpp",
+  "output": "CMakeFiles/MyFirstQtApp.dir/course.cpp.o"
 },
 {
-  "directory": "D:/QT/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 @CMakeFiles/MyFirstQtApp.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\MyFirstQtApp.dir\\academicmanager.cpp.obj -c D:\\QT\\academicmanager.cpp",
-  "file": "D:/QT/academicmanager.cpp",
-  "output": "CMakeFiles/MyFirstQtApp.dir/academicmanager.cpp.obj"
+  "directory": "/run/media/asr/storage/QT/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtSql -g -std=gnu++17 -o CMakeFiles/MyFirstQtApp.dir/academicmanager.cpp.o -c /run/media/asr/storage/QT/academicmanager.cpp",
+  "file": "/run/media/asr/storage/QT/academicmanager.cpp",
+  "output": "CMakeFiles/MyFirstQtApp.dir/academicmanager.cpp.o"
 },
 {
-  "directory": "D:/QT/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 @CMakeFiles/MyFirstQtApp.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\MyFirstQtApp.dir\\timer.cpp.obj -c D:\\QT\\timer.cpp",
-  "file": "D:/QT/timer.cpp",
-  "output": "CMakeFiles/MyFirstQtApp.dir/timer.cpp.obj"
+  "directory": "/run/media/asr/storage/QT/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtSql -g -std=gnu++17 -o CMakeFiles/MyFirstQtApp.dir/timer.cpp.o -c /run/media/asr/storage/QT/timer.cpp",
+  "file": "/run/media/asr/storage/QT/timer.cpp",
+  "output": "CMakeFiles/MyFirstQtApp.dir/timer.cpp.o"
 },
 {
-  "directory": "D:/QT/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 @CMakeFiles/MyFirstQtApp.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\MyFirstQtApp.dir\\habit.cpp.obj -c D:\\QT\\habit.cpp",
-  "file": "D:/QT/habit.cpp",
-  "output": "CMakeFiles/MyFirstQtApp.dir/habit.cpp.obj"
+  "directory": "/run/media/asr/storage/QT/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtSql -g -std=gnu++17 -o CMakeFiles/MyFirstQtApp.dir/habit.cpp.o -c /run/media/asr/storage/QT/habit.cpp",
+  "file": "/run/media/asr/storage/QT/habit.cpp",
+  "output": "CMakeFiles/MyFirstQtApp.dir/habit.cpp.o"
 }
 ]
