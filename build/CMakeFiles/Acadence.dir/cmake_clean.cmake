@@ -1,0 +1,43 @@
+file(REMOVE_RECURSE
+  "Acadence_autogen"
+  "CMakeFiles/Acadence.dir/link.d"
+  "CMakeFiles/Acadence_autogen.dir/AutogenUsed.txt"
+  "CMakeFiles/Acadence_autogen.dir/ParseCache.txt"
+  "Acadence"
+  "Acadence.pdb"
+  "Acadence_autogen/mocs_compilation.cpp"
+  "Acadence_autogen/timestamp"
+  "CMakeFiles/Acadence.dir/Acadence_autogen/mocs_compilation.cpp.o"
+  "CMakeFiles/Acadence.dir/Acadence_autogen/mocs_compilation.cpp.o.d"
+  "CMakeFiles/Acadence.dir/academicmanager.cpp.o"
+  "CMakeFiles/Acadence.dir/academicmanager.cpp.o.d"
+  "CMakeFiles/Acadence.dir/admin.cpp.o"
+  "CMakeFiles/Acadence.dir/admin.cpp.o.d"
+  "CMakeFiles/Acadence.dir/circularprogress.cpp.o"
+  "CMakeFiles/Acadence.dir/circularprogress.cpp.o.d"
+  "CMakeFiles/Acadence.dir/course.cpp.o"
+  "CMakeFiles/Acadence.dir/course.cpp.o.d"
+  "CMakeFiles/Acadence.dir/habit.cpp.o"
+  "CMakeFiles/Acadence.dir/habit.cpp.o.d"
+  "CMakeFiles/Acadence.dir/main.cpp.o"
+  "CMakeFiles/Acadence.dir/main.cpp.o.d"
+  "CMakeFiles/Acadence.dir/mainwindow.cpp.o"
+  "CMakeFiles/Acadence.dir/mainwindow.cpp.o.d"
+  "CMakeFiles/Acadence.dir/person.cpp.o"
+  "CMakeFiles/Acadence.dir/person.cpp.o.d"
+  "CMakeFiles/Acadence.dir/routine.cpp.o"
+  "CMakeFiles/Acadence.dir/routine.cpp.o.d"
+  "CMakeFiles/Acadence.dir/student.cpp.o"
+  "CMakeFiles/Acadence.dir/student.cpp.o.d"
+  "CMakeFiles/Acadence.dir/teacher.cpp.o"
+  "CMakeFiles/Acadence.dir/teacher.cpp.o.d"
+  "CMakeFiles/Acadence.dir/timer.cpp.o"
+  "CMakeFiles/Acadence.dir/timer.cpp.o.d"
+  "CMakeFiles/Acadence.dir/utils.cpp.o"
+  "CMakeFiles/Acadence.dir/utils.cpp.o.d"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/Acadence.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

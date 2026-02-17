@@ -15,6 +15,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/MyFirstQtApp.dir/main.cpp.o.d"
   "CMakeFiles/MyFirstQtApp.dir/mainwindow.cpp.o"
   "CMakeFiles/MyFirstQtApp.dir/mainwindow.cpp.o.d"
+  "CMakeFiles/MyFirstQtApp.dir/routine.cpp.o"
+  "CMakeFiles/MyFirstQtApp.dir/routine.cpp.o.d"
   "CMakeFiles/MyFirstQtApp.dir/student.cpp.o"
   "CMakeFiles/MyFirstQtApp.dir/student.cpp.o.d"
   "CMakeFiles/MyFirstQtApp.dir/teacher.cpp.o"

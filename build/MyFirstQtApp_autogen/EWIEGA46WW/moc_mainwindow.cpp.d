@@ -4,6 +4,7 @@
   /run/media/asr/storage/QT/course.hpp \
   /run/media/asr/storage/QT/habit.hpp \
   /run/media/asr/storage/QT/person.hpp \
+  /run/media/asr/storage/QT/routine.hpp \
   /run/media/asr/storage/QT/student.hpp \
   /run/media/asr/storage/QT/teacher.hpp \
   /run/media/asr/storage/QT/timer.hpp \
@@ -354,7 +355,6 @@
   /usr/include/qt6/QtCore/qmargins.h \
   /usr/include/qt6/QtCore/qmath.h \
   /usr/include/qt6/QtCore/qmetacontainer.h \
-  /usr/include/qt6/QtCore/qmetaobject.h \
   /usr/include/qt6/QtCore/qmetatype.h \
   /usr/include/qt6/QtCore/qminmax.h \
   /usr/include/qt6/QtCore/qnamespace.h \
@@ -424,6 +424,7 @@
   /usr/include/qt6/QtCore/qversiontagging.h \
   /usr/include/qt6/QtCore/qxptype_traits.h \
   /usr/include/qt6/QtCore/qyieldcpu.h \
+  /usr/include/qt6/QtGui/QStandardItemModel \
   /usr/include/qt6/QtGui/qaction.h \
   /usr/include/qt6/QtGui/qbitmap.h \
   /usr/include/qt6/QtGui/qbrush.h \
@@ -444,25 +445,15 @@
   /usr/include/qt6/QtGui/qregion.h \
   /usr/include/qt6/QtGui/qrgb.h \
   /usr/include/qt6/QtGui/qrgba64.h \
+  /usr/include/qt6/QtGui/qstandarditemmodel.h \
   /usr/include/qt6/QtGui/qtgui-config.h \
   /usr/include/qt6/QtGui/qtguiexports.h \
   /usr/include/qt6/QtGui/qtguiglobal.h \
   /usr/include/qt6/QtGui/qtransform.h \
   /usr/include/qt6/QtGui/qvalidator.h \
   /usr/include/qt6/QtGui/qwindowdefs.h \
-  /usr/include/qt6/QtSql/QSqlDatabase \
-  /usr/include/qt6/QtSql/QSqlError \
-  /usr/include/qt6/QtSql/QSqlQuery \
-  /usr/include/qt6/QtSql/QSqlTableModel \
-  /usr/include/qt6/QtSql/qsqldatabase.h \
-  /usr/include/qt6/QtSql/qsqlerror.h \
-  /usr/include/qt6/QtSql/qsqlquery.h \
-  /usr/include/qt6/QtSql/qsqlquerymodel.h \
-  /usr/include/qt6/QtSql/qsqltablemodel.h \
-  /usr/include/qt6/QtSql/qtsql-config.h \
-  /usr/include/qt6/QtSql/qtsqlexports.h \
-  /usr/include/qt6/QtSql/qtsqlglobal.h \
   /usr/include/qt6/QtWidgets/QMainWindow \
+  /usr/include/qt6/QtWidgets/QStyledItemDelegate \
   /usr/include/qt6/QtWidgets/QTableWidgetItem \
   /usr/include/qt6/QtWidgets/qabstractitemdelegate.h \
   /usr/include/qt6/QtWidgets/qabstractitemview.h \
@@ -475,6 +466,7 @@
   /usr/include/qt6/QtWidgets/qsizepolicy.h \
   /usr/include/qt6/QtWidgets/qslider.h \
   /usr/include/qt6/QtWidgets/qstyle.h \
+  /usr/include/qt6/QtWidgets/qstyleditemdelegate.h \
   /usr/include/qt6/QtWidgets/qstyleoption.h \
   /usr/include/qt6/QtWidgets/qtabbar.h \
   /usr/include/qt6/QtWidgets/qtableview.h \

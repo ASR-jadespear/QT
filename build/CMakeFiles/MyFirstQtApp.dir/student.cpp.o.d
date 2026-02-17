@@ -251,17 +251,56 @@ CMakeFiles/MyFirstQtApp.dir/student.cpp.o: \
  /usr/include/qt6/QtCore/qstring.h \
  /usr/include/qt6/QtCore/qstringconverter.h \
  /usr/include/qt6/QtCore/qstringconverter_base.h \
- /usr/include/qt6/QtCore/QMap /usr/include/qt6/QtCore/qmap.h \
+ /usr/include/qt6/QtCore/QDate /usr/include/qt6/QtCore/qdatetime.h \
+ /usr/include/qt6/QtCore/qcalendar.h /usr/include/qt6/QtCore/qlocale.h \
+ /usr/include/qt6/QtCore/qvariant.h /usr/include/qt6/QtCore/qmetatype.h \
+ /usr/include/qt6/QtCore/qdatastream.h \
+ /usr/include/qt6/QtCore/qiodevicebase.h \
+ /usr/include/qt6/QtCore/qscopedpointer.h \
+ /usr/include/qt6/QtCore/qfloat16.h \
  /usr/include/qt6/QtCore/qhashfunctions.h /usr/include/c++/15/numeric \
  /usr/include/c++/15/bits/stl_numeric.h \
  /usr/include/c++/15/pstl/glue_numeric_defs.h \
- /usr/include/qt6/QtCore/qiterator.h /usr/include/qt6/QtCore/qlist.h \
+ /usr/include/qt6/QtCore/qmath.h /usr/include/qt6/QtCore/qalgorithms.h \
+ /usr/include/qt6/QtCore/qtformat_impl.h \
+ /usr/include/qt6/QtCore/qiterable.h \
+ /usr/include/qt6/QtCore/qtaggedpointer.h \
+ /usr/include/qt6/QtCore/qmetacontainer.h \
+ /usr/include/qt6/QtCore/qcontainerinfo.h \
+ /usr/include/qt6/QtCore/qobjectdefs.h \
+ /usr/include/qt6/QtCore/qobjectdefs_impl.h \
+ /usr/include/qt6/QtCore/qfunctionaltools_impl.h \
+ /usr/include/qt6/QtCore/qscopeguard.h /usr/include/c++/15/list \
+ /usr/include/c++/15/bits/stl_list.h /usr/include/c++/15/bits/list.tcc \
+ /usr/include/c++/15/map /usr/include/c++/15/bits/stl_tree.h \
+ /usr/include/c++/15/bits/stl_map.h \
+ /usr/include/c++/15/bits/stl_multimap.h /usr/include/qt6/QtCore/qdebug.h \
+ /usr/include/qt6/QtCore/qtextstream.h \
+ /usr/include/qt6/QtCore/qcontiguouscache.h /usr/include/c++/15/climits \
+ /usr/lib/gcc/x86_64-redhat-linux/15/include/limits.h \
+ /usr/lib/gcc/x86_64-redhat-linux/15/include/syslimits.h \
+ /usr/include/limits.h /usr/include/bits/posix1_lim.h \
+ /usr/include/bits/local_lim.h /usr/include/linux/limits.h \
+ /usr/include/bits/posix2_lim.h /usr/include/bits/xopen_lim.h \
+ /usr/include/bits/uio_lim.h /usr/include/qt6/QtCore/qsharedpointer.h \
+ /usr/include/qt6/QtCore/qshareddata.h \
+ /usr/include/qt6/QtCore/qsharedpointer_impl.h /usr/include/c++/15/chrono \
+ /usr/include/c++/15/bits/chrono.h /usr/include/c++/15/ratio \
+ /usr/include/c++/15/ctime /usr/include/c++/15/set \
+ /usr/include/c++/15/bits/stl_set.h \
+ /usr/include/c++/15/bits/stl_multiset.h \
+ /usr/include/c++/15/unordered_set \
+ /usr/include/c++/15/bits/unordered_set.h /usr/include/qt6/QtCore/qlist.h \
+ /usr/include/qt6/QtCore/qiterator.h \
  /usr/include/qt6/QtCore/qbytearraylist.h \
  /usr/include/qt6/QtCore/qstringlist.h \
- /usr/include/qt6/QtCore/qalgorithms.h \
- /usr/include/qt6/QtCore/qstringmatcher.h \
- /usr/include/qt6/QtCore/qshareddata.h \
- /usr/include/qt6/QtCore/qshareddata_impl.h /usr/include/c++/15/map \
- /usr/include/c++/15/bits/stl_tree.h /usr/include/c++/15/bits/stl_map.h \
- /usr/include/c++/15/bits/stl_multimap.h /usr/include/qt6/QtCore/QList \
+ /usr/include/qt6/QtCore/qstringmatcher.h /usr/include/qt6/QtCore/qmap.h \
+ /usr/include/qt6/QtCore/qshareddata_impl.h \
+ /usr/include/qt6/QtCore/qset.h /usr/include/qt6/QtCore/qhash.h \
+ /usr/include/qt6/QtCore/qvarlengtharray.h \
+ /usr/include/qt6/QtCore/qalloc.h /usr/include/qt6/QtCore/q23utility.h \
+ /usr/include/qt6/QtCore/q20utility.h /usr/include/qt6/QtCore/qobject.h \
+ /usr/include/qt6/QtCore/qobject_impl.h \
+ /usr/include/qt6/QtCore/qbindingstorage.h /usr/include/qt6/QtCore/QMap \
+ /usr/include/qt6/QtCore/qmap.h /usr/include/qt6/QtCore/QList \
  /usr/include/qt6/QtCore/qlist.h

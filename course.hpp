@@ -2,6 +2,7 @@
 #define COURSE_H
 
 #include <QString>
+#include <iostream>
 
 /**
  * @brief Represents an academic course.
@@ -31,6 +32,12 @@ public:
     int getTeacherId() const { return teacherId; }
     int getSemester() const { return semester; }
     int getCredits() const { return credits; }
+
+    /**
+     * @brief Friend function to overload the output stream operator.
+     * Allows usage like: std::cout << myCourse;
+     */
+    friend std::ostream &operator<<(std::ostream &os, const Course &c);
 };
 
 #endif // COURSE_H

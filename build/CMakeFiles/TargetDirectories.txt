@@ -1,5 +1,5 @@
-/run/media/asr/storage/QT/build/CMakeFiles/MyFirstQtApp.dir
+/run/media/asr/storage/QT/build/CMakeFiles/Acadence.dir
 /run/media/asr/storage/QT/build/CMakeFiles/edit_cache.dir
 /run/media/asr/storage/QT/build/CMakeFiles/rebuild_cache.dir
-/run/media/asr/storage/QT/build/CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir
-/run/media/asr/storage/QT/build/CMakeFiles/MyFirstQtApp_autogen.dir
+/run/media/asr/storage/QT/build/CMakeFiles/Acadence_autogen_timestamp_deps.dir
+/run/media/asr/storage/QT/build/CMakeFiles/Acadence_autogen.dir

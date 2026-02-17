@@ -32,8 +32,8 @@ public:
     void stop();
 
 signals:
-    void timeUpdated(QString time); ///< Emitted every tick with formatted time string.
-    void finished();                ///< Emitted when timer reaches zero.
+    void timeUpdated(QString time, float progress); ///< Emitted every tick with formatted time and progress (0.0-1.0).
+    void finished();                                ///< Emitted when timer reaches zero.
 
 private slots:
     void onTimeout();
@@ -41,6 +41,7 @@ private slots:
 private:
     QTimer *internalTimer;
     int remainingTime; ///< Remaining time in milliseconds.
+    int totalTime;     ///< Total duration in milliseconds.
     bool isPaused;
 };
 #endif // TIMER_HPP

@@ -13,6 +13,8 @@ MyFirstQtApp_autogen/timestamp: \
 	/run/media/asr/storage/QT/mainwindow.cpp \
 	/run/media/asr/storage/QT/mainwindow.hpp \
 	/run/media/asr/storage/QT/person.hpp \
+	/run/media/asr/storage/QT/routine.cpp \
+	/run/media/asr/storage/QT/routine.hpp \
 	/run/media/asr/storage/QT/student.cpp \
 	/run/media/asr/storage/QT/student.hpp \
 	/run/media/asr/storage/QT/teacher.cpp \
@@ -366,7 +368,6 @@ MyFirstQtApp_autogen/timestamp: \
 	/usr/include/qt6/QtCore/qmargins.h \
 	/usr/include/qt6/QtCore/qmath.h \
 	/usr/include/qt6/QtCore/qmetacontainer.h \
-	/usr/include/qt6/QtCore/qmetaobject.h \
 	/usr/include/qt6/QtCore/qmetatype.h \
 	/usr/include/qt6/QtCore/qminmax.h \
 	/usr/include/qt6/QtCore/qnamespace.h \
@@ -436,6 +437,7 @@ MyFirstQtApp_autogen/timestamp: \
 	/usr/include/qt6/QtCore/qversiontagging.h \
 	/usr/include/qt6/QtCore/qxptype_traits.h \
 	/usr/include/qt6/QtCore/qyieldcpu.h \
+	/usr/include/qt6/QtGui/QStandardItemModel \
 	/usr/include/qt6/QtGui/qaction.h \
 	/usr/include/qt6/QtGui/qbitmap.h \
 	/usr/include/qt6/QtGui/qbrush.h \
@@ -456,25 +458,15 @@ MyFirstQtApp_autogen/timestamp: \
 	/usr/include/qt6/QtGui/qregion.h \
 	/usr/include/qt6/QtGui/qrgb.h \
 	/usr/include/qt6/QtGui/qrgba64.h \
+	/usr/include/qt6/QtGui/qstandarditemmodel.h \
 	/usr/include/qt6/QtGui/qtgui-config.h \
 	/usr/include/qt6/QtGui/qtguiexports.h \
 	/usr/include/qt6/QtGui/qtguiglobal.h \
 	/usr/include/qt6/QtGui/qtransform.h \
 	/usr/include/qt6/QtGui/qvalidator.h \
 	/usr/include/qt6/QtGui/qwindowdefs.h \
-	/usr/include/qt6/QtSql/QSqlDatabase \
-	/usr/include/qt6/QtSql/QSqlError \
-	/usr/include/qt6/QtSql/QSqlQuery \
-	/usr/include/qt6/QtSql/QSqlTableModel \
-	/usr/include/qt6/QtSql/qsqldatabase.h \
-	/usr/include/qt6/QtSql/qsqlerror.h \
-	/usr/include/qt6/QtSql/qsqlquery.h \
-	/usr/include/qt6/QtSql/qsqlquerymodel.h \
-	/usr/include/qt6/QtSql/qsqltablemodel.h \
-	/usr/include/qt6/QtSql/qtsql-config.h \
-	/usr/include/qt6/QtSql/qtsqlexports.h \
-	/usr/include/qt6/QtSql/qtsqlglobal.h \
 	/usr/include/qt6/QtWidgets/QMainWindow \
+	/usr/include/qt6/QtWidgets/QStyledItemDelegate \
 	/usr/include/qt6/QtWidgets/QTableWidgetItem \
 	/usr/include/qt6/QtWidgets/qabstractitemdelegate.h \
 	/usr/include/qt6/QtWidgets/qabstractitemview.h \
@@ -487,6 +479,7 @@ MyFirstQtApp_autogen/timestamp: \
 	/usr/include/qt6/QtWidgets/qsizepolicy.h \
 	/usr/include/qt6/QtWidgets/qslider.h \
 	/usr/include/qt6/QtWidgets/qstyle.h \
+	/usr/include/qt6/QtWidgets/qstyleditemdelegate.h \
 	/usr/include/qt6/QtWidgets/qstyleoption.h \
 	/usr/include/qt6/QtWidgets/qtabbar.h \
 	/usr/include/qt6/QtWidgets/qtableview.h \
@@ -750,35 +743,6 @@ MyFirstQtApp_autogen/timestamp: \
 	/usr/lib64/cmake/Qt6GuiTools/Qt6GuiToolsTargets-relwithdebinfo.cmake \
 	/usr/lib64/cmake/Qt6GuiTools/Qt6GuiToolsTargets.cmake \
 	/usr/lib64/cmake/Qt6GuiTools/Qt6GuiToolsVersionlessTargets.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QIBaseDriverPluginAdditionalTargetInfo.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QIBaseDriverPluginConfig.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QIBaseDriverPluginTargets-relwithdebinfo.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QIBaseDriverPluginTargets.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QMYSQLDriverPluginAdditionalTargetInfo.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QMYSQLDriverPluginConfig.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QMYSQLDriverPluginTargets-relwithdebinfo.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QMYSQLDriverPluginTargets.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QODBCDriverPluginAdditionalTargetInfo.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QODBCDriverPluginConfig.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QODBCDriverPluginTargets-relwithdebinfo.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QODBCDriverPluginTargets.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QPSQLDriverPluginAdditionalTargetInfo.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QPSQLDriverPluginConfig.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QPSQLDriverPluginTargets-relwithdebinfo.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QPSQLDriverPluginTargets.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QSQLiteDriverPluginAdditionalTargetInfo.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QSQLiteDriverPluginConfig.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QSQLiteDriverPluginTargets-relwithdebinfo.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6QSQLiteDriverPluginTargets.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6SqlAdditionalTargetInfo.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6SqlConfig.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6SqlConfigVersion.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6SqlConfigVersionImpl.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6SqlDependencies.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6SqlPlugins.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6SqlTargets-relwithdebinfo.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6SqlTargets.cmake \
-	/usr/lib64/cmake/Qt6Sql/Qt6SqlVersionlessAliasTargets.cmake \
 	/usr/lib64/cmake/Qt6Widgets/Qt6WidgetsAdditionalTargetInfo.cmake \
 	/usr/lib64/cmake/Qt6Widgets/Qt6WidgetsConfig.cmake \
 	/usr/lib64/cmake/Qt6Widgets/Qt6WidgetsConfigVersion.cmake \

@@ -11,6 +11,12 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QVector>
+#include <QFile>
+#include <QTextStream>
+#include <QLabel>
+#include <QFrame>
+#include <QGraphicsDropShadowEffect>
+#include "exceptions.hpp"
 
 /**
  * @brief Defines the color palette for the application theme.
@@ -85,55 +91,59 @@ void applyTheme(QApplication &a, const AppTheme &theme)
 
     QString qss = QString(
                       // General Widget Styling
-                      "QWidget { font-size: 14px; }"
+                      "QWidget { font-size: 16px; font-family: 'Segoe UI', 'Roboto', sans-serif; }"
 
                       // Force Timer Font Size
-                      "QLabel#label_timerDisplay, QLabel#label_workoutTimerDisplay { font-size: 72px; font-weight: bold; }"
+                      "QLabel#label_timerDisplay, QLabel#label_workoutTimerDisplay { font-size: 72px; font-weight: bold; color: %1; font-family: monospace; }"
 
                       // Buttons
-                      "QPushButton { background-color: %1; color: %2; border: 1px solid %3; border-radius: 6px; padding: 6px 12px; font-weight: bold; } "
-                      "QPushButton:hover { background-color: %4; border-color: %4; } "
-                      "QPushButton:pressed { background-color: %5; border-color: %5; } "
+                      "QPushButton { background-color: %1; color: %2; border: none; border-radius: 8px; padding: 10px 20px; font-weight: bold; } "
+                      "QPushButton:hover { background-color: %4; } "
+                      "QPushButton:pressed { background-color: %5; } "
                       "QPushButton:disabled { background-color: %6; color: %7; border: none; } "
 
                       // Checkboxes
                       "QCheckBox { spacing: 8px; } "
-                      "QCheckBox::indicator { width: 20px; height: 20px; border-radius: 4px; border: 1px solid %8; background: transparent; } "
+                      "QCheckBox::indicator { width: 22px; height: 22px; border-radius: 6px; border: 2px solid %8; background: transparent; } "
                       "QCheckBox::indicator:checked { background-color: %1; border-color: %1; image: url(%9); } "
                       "QCheckBox::indicator:unchecked:hover { border-color: %1; } "
 
                       // Inputs (LineEdit, SpinBox, ComboBox)
-                      "QLineEdit, QSpinBox, QComboBox { border: 1px solid %8; border-radius: 6px; padding: 6px; background-color: %10; selection-background-color: %1; selection-color: %2; } "
-                      "QLineEdit:focus, QSpinBox:focus, QComboBox:focus { border: 1px solid %1; } "
+                      "QLineEdit, QSpinBox, QComboBox, QDateEdit, QTimeEdit { border: 2px solid %8; border-radius: 8px; padding: 10px 12px; background-color: %10; selection-background-color: %1; selection-color: %2; } "
+                      "QLineEdit:focus, QSpinBox:focus, QComboBox:focus { border: 2px solid %1; } "
 
                       // SpinBox Buttons
-                      "QSpinBox::up-button { subcontrol-origin: border; subcontrol-position: top right; width: 20px; border-left-width: 1px; border-left-color: %8; border-top-right-radius: 6px; background: %1; } "
-                      "QSpinBox::down-button { subcontrol-origin: border; subcontrol-position: bottom right; width: 20px; border-left-width: 1px; border-left-color: %8; border-bottom-right-radius: 6px; background: %1; } "
+                      "QSpinBox::up-button { subcontrol-origin: border; subcontrol-position: top right; width: 20px; border-left-width: 0px; border-top-right-radius: 8px; background: transparent; margin: 2px; } "
+                      "QSpinBox::down-button { subcontrol-origin: border; subcontrol-position: bottom right; width: 20px; border-left-width: 0px; border-bottom-right-radius: 8px; background: transparent; margin: 2px; } "
                       "QSpinBox::up-button:hover, QSpinBox::down-button:hover { background: %4; } "
                       "QSpinBox::up-button:pressed, QSpinBox::down-button:pressed { background: %5; } "
-                      "QSpinBox::up-arrow { image: url(%12); width: 8px; height: 8px; } "
-                      "QSpinBox::down-arrow { image: url(%13); width: 8px; height: 8px; } "
+                      "QSpinBox::up-arrow { image: url(%12); width: 10px; height: 10px; } "
+                      "QSpinBox::down-arrow { image: url(%13); width: 10px; height: 10px; } "
 
-                      "QComboBox::drop-down { subcontrol-origin: padding; subcontrol-position: top right; width: 20px; border-left-width: 0px; border-top-right-radius: 6px; border-bottom-right-radius: 6px; } "
+                      "QComboBox::drop-down { subcontrol-origin: padding; subcontrol-position: top right; width: 30px; border-left-width: 0px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; } "
+                      "QComboBox::down-arrow { image: url(%13); width: 12px; height: 12px; } "
 
                       // GroupBox
-                      "QGroupBox { border: 1px solid %8; border-radius: 8px; margin-top: 24px; padding-top: 10px; } "
-                      "QGroupBox::title { subcontrol-origin: margin; subcontrol-position: top left; left: 12px; padding: 0 5px; font-weight: bold; color: %1; } "
+                      "QGroupBox { border: 1px solid %8; border-radius: 12px; margin-top: 24px; padding-top: 20px; font-weight: bold; background: %10; } "
+                      "QGroupBox::title { subcontrol-origin: margin; subcontrol-position: top left; left: 16px; padding: 0 8px; color: %1; } "
 
                       // Tab Widget
-                      "QTabWidget::pane { border: 1px solid %8; border-radius: 6px; top: -1px; } "
-                      "QTabBar::tab { background: %10; border: 1px solid %8; padding: 8px 16px; margin-right: 4px; border-top-left-radius: 6px; border-top-right-radius: 6px; } "
-                      "QTabBar::tab:selected { background: %1; color: %2; border-color: %1; } "
-                      "QTabBar::tab:!selected:hover { background: %11; } "
+                      "QTabWidget::pane { border: none; background: %10; } "
+                      "QTabWidget::tab-bar { alignment: center; } "
+                      "QTabBar::tab { background: transparent; color: %7; border: none; border-bottom: 3px solid transparent; padding: 12px 24px; margin: 0 4px; font-weight: bold; font-size: 14px; } "
+                      "QTabBar::tab:selected { color: %1; border-bottom: 3px solid %1; } "
+                      "QTabBar::tab:hover { color: %1; background-color: rgba(128, 128, 128, 0.05); border-radius: 4px; } "
 
                       // Tables & Lists
-                      "QTableWidget, QTableView, QListWidget { border: 1px solid %8; border-radius: 6px; gridline-color: %8; selection-background-color: %1; selection-color: %2; } "
-                      "QHeaderView::section { background-color: %10; padding: 6px; border: none; border-bottom: 2px solid %1; font-weight: bold; } "
+                      "QTableWidget, QTableView, QListWidget { border: none; border-radius: 8px; gridline-color: transparent; selection-background-color: %1; selection-color: %2; alternate-background-color: %11; background-color: %10; } "
+                      "QHeaderView::section { background-color: transparent; padding: 10px; border: none; border-bottom: 2px solid %8; font-weight: bold; text-transform: uppercase; color: %7; } "
                       "QTableCornerButton::section { background-color: %10; border: none; } "
+                      "QTableWidget::item { padding: 5px; border-bottom: 1px solid %8; } "
 
                       // Scrollbars (Minimalist)
-                      "QScrollBar:vertical { border: none; background: %10; width: 10px; margin: 0px; } "
-                      "QScrollBar::handle:vertical { background: %8; min-height: 20px; border-radius: 5px; } "
+                      "QScrollBar:vertical { border: none; background: %10; width: 8px; margin: 0px; border-radius: 4px; } "
+                      "QScrollBar::handle:vertical { background: %8; min-height: 20px; border-radius: 4px; } "
+                      "QScrollBar::handle:vertical:hover { background: %1; } "
                       "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0px; } ")
                       .arg(theme.secondary.name())              // %1: Secondary (Button/Accent)
                       .arg(secondaryText.name())                // %2: Secondary Text
@@ -152,11 +162,47 @@ void applyTheme(QApplication &a, const AppTheme &theme)
     a.setStyleSheet(qss);
 }
 
+/**
+ * @brief Ensures that the necessary text files exist for data storage.
+ */
+void initializeDataFiles()
+{
+    QFile adminsFile("admins.csv");
+    if (!adminsFile.exists())
+    {
+        if (adminsFile.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            QTextStream out(&adminsFile);
+            // Format: ID,Username,Password,Name,Email (Admin is a Person only)
+            out << "1,admin,admin,System Admin,admin@school.edu\n";
+            adminsFile.close();
+        }
+    }
+
+    QVector<QString> otherFiles = {
+        "students.csv", "teachers.csv", "courses.csv", "enrollments.csv",
+        "routine.csv", "attendance.csv", "grades.csv", "notices.csv",
+        "tasks.csv", "habits.csv", "queries.csv", "assessments.csv", "prayers.csv"};
+
+    for (const QString &fileName : otherFiles)
+    {
+        QFile file(fileName);
+        if (!file.exists() && !file.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            // Log warning or handle error, but don't crash main loop yet
+        }
+        else
+        {
+            file.close();
+        }
+    }
+}
+
 int main(int argc, char *argv[])
 {
     // Initialize Application
     QApplication a(argc, argv);
-    a.setApplicationName("AcademicManager");
+    a.setApplicationName("Acadence");
     a.setOrganizationName("MyOrganization");
 
     // === Themes Configuration ===
@@ -173,6 +219,9 @@ int main(int argc, char *argv[])
     int currentThemeIdx = 0;
     applyTheme(a, themes[currentThemeIdx]);
 
+    // Ensure text files exist before login
+    initializeDataFiles();
+
     int exitCode = 0;
 
     do
@@ -181,55 +230,127 @@ int main(int argc, char *argv[])
         int userId = -1;
         QString name = "";
 
-        // Scope the authManager so it closes DB connection before MainWindow opens
+        // Scope the authManager
         {
-            AcademicManager authManager;
+            AcadenceManager authManager;
 
             // Custom Login Dialog
             QDialog loginDialog;
-            loginDialog.setWindowTitle("Login");
+            loginDialog.setWindowTitle("Welcome to Acadence");
             loginDialog.setModal(true);
-            loginDialog.resize(350, 180);
+            loginDialog.setFixedSize(1280, 720);
 
-            QVBoxLayout *layout = new QVBoxLayout(&loginDialog);
+            QVBoxLayout *mainLayout = new QVBoxLayout(&loginDialog);
+            mainLayout->addStretch(); // Top spacer
 
-            // Top Layout for Theme Button
-            QHBoxLayout *topLayout = new QHBoxLayout();
-            topLayout->addStretch();
-            QPushButton *themeBtn = new QPushButton("Theme", &loginDialog);
-            themeBtn->setToolTip("Current Theme: " + themes[currentThemeIdx].name);
-            topLayout->addWidget(themeBtn);
-            layout->addLayout(topLayout);
+            // Welcome Text (Moved out of card)
+            QLabel *welcomeLabel = new QLabel("Welcome to Acadence", &loginDialog);
+            welcomeLabel->setAlignment(Qt::AlignCenter);
+            welcomeLabel->setStyleSheet("font-size: 48pt; font-weight: bold; margin-bottom: 20px;");
+            mainLayout->addWidget(welcomeLabel, 0, Qt::AlignCenter);
+
+            // --- Center Card ---
+            QFrame *centerFrame = new QFrame(&loginDialog);
+            centerFrame->setFixedWidth(360);
+            centerFrame->setStyleSheet(QString(".QFrame { border: 2px solid %1; border-radius: 16px; background-color: palette(base); }").arg(themes[currentThemeIdx].secondary.name()));
+
+            QVBoxLayout *frameLayout = new QVBoxLayout(centerFrame);
+            frameLayout->setContentsMargins(40, 40, 40, 40);
+            frameLayout->setSpacing(20);
+
+            // Add Shadow to Login Card
+            QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(centerFrame);
+            shadow->setBlurRadius(30);
+            shadow->setXOffset(0);
+            shadow->setYOffset(10);
+            shadow->setColor(QColor(0, 0, 0, 60));
+            centerFrame->setGraphicsEffect(shadow);
+
+            // Inputs
+            QLineEdit *userEdit = new QLineEdit(centerFrame);
+            userEdit->setPlaceholderText("Username");
+            userEdit->setAlignment(Qt::AlignCenter);
+
+            QLineEdit *passEdit = new QLineEdit(centerFrame);
+            passEdit->setPlaceholderText("Password");
+            passEdit->setEchoMode(QLineEdit::Password);
+            passEdit->setAlignment(Qt::AlignCenter);
+
+            frameLayout->addWidget(userEdit);
+            frameLayout->addWidget(passEdit);
+
+            // Buttons
+            QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, centerFrame);
+            buttonBox->setCenterButtons(true);
+            frameLayout->addWidget(buttonBox);
+
+            mainLayout->addWidget(centerFrame, 0, Qt::AlignCenter);
+            mainLayout->addStretch(); // Bottom spacer
+
+            // --- Bottom Right Theme Button ---
+            QHBoxLayout *bottomLayout = new QHBoxLayout();
+            bottomLayout->addStretch();
+
+            QPushButton *themeBtn = new QPushButton(&loginDialog);
+            themeBtn->setFixedSize(40, 40);
+            themeBtn->setCursor(Qt::PointingHandCursor);
+
+            auto updateThemeBtn = [&](const AppTheme &t)
+            {
+                themeBtn->setStyleSheet(QString("QPushButton { background-color: %1; border: 2px solid %2; border-radius: 20px; } QPushButton:hover { border-color: white; }").arg(t.secondary.name()).arg(t.primary.name()));
+                themeBtn->setToolTip("Change Theme: " + t.name);
+            };
+            updateThemeBtn(themes[currentThemeIdx]);
+
+            bottomLayout->addWidget(themeBtn);
+            bottomLayout->setContentsMargins(0, 0, 20, 20);
+            mainLayout->addLayout(bottomLayout);
 
             QObject::connect(themeBtn, &QPushButton::clicked, [&]()
                              {
                 currentThemeIdx = (currentThemeIdx + 1) % themes.size();
                 applyTheme(a, themes[currentThemeIdx]);
-                themeBtn->setToolTip("Current Theme: " + themes[currentThemeIdx].name); });
-
-            QFormLayout *formLayout = new QFormLayout();
-
-            QLineEdit *userEdit = new QLineEdit(&loginDialog);
-            userEdit->setPlaceholderText("Username");
-            QLineEdit *passEdit = new QLineEdit(&loginDialog);
-            passEdit->setPlaceholderText("Password");
-            passEdit->setEchoMode(QLineEdit::Password);
-
-            formLayout->addRow("Username:", userEdit);
-            formLayout->addRow("Password:", passEdit);
-            layout->addLayout(formLayout);
-
-            QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &loginDialog);
-            layout->addWidget(buttonBox);
+                updateThemeBtn(themes[currentThemeIdx]); });
 
             QObject::connect(buttonBox, &QDialogButtonBox::rejected, &loginDialog, &QDialog::reject);
             QObject::connect(buttonBox, &QDialogButtonBox::accepted, [&]()
                              {
                 name = userEdit->text();
-                QString pass = passEdit->text();
-                role = authManager.login(name, pass, userId);
+                QString inputUsername = userEdit->text(); // Use a distinct variable for input username
+                QString inputPassword = passEdit->text();
+                
+                try {
+                    role = authManager.login(inputUsername, inputPassword, userId);
+                } catch (const Acadence::Exception &e) {
+                    QMessageBox::critical(&loginDialog, "System Error", e.what());
+                    return;
+                }
 
                 if (!role.isEmpty()) {
+                    // Fetch the actual user's name based on role and ID
+                    if (role == "Admin") {
+                        // Admins are in admins.csv: ID,Username,Password,Name,Email
+                        QVector<QStringList> admins = AcadenceManager::readCsv("admins.csv");
+                        for (const auto &row : admins) {
+                            if (row.size() >= 4 && row[0].toInt() == userId) {
+                                name = row[3]; // Get Name
+                                break;
+                            }
+                        }
+                    } else if (role == "Student") {
+                        Student *s = authManager.getStudent(userId);
+                        if (s) {
+                            name = s->getName();
+                            delete s;
+                        }
+                    } else if (role == "Teacher") {
+                        Teacher *t = authManager.getTeacher(userId);
+                        if (t) {
+                            name = t->getName();
+                            delete t;
+                        }
+                    }
+
                     loginDialog.accept();
                 } else {
                     QMessageBox::warning(&loginDialog, "Login Failed", "Invalid credentials.\n");

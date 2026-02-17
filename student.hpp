@@ -2,6 +2,7 @@
 #define STUDENT_H
 
 #include "person.hpp"
+#include <QDate>
 #include <QMap>
 #include <QList>
 
@@ -18,6 +19,7 @@ private:
     QString batch;      ///< Batch year or code.
     int semester;       ///< Current semester number.
     double m_gpa;       ///< Current Grade Point Average.
+    QDate dateAdmission;
 
 public:
     /**
@@ -36,8 +38,12 @@ public:
     QString getDepartment() const { return department; }
     QString getBatch() const { return batch; }
     int getSemester() const { return semester; }
+    QDate getDateAdmission() const { return dateAdmission; }
+    double getCGPA() const { return m_gpa; }
 
     void setGpa(double gpa) { m_gpa = gpa; }
+    void setDateAdmission(const QDate &date) { dateAdmission = date; }
+
     double calculateGPA() const;
 };
 

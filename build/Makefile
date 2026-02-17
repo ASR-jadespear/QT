@@ -117,74 +117,74 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named MyFirstQtApp
+# Target rules for targets named Acadence
 
 # Build rule for target.
-MyFirstQtApp: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MyFirstQtApp
-.PHONY : MyFirstQtApp
+Acadence: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Acadence
+.PHONY : Acadence
 
 # fast build rule for target.
-MyFirstQtApp/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/build
-.PHONY : MyFirstQtApp/fast
+Acadence/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/build
+.PHONY : Acadence/fast
 
 #=============================================================================
-# Target rules for targets named MyFirstQtApp_autogen_timestamp_deps
+# Target rules for targets named Acadence_autogen_timestamp_deps
 
 # Build rule for target.
-MyFirstQtApp_autogen_timestamp_deps: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MyFirstQtApp_autogen_timestamp_deps
-.PHONY : MyFirstQtApp_autogen_timestamp_deps
+Acadence_autogen_timestamp_deps: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Acadence_autogen_timestamp_deps
+.PHONY : Acadence_autogen_timestamp_deps
 
 # fast build rule for target.
-MyFirstQtApp_autogen_timestamp_deps/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/build.make CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/build
-.PHONY : MyFirstQtApp_autogen_timestamp_deps/fast
+Acadence_autogen_timestamp_deps/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence_autogen_timestamp_deps.dir/build.make CMakeFiles/Acadence_autogen_timestamp_deps.dir/build
+.PHONY : Acadence_autogen_timestamp_deps/fast
 
 #=============================================================================
-# Target rules for targets named MyFirstQtApp_autogen
+# Target rules for targets named Acadence_autogen
 
 # Build rule for target.
-MyFirstQtApp_autogen: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MyFirstQtApp_autogen
-.PHONY : MyFirstQtApp_autogen
+Acadence_autogen: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Acadence_autogen
+.PHONY : Acadence_autogen
 
 # fast build rule for target.
-MyFirstQtApp_autogen/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp_autogen.dir/build.make CMakeFiles/MyFirstQtApp_autogen.dir/build
-.PHONY : MyFirstQtApp_autogen/fast
+Acadence_autogen/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence_autogen.dir/build.make CMakeFiles/Acadence_autogen.dir/build
+.PHONY : Acadence_autogen/fast
 
-MyFirstQtApp_autogen/mocs_compilation.o: MyFirstQtApp_autogen/mocs_compilation.cpp.o
-.PHONY : MyFirstQtApp_autogen/mocs_compilation.o
+Acadence_autogen/mocs_compilation.o: Acadence_autogen/mocs_compilation.cpp.o
+.PHONY : Acadence_autogen/mocs_compilation.o
 
 # target to build an object file
-MyFirstQtApp_autogen/mocs_compilation.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/MyFirstQtApp_autogen/mocs_compilation.cpp.o
-.PHONY : MyFirstQtApp_autogen/mocs_compilation.cpp.o
+Acadence_autogen/mocs_compilation.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/Acadence_autogen/mocs_compilation.cpp.o
+.PHONY : Acadence_autogen/mocs_compilation.cpp.o
 
-MyFirstQtApp_autogen/mocs_compilation.i: MyFirstQtApp_autogen/mocs_compilation.cpp.i
-.PHONY : MyFirstQtApp_autogen/mocs_compilation.i
+Acadence_autogen/mocs_compilation.i: Acadence_autogen/mocs_compilation.cpp.i
+.PHONY : Acadence_autogen/mocs_compilation.i
 
 # target to preprocess a source file
-MyFirstQtApp_autogen/mocs_compilation.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/MyFirstQtApp_autogen/mocs_compilation.cpp.i
-.PHONY : MyFirstQtApp_autogen/mocs_compilation.cpp.i
+Acadence_autogen/mocs_compilation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/Acadence_autogen/mocs_compilation.cpp.i
+.PHONY : Acadence_autogen/mocs_compilation.cpp.i
 
-MyFirstQtApp_autogen/mocs_compilation.s: MyFirstQtApp_autogen/mocs_compilation.cpp.s
-.PHONY : MyFirstQtApp_autogen/mocs_compilation.s
+Acadence_autogen/mocs_compilation.s: Acadence_autogen/mocs_compilation.cpp.s
+.PHONY : Acadence_autogen/mocs_compilation.s
 
 # target to generate assembly for a file
-MyFirstQtApp_autogen/mocs_compilation.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/MyFirstQtApp_autogen/mocs_compilation.cpp.s
-.PHONY : MyFirstQtApp_autogen/mocs_compilation.cpp.s
+Acadence_autogen/mocs_compilation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/Acadence_autogen/mocs_compilation.cpp.s
+.PHONY : Acadence_autogen/mocs_compilation.cpp.s
 
 academicmanager.o: academicmanager.cpp.o
 .PHONY : academicmanager.o
 
 # target to build an object file
 academicmanager.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/academicmanager.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/academicmanager.cpp.o
 .PHONY : academicmanager.cpp.o
 
 academicmanager.i: academicmanager.cpp.i
@@ -192,7 +192,7 @@ academicmanager.i: academicmanager.cpp.i
 
 # target to preprocess a source file
 academicmanager.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/academicmanager.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/academicmanager.cpp.i
 .PHONY : academicmanager.cpp.i
 
 academicmanager.s: academicmanager.cpp.s
@@ -200,15 +200,63 @@ academicmanager.s: academicmanager.cpp.s
 
 # target to generate assembly for a file
 academicmanager.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/academicmanager.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/academicmanager.cpp.s
 .PHONY : academicmanager.cpp.s
+
+admin.o: admin.cpp.o
+.PHONY : admin.o
+
+# target to build an object file
+admin.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/admin.cpp.o
+.PHONY : admin.cpp.o
+
+admin.i: admin.cpp.i
+.PHONY : admin.i
+
+# target to preprocess a source file
+admin.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/admin.cpp.i
+.PHONY : admin.cpp.i
+
+admin.s: admin.cpp.s
+.PHONY : admin.s
+
+# target to generate assembly for a file
+admin.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/admin.cpp.s
+.PHONY : admin.cpp.s
+
+circularprogress.o: circularprogress.cpp.o
+.PHONY : circularprogress.o
+
+# target to build an object file
+circularprogress.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/circularprogress.cpp.o
+.PHONY : circularprogress.cpp.o
+
+circularprogress.i: circularprogress.cpp.i
+.PHONY : circularprogress.i
+
+# target to preprocess a source file
+circularprogress.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/circularprogress.cpp.i
+.PHONY : circularprogress.cpp.i
+
+circularprogress.s: circularprogress.cpp.s
+.PHONY : circularprogress.s
+
+# target to generate assembly for a file
+circularprogress.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/circularprogress.cpp.s
+.PHONY : circularprogress.cpp.s
 
 course.o: course.cpp.o
 .PHONY : course.o
 
 # target to build an object file
 course.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/course.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/course.cpp.o
 .PHONY : course.cpp.o
 
 course.i: course.cpp.i
@@ -216,7 +264,7 @@ course.i: course.cpp.i
 
 # target to preprocess a source file
 course.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/course.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/course.cpp.i
 .PHONY : course.cpp.i
 
 course.s: course.cpp.s
@@ -224,7 +272,7 @@ course.s: course.cpp.s
 
 # target to generate assembly for a file
 course.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/course.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/course.cpp.s
 .PHONY : course.cpp.s
 
 habit.o: habit.cpp.o
@@ -232,7 +280,7 @@ habit.o: habit.cpp.o
 
 # target to build an object file
 habit.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/habit.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/habit.cpp.o
 .PHONY : habit.cpp.o
 
 habit.i: habit.cpp.i
@@ -240,7 +288,7 @@ habit.i: habit.cpp.i
 
 # target to preprocess a source file
 habit.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/habit.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/habit.cpp.i
 .PHONY : habit.cpp.i
 
 habit.s: habit.cpp.s
@@ -248,7 +296,7 @@ habit.s: habit.cpp.s
 
 # target to generate assembly for a file
 habit.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/habit.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/habit.cpp.s
 .PHONY : habit.cpp.s
 
 main.o: main.cpp.o
@@ -256,7 +304,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -264,7 +312,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -272,7 +320,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 mainwindow.o: mainwindow.cpp.o
@@ -280,7 +328,7 @@ mainwindow.o: mainwindow.cpp.o
 
 # target to build an object file
 mainwindow.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/mainwindow.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/mainwindow.cpp.o
 .PHONY : mainwindow.cpp.o
 
 mainwindow.i: mainwindow.cpp.i
@@ -288,7 +336,7 @@ mainwindow.i: mainwindow.cpp.i
 
 # target to preprocess a source file
 mainwindow.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/mainwindow.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/mainwindow.cpp.i
 .PHONY : mainwindow.cpp.i
 
 mainwindow.s: mainwindow.cpp.s
@@ -296,15 +344,63 @@ mainwindow.s: mainwindow.cpp.s
 
 # target to generate assembly for a file
 mainwindow.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/mainwindow.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/mainwindow.cpp.s
 .PHONY : mainwindow.cpp.s
+
+person.o: person.cpp.o
+.PHONY : person.o
+
+# target to build an object file
+person.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/person.cpp.o
+.PHONY : person.cpp.o
+
+person.i: person.cpp.i
+.PHONY : person.i
+
+# target to preprocess a source file
+person.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/person.cpp.i
+.PHONY : person.cpp.i
+
+person.s: person.cpp.s
+.PHONY : person.s
+
+# target to generate assembly for a file
+person.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/person.cpp.s
+.PHONY : person.cpp.s
+
+routine.o: routine.cpp.o
+.PHONY : routine.o
+
+# target to build an object file
+routine.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/routine.cpp.o
+.PHONY : routine.cpp.o
+
+routine.i: routine.cpp.i
+.PHONY : routine.i
+
+# target to preprocess a source file
+routine.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/routine.cpp.i
+.PHONY : routine.cpp.i
+
+routine.s: routine.cpp.s
+.PHONY : routine.s
+
+# target to generate assembly for a file
+routine.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/routine.cpp.s
+.PHONY : routine.cpp.s
 
 student.o: student.cpp.o
 .PHONY : student.o
 
 # target to build an object file
 student.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/student.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/student.cpp.o
 .PHONY : student.cpp.o
 
 student.i: student.cpp.i
@@ -312,7 +408,7 @@ student.i: student.cpp.i
 
 # target to preprocess a source file
 student.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/student.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/student.cpp.i
 .PHONY : student.cpp.i
 
 student.s: student.cpp.s
@@ -320,7 +416,7 @@ student.s: student.cpp.s
 
 # target to generate assembly for a file
 student.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/student.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/student.cpp.s
 .PHONY : student.cpp.s
 
 teacher.o: teacher.cpp.o
@@ -328,7 +424,7 @@ teacher.o: teacher.cpp.o
 
 # target to build an object file
 teacher.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/teacher.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/teacher.cpp.o
 .PHONY : teacher.cpp.o
 
 teacher.i: teacher.cpp.i
@@ -336,7 +432,7 @@ teacher.i: teacher.cpp.i
 
 # target to preprocess a source file
 teacher.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/teacher.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/teacher.cpp.i
 .PHONY : teacher.cpp.i
 
 teacher.s: teacher.cpp.s
@@ -344,7 +440,7 @@ teacher.s: teacher.cpp.s
 
 # target to generate assembly for a file
 teacher.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/teacher.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/teacher.cpp.s
 .PHONY : teacher.cpp.s
 
 timer.o: timer.cpp.o
@@ -352,7 +448,7 @@ timer.o: timer.cpp.o
 
 # target to build an object file
 timer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/timer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/timer.cpp.o
 .PHONY : timer.cpp.o
 
 timer.i: timer.cpp.i
@@ -360,7 +456,7 @@ timer.i: timer.cpp.i
 
 # target to preprocess a source file
 timer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/timer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/timer.cpp.i
 .PHONY : timer.cpp.i
 
 timer.s: timer.cpp.s
@@ -368,8 +464,32 @@ timer.s: timer.cpp.s
 
 # target to generate assembly for a file
 timer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/timer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/timer.cpp.s
 .PHONY : timer.cpp.s
+
+utils.o: utils.cpp.o
+.PHONY : utils.o
+
+# target to build an object file
+utils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/utils.cpp.o
+.PHONY : utils.cpp.o
+
+utils.i: utils.cpp.i
+.PHONY : utils.i
+
+# target to preprocess a source file
+utils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/utils.cpp.i
+.PHONY : utils.cpp.i
+
+utils.s: utils.cpp.s
+.PHONY : utils.s
+
+# target to generate assembly for a file
+utils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/utils.cpp.s
+.PHONY : utils.cpp.s
 
 # Help Target
 help:
@@ -379,15 +499,21 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... MyFirstQtApp_autogen"
-	@echo "... MyFirstQtApp_autogen_timestamp_deps"
-	@echo "... MyFirstQtApp"
-	@echo "... MyFirstQtApp_autogen/mocs_compilation.o"
-	@echo "... MyFirstQtApp_autogen/mocs_compilation.i"
-	@echo "... MyFirstQtApp_autogen/mocs_compilation.s"
+	@echo "... Acadence_autogen"
+	@echo "... Acadence_autogen_timestamp_deps"
+	@echo "... Acadence"
+	@echo "... Acadence_autogen/mocs_compilation.o"
+	@echo "... Acadence_autogen/mocs_compilation.i"
+	@echo "... Acadence_autogen/mocs_compilation.s"
 	@echo "... academicmanager.o"
 	@echo "... academicmanager.i"
 	@echo "... academicmanager.s"
+	@echo "... admin.o"
+	@echo "... admin.i"
+	@echo "... admin.s"
+	@echo "... circularprogress.o"
+	@echo "... circularprogress.i"
+	@echo "... circularprogress.s"
 	@echo "... course.o"
 	@echo "... course.i"
 	@echo "... course.s"
@@ -400,6 +526,12 @@ help:
 	@echo "... mainwindow.o"
 	@echo "... mainwindow.i"
 	@echo "... mainwindow.s"
+	@echo "... person.o"
+	@echo "... person.i"
+	@echo "... person.s"
+	@echo "... routine.o"
+	@echo "... routine.i"
+	@echo "... routine.s"
 	@echo "... student.o"
 	@echo "... student.i"
 	@echo "... student.s"
@@ -409,6 +541,9 @@ help:
 	@echo "... timer.o"
 	@echo "... timer.i"
 	@echo "... timer.s"
+	@echo "... utils.o"
+	@echo "... utils.i"
+	@echo "... utils.s"
 .PHONY : help
 
 

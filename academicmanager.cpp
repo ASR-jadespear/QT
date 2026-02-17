@@ -1,1042 +1,822 @@
 #include "academicmanager.hpp"
-#include <QDebug>
-#include <QDir>
-#include <QDate>
-#include <QTime>
-#include <QStandardPaths>
-#include <QCoreApplication>
 #include <QFile>
+#include <QTextStream>
+#include <QDebug>
+#include <QMap>
 
-AcademicManager::AcademicManager()
+// Helper functions for CSV handling
+QVector<QStringList> AcadenceManager::readCsv(const QString &filename)
 {
-    dbConnected = false;
-
-    // Check for DB in the application directory (Portable Mode)
-    QString appDir = QCoreApplication::applicationDirPath();
-    QString localDbPath = QDir(appDir).filePath("school_system.db");
-    QString dbPath;
-
-    if (QFile::exists(localDbPath))
+    QVector<QStringList> data;
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        dbPath = localDbPath;
+        throw Acadence::FileException("Failed to open file for reading: " + filename);
     }
     else
     {
-        // Use standard writable location for cross-platform compatibility
-        QString dataPath = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
-        QDir dir(dataPath);
-        if (!dir.exists())
-            dir.mkpath(".");
-        dbPath = dir.filePath("school_system.db");
-    }
+        QTextStream in(&file);
+        while (!in.atEnd())
+        {
+            QString line = in.readLine();
+            if (line.trimmed().isEmpty())
+                continue;
 
-    // Automatically connect on startup
-    connectToDatabase(dbPath);
+            QStringList row;
+            QString currentField;
+            bool inQuotes = false;
+            for (int i = 0; i < line.length(); ++i)
+            {
+                QChar c = line[i];
+                if (c == '"')
+                {
+                    if (inQuotes && i + 1 < line.length() && line[i + 1] == '"')
+                    {
+                        currentField += '"'; // Escaped quote
+                        i++;
+                    }
+                    else
+                    {
+                        inQuotes = !inQuotes;
+                    }
+                }
+                else if (c == ',' && !inQuotes)
+                {
+                    row.append(currentField.trimmed());
+                    currentField.clear();
+                }
+                else
+                {
+                    currentField += c;
+                }
+            }
+            row.append(currentField.trimmed());
+            data.append(row);
+        }
+        file.close();
+    }
+    return data;
 }
 
-AcademicManager::~AcademicManager()
+static QString escapeCsv(const QString &val)
 {
-    if (db.isOpen())
+    if (val.contains(',') || val.contains('"') || val.contains('\n'))
     {
-        db.close();
+        QString temp = val;
+        temp.replace("\"", "\"\"");
+        return "\"" + temp + "\"";
     }
+    return val;
 }
 
-bool AcademicManager::connectToDatabase(QString path)
+static void appendCsv(const QString &filename, const QStringList &fields)
 {
-    // Add the SQLite driver
-    db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(path);
-
-    if (!db.open())
+    QFile file(filename);
+    if (!file.open(QIODevice::Append | QIODevice::Text))
     {
-        qDebug() << "Error: Connection failed -" << db.lastError().text();
-        return false;
+        throw Acadence::FileException("Failed to open file for appending: " + filename);
     }
-
-    qDebug() << "Database connected at:" << path;
-    dbConnected = true;
-    createTables(); // Ensure tables exist
-    return true;
-}
-
-/**
- * @brief Initializes the database schema.
- * Includes table creation and schema migrations for backward compatibility.
- */
-void AcademicManager::createTables()
-{
-    QSqlQuery query;
-    // Create Students Table
-    QString createStudentTable =
-        "CREATE TABLE IF NOT EXISTS Students ("
-        "id INTEGER PRIMARY KEY, "
-        "name TEXT NOT NULL, "
-        "email TEXT, "
-        "gpa REAL, "
-        "credits INTEGER, "
-        "department TEXT, "
-        "batch TEXT, "
-        "semester INTEGER, "
-        "password TEXT DEFAULT '1234')"; // Default password for MVP
-
-    if (!query.exec(createStudentTable))
+    else
     {
-        qDebug() << "Error creating table:" << query.lastError();
+        QTextStream out(&file);
+        QStringList escaped;
+        for (const QString &f : fields)
+            escaped << escapeCsv(f);
+        out << escaped.join(",") << "\n";
+        file.close();
     }
+}
 
-    // Migration: Ensure password column exists for older DB versions
-    query.exec("ALTER TABLE Students ADD COLUMN password TEXT DEFAULT '1234'");
-    query.exec("ALTER TABLE Students ADD COLUMN department TEXT");
-    query.exec("ALTER TABLE Students ADD COLUMN batch TEXT");
-    query.exec("ALTER TABLE Students ADD COLUMN semester INTEGER DEFAULT 1");
-
-    // Create Teachers Table (Modernizing the backend)
-    QString createTeacherTable =
-        "CREATE TABLE IF NOT EXISTS Teachers ("
-        "id INTEGER PRIMARY KEY, "
-        "name TEXT NOT NULL, "
-        "email TEXT, "
-        "department TEXT, "
-        "designation TEXT, "
-        "password TEXT DEFAULT 'admin')";
-    if (!query.exec(createTeacherTable))
+void AcadenceManager::writeCsv(const QString &filename, const QVector<QStringList> &data)
+{
+    QFile file(filename);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        qDebug() << "Error creating teacher table:" << query.lastError();
+        throw Acadence::FileException("Failed to open file for writing: " + filename);
     }
-
-    // Migration: Ensure password column exists for older DB versions
-    query.exec("ALTER TABLE Teachers ADD COLUMN password TEXT DEFAULT 'admin'");
-    query.exec("ALTER TABLE Teachers ADD COLUMN department TEXT");
-    query.exec("ALTER TABLE Teachers ADD COLUMN designation TEXT");
-
-    // Admins Table
-    query.exec("CREATE TABLE IF NOT EXISTS Admins ("
-               "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-               "username TEXT NOT NULL, "
-               "password TEXT DEFAULT 'admin')");
-
-    // Cleanup: Remove old 'admin' from Teachers if exists
-    query.exec("DELETE FROM Teachers WHERE name = 'admin'");
-
-    // Create Courses Table
-    QString createCourseTable =
-        "CREATE TABLE IF NOT EXISTS Courses ("
-        "id INTEGER PRIMARY KEY, "
-        "code TEXT, "
-        "name TEXT NOT NULL, "
-        "teacher_id INTEGER, "
-        "semester INTEGER, "
-        "credits INTEGER)";
-    if (!query.exec(createCourseTable))
+    else
     {
-        qDebug() << "Error creating course table:" << query.lastError();
+        QTextStream out(&file);
+        for (const auto &row : data)
+        {
+            QStringList escapedRow;
+            for (const QString &field : row)
+                escapedRow << escapeCsv(field);
+            out << escapedRow.join(",") << "\n";
+        }
+        file.close();
     }
-    query.exec("ALTER TABLE Courses ADD COLUMN code TEXT");
-    query.exec("ALTER TABLE Courses ADD COLUMN teacher_id INTEGER");
-    query.exec("ALTER TABLE Courses ADD COLUMN semester INTEGER");
-
-    // Tasks (Planner)
-    query.exec("CREATE TABLE IF NOT EXISTS Tasks ("
-               "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-               "student_id INTEGER, "
-               "description TEXT, "
-               "completed INTEGER)");
-
-    // Habits
-    // Drop old table if it exists to ensure schema consistency for the new polymorphic habit system.
-    query.exec("DROP TABLE IF EXISTS Habits");
-
-    query.exec("CREATE TABLE IF NOT EXISTS Habits ("
-               "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-               "student_id INTEGER, "
-               "name TEXT, "
-               "type INTEGER, "
-               "frequency INTEGER, "
-               "target INTEGER, "
-               "unit TEXT, "
-               "streak INTEGER, "
-               "last_updated TEXT, "
-               "is_completed INTEGER, "
-               "current_value TEXT)");
-
-    // Daily Prayers Table
-    query.exec("CREATE TABLE IF NOT EXISTS DailyPrayers ("
-               "student_id INTEGER, "
-               "date TEXT, "
-               "fajr INTEGER DEFAULT 0, "
-               "dhuhr INTEGER DEFAULT 0, "
-               "asr INTEGER DEFAULT 0, "
-               "maghrib INTEGER DEFAULT 0, "
-               "isha INTEGER DEFAULT 0, "
-               "PRIMARY KEY (student_id, date))");
-
-    // Notices
-    query.exec("CREATE TABLE IF NOT EXISTS Notices ("
-               "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-               "content TEXT, "
-               "date TEXT, "
-               "author TEXT)");
-
-    // Routine
-    query.exec("CREATE TABLE IF NOT EXISTS Routine ("
-               "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-               "day TEXT, "
-               "time TEXT, " // Acts as start_time
-               "end_time TEXT, "
-               "course_code TEXT, "
-               "course_name TEXT, "
-               "room TEXT, "
-               "instructor TEXT, "
-               "semester INTEGER)");
-
-    // Migration: Add new Routine columns
-    query.exec("ALTER TABLE Routine ADD COLUMN end_time TEXT");
-    query.exec("ALTER TABLE Routine ADD COLUMN course_code TEXT");
-    query.exec("ALTER TABLE Routine ADD COLUMN instructor TEXT");
-    query.exec("ALTER TABLE Routine ADD COLUMN semester INTEGER");
-
-    // Assessments
-    query.exec("CREATE TABLE IF NOT EXISTS Assessments ("
-               "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-               "course_id INTEGER, "
-               "title TEXT, "
-               "type TEXT, "
-               "date TEXT, "
-               "max_marks INTEGER)");
-
-    // Grades
-    query.exec("CREATE TABLE IF NOT EXISTS Grades ("
-               "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-               "student_id INTEGER, "
-               "assessment_id INTEGER, "
-               "marks REAL)");
-
-    // Attendance
-    query.exec("CREATE TABLE IF NOT EXISTS Attendance ("
-               "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-               "student_id INTEGER, "
-               "course_id INTEGER, "
-               "date TEXT, "
-               "status INTEGER)"); // 1 = Present, 0 = Absent
-
-    // Queries
-    query.exec("CREATE TABLE IF NOT EXISTS Queries ("
-               "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-               "student_id INTEGER, "
-               "question TEXT, "
-               "answer TEXT, "
-               "date TEXT)");
 }
 
-QString AcademicManager::login(QString name, QString password, int &outId)
+AcadenceManager::AcadenceManager()
 {
-    QSqlQuery query;
+    // Constructor is intentionally empty.
+}
 
-    // Check Admins
-    query.prepare("SELECT id FROM Admins WHERE username = :name AND password = :pass");
-    query.bindValue(":name", name);
-    query.bindValue(":pass", password);
-    if (query.exec() && query.next())
+QString AcadenceManager::login(const QString &username, const QString &password, int &userId)
+{
+    // 1. Check Admins
+    QVector<QStringList> admins = readCsv("admins.csv");
+    // Format: ID,Username,Password,Name,Email
+    for (const auto &row : admins)
     {
-        outId = query.value("id").toInt();
-        return "Admin";
+        if (row.size() >= 3 && row[1] == username && row[2] == password)
+        {
+            userId = row[0].toInt();
+            return "Admin";
+        }
     }
 
-    // Check Students
-    query.prepare("SELECT id FROM Students WHERE name = :name AND password = :pass");
-    query.bindValue(":name", name);
-    query.bindValue(":pass", password);
-    if (query.exec() && query.next())
+    // 2. Check Students
+    QVector<QStringList> students = readCsv("students.csv");
+    // Format: ID,Name,Email,Username,Password,...
+    for (const auto &row : students)
     {
-        outId = query.value("id").toInt();
-        return "Student";
+        if (row.size() >= 5 && row[3] == username && row[4] == password)
+        {
+            userId = row[0].toInt();
+            return "Student";
+        }
     }
 
-    // Check Teachers
-    query.prepare("SELECT id FROM Teachers WHERE name = :name AND password = :pass");
-    query.bindValue(":name", name);
-    query.bindValue(":pass", password);
-    if (query.exec() && query.next())
+    // 3. Check Teachers
+    QVector<QStringList> teachers = readCsv("teachers.csv");
+    // Format: ID,Name,Email,Username,Password,...
+    for (const auto &row : teachers)
     {
-        outId = query.value("id").toInt();
-        return "Teacher";
+        if (row.size() >= 5 && row[3] == username && row[4] == password)
+        {
+            userId = row[0].toInt();
+            return "Teacher";
+        }
     }
-
-    return "";
+    return ""; // Not found
 }
 
-bool AcademicManager::addStudent(const Student &s)
+bool AcadenceManager::changePassword(int userId, const QString &role, const QString &oldPass, const QString &newPass)
 {
-    QSqlQuery query;
-    query.prepare("INSERT INTO Students (id, name, email, gpa, credits, department, batch, semester) "
-                  "VALUES (:id, :name, :email, :gpa, :credits, :dept, :batch, :sem)");
-
-    query.bindValue(":id", s.getId());
-    query.bindValue(":name", s.getName());
-    query.bindValue(":email", s.getEmail()); // Assumes getter exists
-    query.bindValue(":gpa", s.calculateGPA());
-    query.bindValue(":credits", 0); // Default or get from object
-    query.bindValue(":dept", s.getDepartment());
-    query.bindValue(":batch", s.getBatch());
-    query.bindValue(":sem", s.getSemester());
-
-    if (!query.exec())
-    {
-        qDebug() << "Add Student Failed:" << query.lastError();
-        return false;
-    }
-    return true;
-}
-
-bool AcademicManager::updateStudent(const Student &s)
-{
-    QSqlQuery query;
-    query.prepare("UPDATE Students SET name = :name, email = :email, gpa = :gpa, department = :dept, batch = :batch, semester = :sem WHERE id = :id");
-    query.bindValue(":name", s.getName());
-    query.bindValue(":email", s.getEmail());
-    query.bindValue(":gpa", s.calculateGPA());
-    query.bindValue(":dept", s.getDepartment());
-    query.bindValue(":batch", s.getBatch());
-    query.bindValue(":sem", s.getSemester());
-    query.bindValue(":id", s.getId());
-    return query.exec();
-}
-
-bool AcademicManager::removeStudent(int id)
-{
-    QSqlQuery query;
-    query.prepare("DELETE FROM Students WHERE id = :id");
-    query.bindValue(":id", id);
-
-    return query.exec();
-}
-
-Student *AcademicManager::getStudent(int id)
-{
-    QSqlQuery query;
-    query.prepare("SELECT * FROM Students WHERE id = :id");
-    query.bindValue(":id", id);
-
-    if (query.exec() && query.next())
-    {
-        int sId = query.value("id").toInt();
-        QString name = query.value("name").toString();
-        QString email = query.value("email").toString();
-        double gpa = query.value("gpa").toDouble();
-        QString dept = query.value("department").toString();
-        QString batch = query.value("batch").toString();
-        int sem = query.value("semester").toInt();
-        // Construct the object
-        Student *s = new Student(sId, name, email, dept, batch, sem);
-        s->setGpa(gpa);
-        return s;
-    }
-    return nullptr; // Not found
-}
-
-QVector<Student *> AcademicManager::getAllStudents()
-{
-    QVector<Student *> list;
-    QSqlQuery query("SELECT * FROM Students"); // Select all
-
-    while (query.next())
-    {
-        int id = query.value("id").toInt();
-        QString name = query.value("name").toString();
-        QString email = query.value("email").toString();
-        double gpa = query.value("gpa").toDouble();
-        QString dept = query.value("department").toString();
-        QString batch = query.value("batch").toString();
-        int sem = query.value("semester").toInt();
-
-        Student *s = new Student(id, name, email, dept, batch, sem);
-        s->setGpa(gpa);
-        list.append(s);
-    }
-    return list;
-}
-
-bool AcademicManager::addQuery(int studentId, QString question)
-{
-    QSqlQuery query;
-    query.prepare("INSERT INTO Queries (student_id, question, date) VALUES (:sid, :q, date('now'))");
-    query.bindValue(":sid", studentId);
-    query.bindValue(":q", question);
-    return query.exec();
-}
-
-bool AcademicManager::answerQuery(int queryId, QString answer)
-{
-    QSqlQuery query;
-    query.prepare("UPDATE Queries SET answer = :a WHERE id = :id");
-    query.bindValue(":a", answer);
-    query.bindValue(":id", queryId);
-    return query.exec();
-}
-
-QVector<Query> AcademicManager::getQueries(int userId, QString role)
-{
-    QVector<Query> list;
-    QSqlQuery query;
+    QString filename;
+    int passIndex = 4; // Default for Student/Teacher (ID, Name, Email, Username, Password)
 
     if (role == "Student")
     {
-        query.prepare("SELECT Q.*, S.name FROM Queries Q JOIN Students S ON Q.student_id = S.id WHERE Q.student_id = :id ORDER BY Q.id DESC");
-        query.bindValue(":id", userId);
+        filename = "students.csv";
+    }
+    else if (role == "Teacher")
+    {
+        filename = "teachers.csv";
+    }
+    else if (role == "Admin")
+    {
+        filename = "admins.csv";
+        passIndex = 2; // Admin: ID, Username, Password
     }
     else
     {
-        // Teachers see all queries (or you could filter by unanswered)
-        query.prepare("SELECT Q.*, S.name FROM Queries Q JOIN Students S ON Q.student_id = S.id ORDER BY Q.id DESC");
-    }
-
-    if (query.exec())
-    {
-        while (query.next())
-        {
-            list.push_back({query.value("id").toInt(),
-                            query.value("student_id").toInt(),
-                            query.value("name").toString(),
-                            query.value("question").toString(),
-                            query.value("answer").toString()});
-        }
-    }
-    return list;
-}
-
-QString AcademicManager::getNextClass()
-{
-    QString day = QDate::currentDate().toString("dddd"); // e.g., "Monday"
-    QString time = QTime::currentTime().toString("HH:mm");
-
-    QSqlQuery query;
-    // Find the first class today that is later than current time
-    query.prepare("SELECT * FROM Routine WHERE day = :d AND time > :t ORDER BY time ASC LIMIT 1");
-    query.bindValue(":d", day);
-    query.bindValue(":t", time);
-
-    if (query.exec() && query.next())
-    {
-        return query.value("time").toString() + " - " + query.value("course_name").toString() +
-               " (" + query.value("room").toString() + ")";
-    }
-    return "";
-}
-
-QString AcademicManager::getDashboardStats(int userId, QString role)
-{
-    QString stats = "";
-    QSqlQuery query;
-
-    if (role == "Student")
-    {
-        // Count completed tasks
-        query.prepare("SELECT COUNT(*) FROM Tasks WHERE student_id = :id AND completed = 1");
-        query.bindValue(":id", userId);
-        if (query.exec() && query.next())
-        {
-            stats += "Tasks Completed: " + query.value(0).toString() + "\n";
-        }
-
-        // Count habits logged today
-        query.prepare("SELECT COUNT(*) FROM Habits WHERE student_id = :id AND date = date('now')");
-        query.bindValue(":id", userId);
-        if (query.exec() && query.next())
-        {
-            stats += "Habits Logged Today: " + query.value(0).toString();
-        }
-    }
-    else
-    {
-        // Teacher stats
-        stats = "Welcome to the Teacher Dashboard.";
-    }
-    return stats;
-}
-
-bool AcademicManager::addRoutineItem(QString day, QString startTime, QString endTime, QString courseCode, QString courseName, QString room, QString instructor, int semester)
-{
-    QSqlQuery query;
-    query.prepare("INSERT INTO Routine (day, time, end_time, course_code, course_name, room, instructor, semester) VALUES (:d, :t, :et, :cc, :cn, :r, :i, :sem)");
-    query.bindValue(":d", day);
-    query.bindValue(":t", startTime);
-    query.bindValue(":et", endTime);
-    query.bindValue(":cc", courseCode);
-    query.bindValue(":cn", courseName);
-    query.bindValue(":r", room);
-    query.bindValue(":i", instructor);
-    query.bindValue(":sem", semester);
-    return query.exec();
-}
-
-QVector<RoutineItem> AcademicManager::getRoutineForDay(QString day, int semester)
-{
-    QVector<RoutineItem> list;
-    QSqlQuery query;
-    QString sql = "SELECT * FROM Routine WHERE day = :day";
-    if (semester != -1)
-        sql += " AND semester = :sem";
-    sql += " ORDER BY time";
-    query.prepare(sql);
-    query.bindValue(":day", day);
-    if (semester != -1)
-        query.bindValue(":sem", semester);
-    if (query.exec())
-    {
-        while (query.next())
-        {
-            list.push_back({query.value("id").toInt(),
-                            query.value("day").toString(),
-                            query.value("time").toString(),
-                            query.value("end_time").toString(),
-                            query.value("course_code").toString(),
-                            query.value("course_name").toString(),
-                            query.value("room").toString(),
-                            query.value("instructor").toString(),
-                            query.value("semester").toInt()});
-        }
-    }
-    return list;
-}
-
-bool AcademicManager::addAssessment(int courseId, QString title, QString type, QString date, int maxMarks)
-{
-    QSqlQuery query;
-    query.prepare("INSERT INTO Assessments (course_id, title, type, date, max_marks) VALUES (:cid, :t, :type, :d, :mm)");
-    query.bindValue(":cid", courseId);
-    query.bindValue(":t", title);
-    query.bindValue(":type", type);
-    query.bindValue(":d", date);
-    query.bindValue(":mm", maxMarks);
-    return query.exec();
-}
-
-QVector<Assessment> AcademicManager::getAssessments(int courseId)
-{
-    QVector<Assessment> list;
-    QSqlQuery query;
-    QString sql = "SELECT A.*, C.name as course_name FROM Assessments A LEFT JOIN Courses C ON A.course_id = C.id";
-    if (courseId != -1)
-        sql += " WHERE A.course_id = :cid";
-
-    query.prepare(sql);
-    if (courseId != -1)
-        query.bindValue(":cid", courseId);
-
-    if (query.exec())
-    {
-        while (query.next())
-        {
-            list.push_back({query.value("id").toInt(), query.value("course_id").toInt(), query.value("course_name").toString(),
-                            query.value("title").toString(), query.value("type").toString(), query.value("date").toString(), query.value("max_marks").toInt()});
-        }
-    }
-    return list;
-}
-
-bool AcademicManager::addGrade(int studentId, int assessmentId, double marks)
-{
-    // Check if exists
-    QSqlQuery check;
-    check.prepare("SELECT id FROM Grades WHERE student_id = :sid AND assessment_id = :aid");
-    check.bindValue(":sid", studentId);
-    check.bindValue(":aid", assessmentId);
-    if (check.exec() && check.next())
-    {
-        // Update
-        QSqlQuery update;
-        update.prepare("UPDATE Grades SET marks = :m WHERE id = :id");
-        update.bindValue(":m", marks);
-        update.bindValue(":id", check.value("id"));
-        return update.exec();
-    }
-    else
-    {
-        // Insert
-        QSqlQuery insert;
-        insert.prepare("INSERT INTO Grades (student_id, assessment_id, marks) VALUES (:sid, :aid, :m)");
-        insert.bindValue(":sid", studentId);
-        insert.bindValue(":aid", assessmentId);
-        insert.bindValue(":m", marks);
-        return insert.exec();
-    }
-}
-
-double AcademicManager::getGrade(int studentId, int assessmentId)
-{
-    QSqlQuery query;
-    query.prepare("SELECT marks FROM Grades WHERE student_id = :sid AND assessment_id = :aid");
-    query.bindValue(":sid", studentId);
-    query.bindValue(":aid", assessmentId);
-    if (query.exec() && query.next())
-        return query.value("marks").toDouble();
-    return -1.0;
-}
-
-bool AcademicManager::markAttendance(int courseId, int studentId, QString date, bool present)
-{
-    // Check if record exists
-    QSqlQuery checkQuery;
-    checkQuery.prepare("SELECT id FROM Attendance WHERE student_id = :sid AND course_id = :cid AND date = :d");
-    checkQuery.bindValue(":sid", studentId);
-    checkQuery.bindValue(":cid", courseId);
-    checkQuery.bindValue(":d", date);
-
-    if (checkQuery.exec() && checkQuery.next())
-    {
-        // Update existing record
-        QSqlQuery updateQuery;
-        updateQuery.prepare("UPDATE Attendance SET status = :s WHERE id = :id");
-        updateQuery.bindValue(":s", present ? 1 : 0);
-        updateQuery.bindValue(":id", checkQuery.value("id"));
-        return updateQuery.exec();
-    }
-    else
-    {
-        // Insert new record
-        QSqlQuery insertQuery;
-        insertQuery.prepare("INSERT INTO Attendance (student_id, course_id, date, status) VALUES (:sid, :cid, :d, :s)");
-        insertQuery.bindValue(":sid", studentId);
-        insertQuery.bindValue(":cid", courseId);
-        insertQuery.bindValue(":d", date);
-        insertQuery.bindValue(":s", present ? 1 : 0);
-        return insertQuery.exec();
-    }
-}
-
-QVector<AttendanceRecord> AcademicManager::getStudentAttendance(int studentId)
-{
-    QVector<AttendanceRecord> list;
-    // Get all courses
-    QVector<Course *> courses = getAllCourses();
-    for (auto c : courses)
-    {
-        QSqlQuery q;
-        // 1. Get Attendance
-        q.prepare("SELECT COUNT(*) as total, SUM(status) as attended FROM Attendance WHERE student_id = :sid AND course_id = :cid");
-        q.bindValue(":sid", studentId);
-        q.bindValue(":cid", c->getId());
-
-        // 2. Get Grades (Sum of marks obtained vs Max marks)
-        double obtained = 0;
-        int max = 0;
-        QSqlQuery gradeQ;
-        gradeQ.prepare("SELECT SUM(G.marks), SUM(A.max_marks) FROM Grades G "
-                       "JOIN Assessments A ON G.assessment_id = A.id "
-                       "WHERE G.student_id = :sid AND A.course_id = :cid");
-        gradeQ.bindValue(":sid", studentId);
-        gradeQ.bindValue(":cid", c->getId());
-        if (gradeQ.exec() && gradeQ.next())
-        {
-            obtained = gradeQ.value(0).toDouble();
-            max = gradeQ.value(1).toInt();
-        }
-
-        if (q.exec() && q.next())
-        {
-            list.push_back({c->getName(), q.value("total").toInt(), q.value("attended").toInt(), obtained, max});
-        }
-        delete c;
-    }
-    return list;
-}
-
-QVector<QString> AcademicManager::getCourseDates(int courseId)
-{
-    QVector<QString> list;
-    QSqlQuery query;
-    query.prepare("SELECT DISTINCT date FROM Attendance WHERE course_id = :cid ORDER BY date");
-    query.bindValue(":cid", courseId);
-    if (query.exec())
-    {
-        while (query.next())
-            list.append(query.value("date").toString());
-    }
-    return list;
-}
-
-bool AcademicManager::isPresent(int courseId, int studentId, QString date)
-{
-    QSqlQuery query;
-    query.prepare("SELECT status FROM Attendance WHERE course_id = :cid AND student_id = :sid AND date = :d");
-    query.bindValue(":cid", courseId);
-    query.bindValue(":sid", studentId);
-    query.bindValue(":d", date);
-    if (query.exec() && query.next())
-    {
-        return query.value("status").toBool();
-    }
-    return false;
-}
-
-bool AcademicManager::addCourse(const Course &c)
-{
-    QSqlQuery query;
-    query.prepare("INSERT INTO Courses (id, code, name, teacher_id, semester, credits) VALUES (:id, :code, :name, :tid, :sem, :credits)");
-    query.bindValue(":id", c.getId());
-    query.bindValue(":code", c.getCode());
-    query.bindValue(":name", c.getName());
-    query.bindValue(":tid", c.getTeacherId());
-    query.bindValue(":sem", c.getSemester());
-    query.bindValue(":credits", c.getCredits());
-
-    if (!query.exec())
-    {
-        qDebug() << "Add Course Failed:" << query.lastError();
         return false;
     }
-    return true;
-}
 
-bool AcademicManager::updateCourse(const Course &c)
-{
-    QSqlQuery query;
-    query.prepare("UPDATE Courses SET code = :code, name = :name, teacher_id = :tid, semester = :sem, credits = :credits WHERE id = :id");
-    query.bindValue(":code", c.getCode());
-    query.bindValue(":name", c.getName());
-    query.bindValue(":tid", c.getTeacherId());
-    query.bindValue(":sem", c.getSemester());
-    query.bindValue(":credits", c.getCredits());
-    query.bindValue(":id", c.getId());
-    return query.exec();
-}
+    QVector<QStringList> data = readCsv(filename);
+    bool found = false;
 
-bool AcademicManager::removeCourse(int id)
-{
-    QSqlQuery query;
-    query.prepare("DELETE FROM Courses WHERE id = :id");
-    query.bindValue(":id", id);
-    return query.exec();
-}
-
-Course *AcademicManager::getCourse(int id)
-{
-    QSqlQuery query;
-    query.prepare("SELECT * FROM Courses WHERE id = :id");
-    query.bindValue(":id", id);
-
-    if (query.exec() && query.next())
+    for (auto &row : data)
     {
-        return new Course(query.value("id").toInt(),
-                          query.value("code").toString(),
-                          query.value("name").toString(),
-                          query.value("teacher_id").toInt(),
-                          query.value("semester").toInt(),
-                          query.value("credits").toInt());
+        if (row.size() > passIndex && row[0].toInt() == userId)
+        {
+            if (row[passIndex] == oldPass)
+            {
+                row[passIndex] = newPass;
+                found = true;
+            }
+            else
+            {
+                throw Acadence::Exception("Old password does not match.");
+            }
+            break;
+        }
+    }
+
+    if (found)
+    {
+        writeCsv(filename, data);
+        return true;
+    }
+    throw Acadence::Exception("User not found.");
+}
+
+// Dashboard
+QVector<Notice> AcadenceManager::getNotices()
+{
+    QVector<Notice> notices;
+    QVector<QStringList> data = readCsv("notices.csv");
+    // Format: Date,Author,Content
+    for (const auto &row : data)
+    {
+        if (row.size() >= 3)
+        {
+            notices.append(Notice(row[0], row[1], row[2]));
+        }
+    }
+    return notices;
+}
+
+void AcadenceManager::addNotice(const QString &content, const QString &author)
+{
+    QString date = QDate::currentDate().toString("yyyy-MM-dd");
+    appendCsv("notices.csv", {date, author, content});
+}
+
+QString AcadenceManager::getNextClass(int userId)
+{
+    // Simple logic: Get routine for today, find first class after current time
+    Student *s = getStudent(userId);
+    if (!s)
+        return "No Data";
+
+    int semester = s->getSemester();
+    delete s;
+
+    QString day = QDate::currentDate().toString("dddd");
+    QVector<RoutineSession> routine = getRoutineForDay(day, semester);
+    QTime now = QTime::currentTime();
+
+    for (const auto &item : routine)
+    {
+        QTime start = QTime::fromString(item.getStartTime(), "HH:mm");
+        if (start > now)
+        {
+            return item.getCourseCode() + " (" + item.getStartTime() + ")";
+        }
+    }
+    return "No more classes";
+}
+
+QString AcadenceManager::getDashboardStats(int userId, QString role)
+{
+    if (role == "Student")
+    {
+        // Calculate GPA or Attendance
+        return "GPA: " + QString::number(3.5); // Placeholder calculation
+    }
+    else if (role == "Teacher")
+    {
+        return "Active Courses: " + QString::number(getTeacherCourses(userId).size());
+    }
+    return "System Active";
+}
+
+// Users
+Student *AcadenceManager::getStudent(int id)
+{
+    QVector<QStringList> data = readCsv("students.csv");
+    // Format: ID,Name,Email,Username,Password,Dept,Batch,Sem,DateAdmission,CGPA
+    for (const auto &row : data)
+    {
+        if (row.size() >= 8 && row[0].toInt() == id) // Basic fields check
+        {
+            Student *s = new Student(row[0].toInt(), row[1], row[2], row[5], row[6], row[7].toInt());
+            s->setUsername(row[3]);
+            s->setPassword(row[4]);
+
+            // Populate new fields if available in CSV
+            if (row.size() >= 9)
+                s->setDateAdmission(QDate::fromString(row[8], Qt::ISODate));
+            if (row.size() >= 10)
+                s->setGpa(row[9].toDouble());
+
+            return s;
+        }
     }
     return nullptr;
 }
 
-QVector<Course *> AcademicManager::getAllCourses()
+Teacher *AcadenceManager::getTeacher(int id)
 {
-    QVector<Course *> list;
-    QSqlQuery query("SELECT * FROM Courses");
-    while (query.next())
+    QVector<QStringList> data = readCsv("teachers.csv");
+    // Format: ID,Name,Email,Username,Password,Dept,Designation,Salary
+    for (const auto &row : data)
     {
-        list.append(new Course(query.value("id").toInt(),
-                               query.value("code").toString(),
-                               query.value("name").toString(),
-                               query.value("teacher_id").toInt(),
-                               query.value("semester").toInt(),
-                               query.value("credits").toInt()));
-    }
-    return list;
-}
-
-QVector<Course *> AcademicManager::getTeacherCourses(int teacherId)
-{
-    QVector<Course *> list;
-    QSqlQuery query;
-    query.prepare("SELECT * FROM Courses WHERE teacher_id = :tid");
-    query.bindValue(":tid", teacherId);
-    if (query.exec())
-    {
-        while (query.next())
+        if (row.size() >= 7 && row[0].toInt() == id) // Basic fields check
         {
-            list.append(new Course(query.value("id").toInt(),
-                                   query.value("code").toString(),
-                                   query.value("name").toString(),
-                                   query.value("teacher_id").toInt(),
-                                   query.value("semester").toInt(),
-                                   query.value("credits").toInt()));
+            Teacher *t = new Teacher(row[0].toInt(), row[1], row[2], row[5], row[6]);
+            t->setUsername(row[3]);
+            t->setPassword(row[4]);
+
+            if (row.size() >= 8)
+                t->setSalary(row[7].toDouble());
+
+            return t;
         }
     }
-    return list;
+    return nullptr;
 }
 
-QVector<Student *> AcademicManager::getStudentsBySemester(int semester)
+// Planner
+QVector<Task> AcadenceManager::getTasks(int userId)
 {
-    QVector<Student *> list;
-    QSqlQuery query;
-    query.prepare("SELECT * FROM Students WHERE semester = :sem");
-    query.bindValue(":sem", semester);
-    if (query.exec())
+    QVector<Task> tasks;
+    QVector<QStringList> data = readCsv("tasks.csv");
+    // Format: ID,UserID,Desc,IsCompleted
+    for (const auto &row : data)
     {
-        while (query.next())
+        if (row.size() >= 4 && row[1].toInt() == userId)
         {
-            list.append(new Student(query.value("id").toInt(), query.value("name").toString(),
-                                    query.value("email").toString(), query.value("department").toString(),
-                                    query.value("batch").toString(),
-                                    query.value("semester").toInt()));
+            tasks.append(Task(row[0].toInt(), row[2], (row[3] == "1")));
         }
     }
-    return list;
+    return tasks;
 }
 
-bool AcademicManager::addTask(int studentId, QString desc)
+void AcadenceManager::addTask(int userId, const QString &description)
 {
-    QSqlQuery query;
-    query.prepare("INSERT INTO Tasks (student_id, description, completed) VALUES (:sid, :desc, 0)");
-    query.bindValue(":sid", studentId);
-    query.bindValue(":desc", desc);
-    return query.exec();
+    // Generate ID
+    QVector<QStringList> data = readCsv("tasks.csv");
+    int maxId = 0;
+    for (const auto &row : data)
+        if (row.size() > 0)
+            maxId = std::max(maxId, row[0].toInt());
+
+    appendCsv("tasks.csv", {QString::number(maxId + 1), QString::number(userId), description, "0"});
 }
 
-bool AcademicManager::completeTask(int taskId, bool completed)
+void AcadenceManager::completeTask(int taskId, bool status)
 {
-    QSqlQuery query;
-    query.prepare("UPDATE Tasks SET completed = :comp WHERE id = :id");
-    query.bindValue(":comp", completed ? 1 : 0);
-    query.bindValue(":id", taskId);
-    return query.exec();
-}
-
-QVector<Task> AcademicManager::getTasks(int studentId)
-{
-    QVector<Task> list;
-    QSqlQuery query;
-    query.prepare("SELECT * FROM Tasks WHERE student_id = :sid");
-    query.bindValue(":sid", studentId);
-    if (query.exec())
+    QVector<QStringList> data = readCsv("tasks.csv");
+    for (auto &row : data)
     {
-        while (query.next())
+        if (row.size() >= 4 && row[0].toInt() == taskId)
         {
-            list.push_back({query.value("id").toInt(), studentId, query.value("description").toString(), query.value("completed").toBool()});
+            row[3] = status ? "1" : "0";
         }
     }
-    return list;
+    writeCsv("tasks.csv", data);
 }
 
-bool AcademicManager::addHabit(Habit *habit)
+// Habits
+DailyPrayerStatus AcadenceManager::getDailyPrayers(int userId, QString date)
 {
-    QSqlQuery query;
-    query.prepare("INSERT INTO Habits (student_id, name, type, frequency, target, unit, streak, last_updated, is_completed, current_value) "
-                  "VALUES (:sid, :name, :type, :freq, :target, :unit, 0, :last, 0, :val)");
-
-    query.bindValue(":sid", habit->studentId);
-    query.bindValue(":name", habit->name);
-    query.bindValue(":type", (int)habit->type);
-    query.bindValue(":freq", (int)habit->frequency);
-
-    int target = 0;
-    QString unit = "";
-    if (auto h = dynamic_cast<DurationHabit *>(habit))
-        target = h->targetMinutes;
-    else if (auto h = dynamic_cast<CountHabit *>(habit))
+    QVector<QStringList> data = readCsv("prayers.csv");
+    // Format: UserID,Date,Fajr,Dhuhr,Asr,Maghrib,Isha
+    for (const auto &row : data)
     {
-        target = h->targetCount;
-        unit = h->unit;
+        if (row.size() >= 7 && row[0].toInt() == userId && row[1] == date)
+        {
+            return DailyPrayerStatus(row[2] == "1", row[3] == "1", row[4] == "1", row[5] == "1", row[6] == "1");
+        }
+    }
+    return DailyPrayerStatus(false, false, false, false, false);
+}
+
+void AcadenceManager::updateDailyPrayer(int userId, QString date, QString prayer, bool status)
+{
+    QVector<QStringList> data = readCsv("prayers.csv");
+    bool found = false;
+
+    int prayerIdx = -1;
+    if (prayer == "fajr")
+        prayerIdx = 2;
+    else if (prayer == "dhuhr")
+        prayerIdx = 3;
+    else if (prayer == "asr")
+        prayerIdx = 4;
+    else if (prayer == "maghrib")
+        prayerIdx = 5;
+    else if (prayer == "isha")
+        prayerIdx = 6;
+
+    for (auto &row : data)
+    {
+        if (row.size() >= 7 && row[0].toInt() == userId && row[1] == date)
+        {
+            if (prayerIdx != -1)
+                row[prayerIdx] = status ? "1" : "0";
+            found = true;
+        }
     }
 
-    query.bindValue(":target", target);
-    query.bindValue(":unit", unit);
-    query.bindValue(":last", habit->lastUpdated.toString(Qt::ISODate));
-    query.bindValue(":val", habit->serializeValue());
-
-    return query.exec();
-}
-
-bool AcademicManager::updateHabit(Habit *habit)
-{
-    QSqlQuery query;
-    query.prepare("UPDATE Habits SET streak = :streak, last_updated = :last, is_completed = :comp, current_value = :val WHERE id = :id");
-    query.bindValue(":streak", habit->streak);
-    query.bindValue(":last", habit->lastUpdated.toString(Qt::ISODate));
-    query.bindValue(":comp", habit->isCompleted ? 1 : 0);
-    query.bindValue(":val", habit->serializeValue());
-    query.bindValue(":id", habit->id);
-    return query.exec();
-}
-
-bool AcademicManager::deleteHabit(int id)
-{
-    QSqlQuery query;
-    query.prepare("DELETE FROM Habits WHERE id = :id");
-    query.bindValue(":id", id);
-    return query.exec();
-}
-
-QVector<Habit *> AcademicManager::getHabits(int studentId)
-{
-    QVector<Habit *> list;
-    QSqlQuery query;
-    query.prepare("SELECT * FROM Habits WHERE student_id = :sid");
-    query.bindValue(":sid", studentId);
-    if (query.exec())
+    if (!found)
     {
-        while (query.next())
+        QStringList newRow = {QString::number(userId), date, "0", "0", "0", "0", "0"};
+        if (prayerIdx != -1)
+            newRow[prayerIdx] = status ? "1" : "0";
+        data.append(newRow);
+    }
+    writeCsv("prayers.csv", data);
+}
+
+QVector<Habit *> AcadenceManager::getHabits(int userId)
+{
+    QVector<Habit *> habits;
+    QVector<QStringList> data = readCsv("habits.csv");
+    // Format: ID,UserID,Name,Type,Freq,Target,Current,Streak,LastDate,IsCompleted,Unit
+    for (const auto &row : data)
+    {
+        if (row.size() >= 11 && row[1].toInt() == userId)
         {
-            int id = query.value("id").toInt();
-            QString name = query.value("name").toString();
-            HabitType type = (HabitType)query.value("type").toInt();
-            Frequency freq = (Frequency)query.value("frequency").toInt();
-            int target = query.value("target").toInt();
-            QString unit = query.value("unit").toString();
+            int id = row[0].toInt();
+            QString name = row[2];
+            HabitType type = (row[3] == "Duration") ? HabitType::DURATION : HabitType::COUNT;
+            Frequency freq = (row[4] == "Daily") ? Frequency::DAILY : Frequency::WEEKLY;
+            int target = row[5].toInt();
+            int current = row[6].toInt();
+            int streak = row[7].toInt();
+            QDate lastDate = QDate::fromString(row[8], Qt::ISODate);
+            bool isComp = (row[9] == "1");
+            QString unit = row[10];
 
             Habit *h = nullptr;
             if (type == HabitType::DURATION)
-                h = new DurationHabit(id, studentId, name, freq, target);
-            else if (type == HabitType::COUNT)
-                h = new CountHabit(id, studentId, name, freq, target, unit);
-
-            if (h)
             {
-                h->streak = query.value("streak").toInt();
-                h->lastUpdated = QDate::fromString(query.value("last_updated").toString(), Qt::ISODate);
-                h->isCompleted = query.value("is_completed").toBool();
-                h->deserializeValue(query.value("current_value").toString());
+                auto *dh = new DurationHabit(id, userId, name, freq, target);
+                dh->currentMinutes = current;
+                h = dh;
+            }
+            else
+            {
+                auto *ch = new CountHabit(id, userId, name, freq, target, unit);
+                ch->currentCount = current;
+                h = ch;
+            }
 
-                // Check for reset logic (new day/week)
-                if (h->checkReset())
+            h->streak = streak;
+            h->lastUpdated = lastDate;
+            h->isCompleted = isComp;
+
+            // Check reset logic immediately on load
+            if (h->checkReset())
+            {
+                // If reset happened, we should technically save it back, but for now just display
+            }
+            habits.append(h);
+        }
+    }
+    return habits;
+}
+
+void AcadenceManager::addHabit(Habit *h)
+{
+    QVector<QStringList> data = readCsv("habits.csv");
+    int maxId = 0;
+    for (const auto &row : data)
+        if (row.size() > 0)
+            maxId = std::max(maxId, row[0].toInt());
+    h->id = maxId + 1;
+
+    QString typeStr = (h->type == HabitType::DURATION) ? "Duration" : "Count";
+    QString freqStr = (h->frequency == Frequency::DAILY) ? "Daily" : "Weekly";
+    QString unit = "";
+    int target = 0;
+
+    if (auto *dh = dynamic_cast<DurationHabit *>(h))
+        target = dh->targetMinutes;
+    else if (auto *ch = dynamic_cast<CountHabit *>(h))
+    {
+        target = ch->targetCount;
+        unit = ch->unit;
+    }
+
+    appendCsv("habits.csv", {QString::number(h->id), QString::number(h->studentId), h->name, typeStr, freqStr,
+                             QString::number(target), "0", "0", QDate::currentDate().toString(Qt::ISODate), "0", unit});
+}
+
+void AcadenceManager::updateHabit(Habit *h)
+{
+    QVector<QStringList> data = readCsv("habits.csv");
+    for (auto &row : data)
+    {
+        if (row.size() >= 11 && row[0].toInt() == h->id)
+        {
+            int current = 0;
+            if (auto *dh = dynamic_cast<DurationHabit *>(h))
+                current = dh->currentMinutes;
+            else if (auto *ch = dynamic_cast<CountHabit *>(h))
+                current = ch->currentCount;
+
+            row[6] = QString::number(current);
+            row[7] = QString::number(h->streak);
+            row[8] = h->lastUpdated.toString(Qt::ISODate);
+            row[9] = h->isCompleted ? "1" : "0";
+        }
+    }
+    writeCsv("habits.csv", data);
+}
+
+void AcadenceManager::deleteHabit(int id)
+{
+    QVector<QStringList> data = readCsv("habits.csv");
+    QVector<QStringList> newData;
+    for (const auto &row : data)
+    {
+        if (row.size() > 0 && row[0].toInt() != id)
+        {
+            newData.append(row);
+        }
+    }
+    writeCsv("habits.csv", newData);
+}
+
+// Routine
+QVector<RoutineSession> AcadenceManager::getRoutineForDay(QString day, int semester)
+{
+    WeeklyRoutine weeklyRoutine;
+    QVector<QStringList> data = readCsv("routine.csv");
+    // Format: Day,Start,End,Code,Name,Room,Instructor,Semester
+    for (const auto &row : data)
+    {
+        if (row.size() >= 8)
+        {
+            if (semester == -1 || row[7].toInt() == semester)
+            {
+                weeklyRoutine.addSession(RoutineSession(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7].toInt()));
+            }
+        }
+    }
+    return weeklyRoutine.getSessionsForDay(day);
+}
+
+void AcadenceManager::addRoutineItem(QString day, QString start, QString end, QString code, QString name, QString room, QString instructor, int semester)
+{
+    appendCsv("routine.csv", {day, start, end, code, name, room, instructor, QString::number(semester)});
+}
+
+// Academics / Teacher Tools
+QVector<Course *> AcadenceManager::getTeacherCourses(int teacherId)
+{
+    QVector<Course *> courses;
+    QVector<QStringList> data = readCsv("courses.csv");
+    // Format: ID,Code,Name,TeacherID,Semester,Credits
+    for (const auto &row : data)
+    {
+        if (row.size() >= 6 && row[3].toInt() == teacherId)
+        {
+            courses.append(new Course(row[0].toInt(), row[1], row[2], row[3].toInt(), row[4].toInt(), row[5].toInt()));
+        }
+    }
+    return courses;
+}
+
+Course *AcadenceManager::getCourse(int id)
+{
+    QVector<QStringList> data = readCsv("courses.csv");
+    for (const auto &row : data)
+    {
+        if (row.size() >= 6 && row[0].toInt() == id)
+        {
+            return new Course(row[0].toInt(), row[1], row[2], row[3].toInt(), row[4].toInt(), row[5].toInt());
+        }
+    }
+    return nullptr;
+}
+
+QVector<Assessment> AcadenceManager::getAssessments()
+{
+    QVector<Assessment> list;
+    QVector<QStringList> data = readCsv("assessments.csv");
+    // Format: ID,CourseID,Title,Type,Date,MaxMarks
+    for (const auto &row : data)
+    {
+        if (row.size() >= 6)
+        {
+            // Need course name
+            QString courseName = "Unknown";
+            Course *c = getCourse(row[1].toInt());
+            if (c)
+            {
+                courseName = c->getName();
+                delete c;
+            }
+
+            list.append(Assessment(row[0].toInt(), row[1].toInt(), courseName, row[2], row[3], row[4], row[5].toInt()));
+        }
+    }
+    return list;
+}
+
+void AcadenceManager::addAssessment(int courseId, QString title, QString type, QString date, int maxMarks)
+{
+    QVector<QStringList> data = readCsv("assessments.csv");
+    int maxId = 0;
+    for (const auto &row : data)
+        if (row.size() > 0)
+            maxId = std::max(maxId, row[0].toInt());
+
+    appendCsv("assessments.csv", {QString::number(maxId + 1), QString::number(courseId), title, type, date, QString::number(maxMarks)});
+}
+
+QVector<AttendanceRecord> AcadenceManager::getStudentAttendance(int studentId)
+{
+    QVector<AttendanceRecord> records;
+    Student *s = getStudent(studentId);
+    if (!s)
+        return records;
+    int semester = s->getSemester();
+    delete s;
+
+    // Get all courses for this semester
+    QVector<QStringList> courseData = readCsv("courses.csv");
+    QVector<int> courseIds;
+    QMap<int, QString> courseNames;
+    for (const auto &row : courseData)
+    {
+        if (row.size() >= 6 && row[4].toInt() == semester)
+        {
+            int cid = row[0].toInt();
+            courseIds.append(cid);
+            courseNames[cid] = row[2];
+        }
+    }
+
+    // Process each course
+    QVector<QStringList> attData = readCsv("attendance.csv");
+    QVector<QStringList> gradeData = readCsv("grades.csv");
+    QVector<Assessment> assessments = getAssessments();
+
+    for (int cid : courseIds)
+    {
+        // Attendance
+        QSet<QString> uniqueDates;
+        int attended = 0;
+        for (const auto &row : attData)
+        {
+            if (row.size() >= 4 && row[0].toInt() == cid)
+            {
+                uniqueDates.insert(row[2]);
+                if (row[1].toInt() == studentId && row[3] == "1")
                 {
-                    // If reset happened, we should update DB immediately or wait for next action.
-                    // Let's update DB to sync the reset state.
-                    updateHabit(h);
+                    attended++;
                 }
-                list.append(h);
+            }
+        }
+
+        int totalClasses = uniqueDates.size();
+        int attendedClasses = attended;
+
+        // Grades
+        double totalMarksObtained = 0;
+        double totalMaxMarks = 0;
+        for (const auto &a : assessments)
+        {
+            if (a.getCourseId() == cid)
+            {
+                totalMaxMarks += a.getMaxMarks();
+                // Find grade
+                for (const auto &grow : gradeData)
+                {
+                    if (grow.size() >= 3 && grow[0].toInt() == studentId && grow[1].toInt() == a.getId())
+                    {
+                        totalMarksObtained += grow[2].toDouble();
+                        break;
+                    }
+                }
+            }
+        }
+        records.append(AttendanceRecord(courseNames[cid], totalClasses, attendedClasses, totalMarksObtained, totalMaxMarks));
+    }
+    return records;
+}
+
+QVector<Student *> AcadenceManager::getStudentsBySemester(int semester)
+{
+    QVector<Student *> list;
+    QVector<QStringList> data = readCsv("students.csv");
+    for (const auto &row : data)
+    {
+        if (row.size() >= 6 && row[5].toInt() == semester)
+        {
+            list.append(new Student(row[0].toInt(), row[1], row[2], row[3], row[4], row[5].toInt()));
+        }
+    }
+    return list;
+}
+
+double AcadenceManager::getGrade(int studentId, int assessmentId)
+{
+    QVector<QStringList> data = readCsv("grades.csv");
+    for (const auto &row : data)
+    {
+        if (row.size() >= 3 && row[0].toInt() == studentId && row[1].toInt() == assessmentId)
+        {
+            return row[2].toDouble();
+        }
+    }
+    return -1.0;
+}
+
+void AcadenceManager::addGrade(int studentId, int assessmentId, double marks)
+{
+    QVector<QStringList> data = readCsv("grades.csv");
+    bool found = false;
+    for (auto &row : data)
+    {
+        if (row.size() >= 3 && row[0].toInt() == studentId && row[1].toInt() == assessmentId)
+        {
+            row[2] = QString::number(marks);
+            found = true;
+        }
+    }
+    if (!found)
+    {
+        data.append({QString::number(studentId), QString::number(assessmentId), QString::number(marks)});
+    }
+    writeCsv("grades.csv", data);
+}
+
+QVector<QString> AcadenceManager::getCourseDates(int courseId)
+{
+    QSet<QString> dates;
+    QVector<QStringList> data = readCsv("attendance.csv");
+    for (const auto &row : data)
+    {
+        if (row.size() >= 4 && row[0].toInt() == courseId)
+        {
+            dates.insert(row[2]);
+        }
+    }
+    QVector<QString> list = dates.values();
+    std::sort(list.begin(), list.end());
+    return list;
+}
+
+bool AcadenceManager::isPresent(int courseId, int studentId, QString date)
+{
+    QVector<QStringList> data = readCsv("attendance.csv");
+    for (const auto &row : data)
+    {
+        if (row.size() >= 4 && row[0].toInt() == courseId && row[1].toInt() == studentId && row[2] == date)
+        {
+            return row[3] == "1";
+        }
+    }
+    return false;
+}
+
+void AcadenceManager::markAttendance(int courseId, int studentId, QString date, bool present)
+{
+    QVector<QStringList> data = readCsv("attendance.csv");
+    bool found = false;
+    for (auto &row : data)
+    {
+        if (row.size() >= 4 && row[0].toInt() == courseId && row[1].toInt() == studentId && row[2] == date)
+        {
+            row[3] = present ? "1" : "0";
+            found = true;
+        }
+    }
+    if (!found)
+    {
+        data.append({QString::number(courseId), QString::number(studentId), date, present ? "1" : "0"});
+    }
+    writeCsv("attendance.csv", data);
+}
+
+// Queries
+QVector<Query> AcadenceManager::getQueries(int userId, QString role)
+{
+    QVector<Query> list;
+    QVector<QStringList> data = readCsv("queries.csv");
+    // Format: ID,StudentID,Question,Answer
+    for (const auto &row : data)
+    {
+        if (row.size() >= 4)
+        {
+            if (role == "Teacher" || role == "Admin" || row[1].toInt() == userId)
+            {
+                QString sName = "Student";
+                Student *s = getStudent(row[1].toInt());
+                if (s)
+                {
+                    sName = s->getName();
+                    delete s;
+                }
+
+                list.append(Query(row[0].toInt(), row[1].toInt(), sName, row[2], row[3]));
             }
         }
     }
     return list;
 }
 
-DailyPrayerStatus AcademicManager::getDailyPrayers(int studentId, QString date)
+void AcadenceManager::addQuery(int userId, QString question)
 {
-    QSqlQuery query;
-    query.prepare("SELECT * FROM DailyPrayers WHERE student_id = :sid AND date = :d");
-    query.bindValue(":sid", studentId);
-    query.bindValue(":d", date);
+    QVector<QStringList> data = readCsv("queries.csv");
+    int maxId = 0;
+    for (const auto &row : data)
+        if (row.size() > 0)
+            maxId = std::max(maxId, row[0].toInt());
 
-    if (query.exec() && query.next())
+    appendCsv("queries.csv", {QString::number(maxId + 1), QString::number(userId), question, ""});
+}
+
+void AcadenceManager::answerQuery(int queryId, QString answer)
+{
+    QVector<QStringList> data = readCsv("queries.csv");
+    QVector<QString> lines;
+    for (auto &row : data)
     {
-        return {
-            query.value("fajr").toBool(),
-            query.value("dhuhr").toBool(),
-            query.value("asr").toBool(),
-            query.value("maghrib").toBool(),
-            query.value("isha").toBool()};
+        if (row.size() >= 4 && row[0].toInt() == queryId)
+        {
+            row[3] = answer;
+        }
     }
-    else
-    {
-        // Create default entry if not exists
-        QSqlQuery insert;
-        insert.prepare("INSERT INTO DailyPrayers (student_id, date) VALUES (:sid, :d)");
-        insert.bindValue(":sid", studentId);
-        insert.bindValue(":d", date);
-        insert.exec();
-        return {false, false, false, false, false};
-    }
-}
-
-bool AcademicManager::updateDailyPrayer(int studentId, QString date, QString prayerName, bool status)
-{
-    // prayerName should be "fajr", "dhuhr", etc.
-    QSqlQuery query;
-    QString sql = QString("UPDATE DailyPrayers SET %1 = :val WHERE student_id = :sid AND date = :d").arg(prayerName);
-    query.prepare(sql);
-    query.bindValue(":val", status ? 1 : 0);
-    query.bindValue(":sid", studentId);
-    query.bindValue(":d", date);
-    return query.exec();
-}
-
-bool AcademicManager::addNotice(QString content, QString author)
-{
-    QSqlQuery query;
-    query.prepare("INSERT INTO Notices (content, date, author) VALUES (:c, date('now'), :a)");
-    query.bindValue(":c", content);
-    query.bindValue(":a", author);
-    return query.exec();
-}
-
-QVector<Notice> AcademicManager::getNotices()
-{
-    QVector<Notice> list;
-    QSqlQuery query("SELECT * FROM Notices ORDER BY id DESC");
-    while (query.next())
-    {
-        list.push_back({query.value("id").toInt(), query.value("content").toString(), query.value("date").toString(), query.value("author").toString()});
-    }
-    return list;
-}
-
-bool AcademicManager::addTeacher(const Teacher &t)
-{
-    QSqlQuery query;
-    query.prepare("INSERT INTO Teachers (id, name, email, department, designation) VALUES (:id, :name, :email, :dept, :desig)");
-    query.bindValue(":id", t.getId());
-    query.bindValue(":name", t.getName());
-    query.bindValue(":email", t.getEmail());
-    query.bindValue(":dept", t.getDepartment());
-    query.bindValue(":desig", t.getDesignation());
-
-    if (!query.exec())
-    {
-        qDebug() << "Add Teacher Failed:" << query.lastError();
-        return false;
-    }
-    return true;
-}
-
-bool AcademicManager::updateTeacher(const Teacher &t)
-{
-    QSqlQuery query;
-    query.prepare("UPDATE Teachers SET name = :name, email = :email, department = :dept, designation = :desig WHERE id = :id");
-    query.bindValue(":name", t.getName());
-    query.bindValue(":email", t.getEmail());
-    query.bindValue(":dept", t.getDepartment());
-    query.bindValue(":desig", t.getDesignation());
-    query.bindValue(":id", t.getId());
-    return query.exec();
-}
-
-bool AcademicManager::removeTeacher(int id)
-{
-    QSqlQuery query;
-    query.prepare("DELETE FROM Teachers WHERE id = :id");
-    query.bindValue(":id", id);
-    return query.exec();
-}
-
-Teacher *AcademicManager::getTeacher(int id)
-{
-    QSqlQuery query;
-    query.prepare("SELECT * FROM Teachers WHERE id = :id");
-    query.bindValue(":id", id);
-
-    if (query.exec() && query.next())
-    {
-        return new Teacher(query.value("id").toInt(),
-                           query.value("name").toString(),
-                           query.value("email").toString(),
-                           query.value("department").toString(),
-                           query.value("designation").toString());
-    }
-    return nullptr;
-}
-
-QVector<Teacher *> AcademicManager::getAllTeachers()
-{
-    QVector<Teacher *> list;
-    QSqlQuery query("SELECT * FROM Teachers");
-    while (query.next())
-    {
-        list.append(new Teacher(query.value("id").toInt(),
-                                query.value("name").toString(),
-                                query.value("email").toString(),
-                                query.value("department").toString(),
-                                query.value("designation").toString()));
-    }
-    return list;
+    writeCsv("queries.csv", data);
 }

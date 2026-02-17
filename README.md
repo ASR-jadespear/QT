@@ -1,47 +1,105 @@
-# Academic Manager Project
+# Acadence
 
-## 1. Introduction
-Something that has brought all of us here, yet hardly anyone likes to do is Academic Studies. Managing academic responsibilities is increasingly difficult for both students and teachers—classes shift, deadlines stack up, routines overlap, and communication gets lost. Maintaining stuff across Whatsapp, Messenger, Google Classroom and notes-taking apps is as easy as looking for a needle in a haystack. A lightweight assistant can help organize these tasks without the complexity of multiple apps.
-Our project targets IUT students and teachers who need a simple but structured way to track schedules, reminders, academic progress, and classroom notices.
+## Short Description
+Acadence is a GUI-based personal academic assistant developed in C++ using the Qt framework. It demonstrates core Object-Oriented Programming (OOP) principles by helping students and teachers organize their academic lives.
+*   **Students** can track routines, view upcoming classes, manage a study planner, track habits (with timers), and view grades/attendance.
+*   **Teachers** can manage course routines, create assessments, grade students, take attendance, and answer queries.
+*   **Admins** have full control to manage users, courses, and system data via a dedicated panel.
 
-**Why it matters:** It centralizes routine academic tasks into one tool and demonstrates strong practical application of OOP principles.
+The application uses persistent CSV storage for all data and features a role-based login system.
 
-## 2. Proposal
-We propose to build a terminal-based personal academic assistant developed entirely in C++ using Object Oriented Programming principles.
-*   Students can track routines, deadlines, study plans, habits, and receive notifications.
-*   Teachers can manage class notices, quiz schedules, class rescheduling, attendance, and grading.
+## How to Compile and Run
 
-The program will load/store user data from text files and simulate notifications based on system time. The final goal is a fully functioning prototype demonstrating our understanding of object-oriented design, data abstraction, and clean code structure.
+### Prerequisites
+*   C++ Compiler (supporting C++17 or later)
+*   CMake (Version 3.16+)
+*   Qt 6 Development Libraries (Widgets module)
 
-## 3. Description (Usage Story)
-A student, Airah, launches the program and logs in. The assistant immediately shows her Today’s Schedule, along with the next class (starting in 30 mins but she feels sleepy) and approaching deadlines of 3 quizzes. The student checks their study planner, marks a completed task, and receives a notification in the evening that her daily goal of studying remains unfulfilled. So she finishes it and updates the system.
+### Build Instructions
+1.  Create a build directory:
+    ```bash
+    mkdir build
+    cd build
+    ```
+2.  Run CMake to configure the project:
+    ```bash
+    cmake ..
+    ```
+3.  Compile the application:
+    ```bash
+    make
+    ```
+    *(On Windows with MSVC, use `nmake` or open the generated solution in Visual Studio)*
 
-Later, a teacher, Rafid, logs in from his account. He answers some student queries, enters a quiz date with syllabus, and publishes a class cancellation notice for tomorrow’s class. He also updated attendance records for today’s class and entered marks for a previous quiz.
+4.  Run the executable:
+    ```bash
+    ./Acadence
+    ```
 
-Later, upon entering the app another student, Abeed, automatically receives the class cancellation notice but his joy is short-lived for the next thing he sees is his poor grades in quiz and attendance below 85%.
+## Sample Input Files
+The application automatically generates necessary CSV files if they are missing. Data is stored in the same directory as the executable (or the working directory).
 
-Currently all app actions occur through a clean terminal menu. Data is stored as simple text files, and internal classes handle schedules, reminders, grades, and notifications in a structured OOP approach.
+**Key Data Files:**
+*   `admins.csv`: Stores admin credentials.
+*   `students.csv`: Student profiles (ID, Name, Credentials, Dept, etc.).
+*   `teachers.csv`: Teacher profiles (ID, Name, Credentials, Dept, Salary).
+*   `courses.csv`: Course details.
+*   `routine.csv`: Weekly class schedules.
+*   `habits.csv`, `tasks.csv`, `grades.csv`, `attendance.csv`, `notices.csv`: User-specific data.
 
-## 4. Features
+## Class Descriptions
 
-### MVP (Minimum Viable Product)
-*   User Login System (student/teacher profiles).
-*   Student Routine Loader (read routine from text; show next-day classes).
-*   Student Reminders (quiz, assignment, study tasks).
-*   Study Planner (add/edit tasks, mark completed, show remaining goals).
-*   Habit Tracker (sleep, hydration, workout logs).
-*   Teacher Notices (publish/update public class notices).
-*   Teacher Basic Quiz & Deadline Scheduling.
-*   Grading System: add marks, show student stats (highest/lowest/average).
-*   Attendance Tracking: per student with 85% warning.
-*   In-App Notification System using timestamps.
-*   Persistent Storage using text-based files for all profiles and data.
+### Core Logic
+*   **`Person` (Abstract Base Class)**: Defines common attributes for all users (ID, name, email, username, password).
+*   **`Student`**: Inherits `Person`. Adds attributes for department, batch, semester, admission date, and GPA.
+*   **`Teacher`**: Inherits `Person`. Adds attributes for department, designation, and salary.
+*   **`Admin`**: Inherits `Person`. Represents system administrators.
+*   **`AcadenceManager`**: The "Controller" class. Handles all file I/O (CSV reading/writing), authentication logic, and data retrieval/updates for the UI.
+*   **`Course`**: Represents an academic subject with code, name, credits, and assigned teacher.
+*   **`RoutineSession` & `WeeklyRoutine`**: Encapsulates schedule data. `WeeklyRoutine` manages a collection of `RoutineSession` objects.
 
-### Stretch Features (Optional After MVP)
-*   Room Booking System for teachers.
-*   Class Slot Availability Viewer.
-*   Student–Teacher Query Panel (questions & replies).
-*   Peer “Buddy Finder” based on interest matching.
-*   Weekly Syllabus Progress Tracker with reminders.
-*   Deadline Conflict Detector (alerts when a student is overloaded).
-*   “Simulated Time” mode for easier demonstration of reminder behavior.
+### Habits & Utilities
+*   **`Habit` (Abstract Base Class)**: Defines the interface for habit tracking (streaks, completion status).
+*   **`DurationHabit`**: Inherits `Habit`. Tracks time-based activities (e.g., "Study for 30 mins").
+*   **`CountHabit`**: Inherits `Habit`. Tracks quantity-based activities (e.g., "Drink 8 glasses of water").
+*   **`Timer`**: A helper class using `QTimer` to provide stopwatch functionality for `DurationHabit`.
+
+### User Interface
+*   **`MainWindow`**: The main GUI class inheriting `QMainWindow`. Manages all UI interactions, view switching based on user roles, and connects UI events to `AcadenceManager`.
+*   **`CsvDelegate`**: Inherits `QStyledItemDelegate`. Provides custom input validation (spinboxes, date pickers, duplicate checks) for the Admin table view.
+
+## Relationships & OOP Concepts
+
+### Inheritance
+*   **`Person` -> `Student`, `Teacher`, `Admin`**: Used to share common user identity logic while allowing specific roles to have unique attributes (e.g., Salary for Teachers, GPA for Students).
+*   **`Habit` -> `DurationHabit`, `CountHabit`**: Used to implement different tracking mechanisms (Time vs. Count) under a unified interface.
+
+### Polymorphism
+*   **Virtual Functions**: `Person::getRole()` allows the system to identify user types dynamically. `Habit::getProgressString()` and `serializeValue()` allow the UI and storage system to treat all habits uniformly while executing subclass-specific logic.
+*   **Pointers**: The application uses `QVector<Habit*>` to store mixed habit types and `Person*` for generic user handling.
+
+### Encapsulation
+*   All classes use `private` sections for data members (e.g., `id`, `password`, `salary`) and provide `public` getters/setters.
+*   `AcadenceManager` hides the complexity of CSV parsing and file management from the `MainWindow`.
+
+## Exception Handling & Error Checking
+*   **File I/O**: The `AcadenceManager` checks if files open successfully. If a file cannot be opened, functions return empty containers or default values to prevent crashes.
+*   **Input Validation**:
+    *   The `CsvDelegate` class intercepts user input in the Admin panel to ensure data integrity (e.g., unique IDs, unique usernames, valid password characters).
+    *   `QMessageBox` is used to alert users of invalid inputs (e.g., empty fields, duplicate entries).
+*   **Dynamic Casts**: `dynamic_cast` is used safely to check habit types (`DurationHabit` vs `CountHabit`) before performing type-specific actions like starting a timer.
+
+## File Structure
+*   **Headers (`.hpp`)**: Contain class declarations and include guards.
+*   **Sources (`.cpp`)**: Contain class definitions and implementation logic.
+*   **One class per file pair**: Generally followed (e.g., `student.hpp`/`student.cpp`), with small helper structs/classes grouped logically (e.g., `RoutineSession` in `routine.hpp`).
+
+## Naming & Conventions
+*   **Classes**: PascalCase (e.g., `AcadenceManager`, `WeeklyRoutine`).
+*   **Variables/Functions**: camelCase (e.g., `getStudent`, `currentHabitList`).
+*   **Indentation**: 4 spaces.
+*   **Const Correctness**: Getters and non-modifying methods are marked `const`.
+
+## Known Issues
+*   **Memory Management**: The application uses raw pointers for some polymorphic objects (e.g., `Student*` returned from `AcadenceManager`). While `MainWindow` handles deletion immediately after use in most cases, smart pointers (`std::unique_ptr` or `QSharedPointer`) would be a safer modern C++ improvement.
+*   **CSV Parsing**: Basic CSV parsing is implemented. It handles quoted fields but might be sensitive to malformed external edits.

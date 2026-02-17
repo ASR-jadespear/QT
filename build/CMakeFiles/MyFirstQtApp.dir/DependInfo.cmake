@@ -15,6 +15,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/run/media/asr/storage/QT/habit.cpp" "CMakeFiles/MyFirstQtApp.dir/habit.cpp.o" "gcc" "CMakeFiles/MyFirstQtApp.dir/habit.cpp.o.d"
   "/run/media/asr/storage/QT/main.cpp" "CMakeFiles/MyFirstQtApp.dir/main.cpp.o" "gcc" "CMakeFiles/MyFirstQtApp.dir/main.cpp.o.d"
   "/run/media/asr/storage/QT/mainwindow.cpp" "CMakeFiles/MyFirstQtApp.dir/mainwindow.cpp.o" "gcc" "CMakeFiles/MyFirstQtApp.dir/mainwindow.cpp.o.d"
+  "/run/media/asr/storage/QT/routine.cpp" "CMakeFiles/MyFirstQtApp.dir/routine.cpp.o" "gcc" "CMakeFiles/MyFirstQtApp.dir/routine.cpp.o.d"
   "/run/media/asr/storage/QT/student.cpp" "CMakeFiles/MyFirstQtApp.dir/student.cpp.o" "gcc" "CMakeFiles/MyFirstQtApp.dir/student.cpp.o.d"
   "/run/media/asr/storage/QT/teacher.cpp" "CMakeFiles/MyFirstQtApp.dir/teacher.cpp.o" "gcc" "CMakeFiles/MyFirstQtApp.dir/teacher.cpp.o.d"
   "/run/media/asr/storage/QT/timer.cpp" "CMakeFiles/MyFirstQtApp.dir/timer.cpp.o" "gcc" "CMakeFiles/MyFirstQtApp.dir/timer.cpp.o.d"

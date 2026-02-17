@@ -401,42 +401,7 @@
 		"/usr/lib64/cmake/Qt6Widgets/Qt6WidgetsAdditionalTargetInfo.cmake",
 		"/usr/lib64/cmake/Qt6Widgets/Qt6WidgetsMacros.cmake",
 		"/usr/lib64/cmake/Qt6Widgets/Qt6WidgetsPlugins.cmake",
-		"/usr/lib64/cmake/Qt6Widgets/Qt6WidgetsVersionlessAliasTargets.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6SqlConfigVersion.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6SqlConfigVersionImpl.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6SqlConfig.cmake",
-		"/usr/share/cmake/Modules/CMakeFindDependencyMacro.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6SqlDependencies.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6SqlTargets.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6SqlTargets-relwithdebinfo.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6SqlAdditionalTargetInfo.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6SqlPlugins.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QIBaseDriverPluginConfig.cmake",
-		"/usr/share/cmake/Modules/CMakeFindDependencyMacro.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QIBaseDriverPluginTargets.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QIBaseDriverPluginTargets-relwithdebinfo.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QIBaseDriverPluginAdditionalTargetInfo.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QMYSQLDriverPluginConfig.cmake",
-		"/usr/share/cmake/Modules/CMakeFindDependencyMacro.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QMYSQLDriverPluginTargets.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QMYSQLDriverPluginTargets-relwithdebinfo.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QMYSQLDriverPluginAdditionalTargetInfo.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QODBCDriverPluginConfig.cmake",
-		"/usr/share/cmake/Modules/CMakeFindDependencyMacro.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QODBCDriverPluginTargets.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QODBCDriverPluginTargets-relwithdebinfo.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QODBCDriverPluginAdditionalTargetInfo.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QPSQLDriverPluginConfig.cmake",
-		"/usr/share/cmake/Modules/CMakeFindDependencyMacro.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QPSQLDriverPluginTargets.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QPSQLDriverPluginTargets-relwithdebinfo.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QPSQLDriverPluginAdditionalTargetInfo.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QSQLiteDriverPluginConfig.cmake",
-		"/usr/share/cmake/Modules/CMakeFindDependencyMacro.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QSQLiteDriverPluginTargets.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QSQLiteDriverPluginTargets-relwithdebinfo.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6QSQLiteDriverPluginAdditionalTargetInfo.cmake",
-		"/usr/lib64/cmake/Qt6Sql/Qt6SqlVersionlessAliasTargets.cmake"
+		"/usr/lib64/cmake/Qt6Widgets/Qt6WidgetsVersionlessAliasTargets.cmake"
 	],
 	"CMAKE_SOURCE_DIR" : "/run/media/asr/storage/QT",
 	"CROSS_CONFIG" : false,
@@ -457,6 +422,12 @@
 			null
 		],
 		[
+			"/run/media/asr/storage/QT/exceptions.hpp",
+			"MU",
+			"EWIEGA46WW/moc_exceptions.cpp",
+			null
+		],
+		[
 			"/run/media/asr/storage/QT/habit.hpp",
 			"MU",
 			"EWIEGA46WW/moc_habit.cpp",
@@ -472,6 +443,12 @@
 			"/run/media/asr/storage/QT/person.hpp",
 			"MU",
 			"EWIEGA46WW/moc_person.cpp",
+			null
+		],
+		[
+			"/run/media/asr/storage/QT/routine.hpp",
+			"MU",
+			"EWIEGA46WW/moc_routine.cpp",
 			null
 		],
 		[
@@ -496,7 +473,7 @@
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
 	"INCLUDE_DIR" : "/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/include",
 	"MOC_COMPILATION_FILE" : "/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/mocs_compilation.cpp",
-	"MOC_DEFINITIONS" : [ "QT_CORE_LIB", "QT_GUI_LIB", "QT_SQL_LIB", "QT_WIDGETS_LIB" ],
+	"MOC_DEFINITIONS" : [ "QT_CORE_LIB", "QT_GUI_LIB", "QT_WIDGETS_LIB" ],
 	"MOC_DEPEND_FILTERS" : 
 	[
 		[
@@ -511,7 +488,6 @@
 		"/usr/include/qt6/QtCore",
 		"/usr/lib64/qt6/mkspecs/linux-g++",
 		"/usr/include/qt6/QtGui",
-		"/usr/include/qt6/QtSql",
 		"/usr/include",
 		"/usr/include/c++/15",
 		"/usr/include/c++/15/x86_64-redhat-linux",
@@ -557,6 +533,7 @@
 		[ "/run/media/asr/storage/QT/habit.cpp", "MU", null ],
 		[ "/run/media/asr/storage/QT/main.cpp", "MU", null ],
 		[ "/run/media/asr/storage/QT/mainwindow.cpp", "MU", null ],
+		[ "/run/media/asr/storage/QT/routine.cpp", "MU", null ],
 		[ "/run/media/asr/storage/QT/student.cpp", "MU", null ],
 		[ "/run/media/asr/storage/QT/teacher.cpp", "MU", null ],
 		[ "/run/media/asr/storage/QT/timer.cpp", "MU", null ]

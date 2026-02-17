@@ -14,6 +14,7 @@ class Teacher : public Person
 private:
     QString department;  ///< Academic department.
     QString designation; ///< Job title (e.g., "Lecturer", "Professor").
+    double salary;
 
 public:
     /**
@@ -30,6 +31,9 @@ public:
 
     QString getDepartment() const { return department; }
     QString getDesignation() const { return designation; }
+    double getSalary() const { return salary; }
+
+    void setSalary(double s) { salary = s; }
 };
 
 #endif // TEACHER_H

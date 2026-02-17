@@ -343,36 +343,31 @@ CMakeFiles/MyFirstQtApp.dir/main.cpp.o: \
  /usr/include/qt6/QtWidgets/qstyle.h /usr/include/qt6/QtWidgets/qtabbar.h \
  /usr/include/qt6/QtWidgets/qrubberband.h \
  /run/media/asr/storage/QT/academicmanager.hpp \
- /usr/include/qt6/QtSql/QSqlDatabase \
- /usr/include/qt6/QtSql/qsqldatabase.h \
- /usr/include/qt6/QtSql/qtsqlglobal.h \
- /usr/include/qt6/QtSql/qtsql-config.h \
- /usr/include/qt6/QtSql/qtsqlexports.h \
- /usr/include/qt6/QtCore/qmetaobject.h /usr/include/qt6/QtSql/QSqlQuery \
- /usr/include/qt6/QtSql/qsqlquery.h /usr/include/qt6/QtSql/qsqldatabase.h \
- /usr/include/qt6/QtSql/QSqlError /usr/include/qt6/QtSql/qsqlerror.h \
+ /usr/include/qt6/QtCore/QString /usr/include/qt6/QtCore/qstring.h \
  /usr/include/qt6/QtCore/QVector /usr/include/qt6/QtCore/qvector.h \
+ /usr/include/qt6/QtCore/QDate /usr/include/qt6/QtCore/qdatetime.h \
+ /usr/include/qt6/QtCore/qcalendar.h \
  /run/media/asr/storage/QT/student.hpp \
- /run/media/asr/storage/QT/person.hpp /usr/include/qt6/QtCore/QString \
- /usr/include/qt6/QtCore/qstring.h /usr/include/qt6/QtCore/QMap \
+ /run/media/asr/storage/QT/person.hpp /usr/include/qt6/QtCore/QMap \
  /usr/include/qt6/QtCore/qmap.h /usr/include/qt6/QtCore/QList \
  /usr/include/qt6/QtCore/qlist.h /run/media/asr/storage/QT/teacher.hpp \
  /run/media/asr/storage/QT/course.hpp /run/media/asr/storage/QT/habit.hpp \
- /usr/include/qt6/QtCore/QDate /usr/include/qt6/QtCore/qdatetime.h \
- /usr/include/qt6/QtCore/qcalendar.h /usr/include/qt6/QtCore/QStringList \
+ /usr/include/qt6/QtCore/QStringList \
  /usr/include/qt6/QtCore/qstringlist.h \
+ /run/media/asr/storage/QT/routine.hpp \
  /run/media/asr/storage/QT/timer.hpp /usr/include/qt6/QtCore/QObject \
  /usr/include/qt6/QtCore/qobject.h /usr/include/qt6/QtCore/QTimer \
  /usr/include/qt6/QtCore/qtimer.h /usr/include/qt6/QtCore/qbasictimer.h \
  /usr/include/qt6/QtCore/qabstracteventdispatcher.h \
  /usr/include/qt6/QtCore/qeventloop.h \
  /usr/include/qt6/QtCore/qdeadlinetimer.h \
- /usr/include/qt6/QtSql/QSqlTableModel \
- /usr/include/qt6/QtSql/qsqltablemodel.h \
- /usr/include/qt6/QtSql/qsqlquerymodel.h \
+ /usr/include/qt6/QtGui/QStandardItemModel \
+ /usr/include/qt6/QtGui/qstandarditemmodel.h \
  /usr/include/qt6/QtCore/QSortFilterProxyModel \
  /usr/include/qt6/QtCore/qsortfilterproxymodel.h \
  /usr/include/qt6/QtCore/qabstractproxymodel.h \
+ /usr/include/qt6/QtWidgets/QStyledItemDelegate \
+ /usr/include/qt6/QtWidgets/qstyleditemdelegate.h \
  /usr/include/qt6/QtWidgets/QApplication \
  /usr/include/qt6/QtWidgets/qapplication.h \
  /usr/include/qt6/QtCore/qcoreapplication.h \
@@ -409,4 +404,32 @@ CMakeFiles/MyFirstQtApp.dir/main.cpp.o: \
  /usr/include/qt6/QtWidgets/qdialogbuttonbox.h \
  /usr/include/qt6/QtWidgets/QPushButton \
  /usr/include/qt6/QtWidgets/qpushbutton.h \
- /usr/include/qt6/QtWidgets/qabstractbutton.h
+ /usr/include/qt6/QtWidgets/qabstractbutton.h \
+ /usr/include/qt6/QtCore/QFile /usr/include/qt6/QtCore/qfile.h \
+ /usr/include/qt6/QtCore/qfiledevice.h \
+ /usr/include/qt6/QtCore/qiodevice.h /usr/include/c++/15/filesystem \
+ /usr/include/c++/15/bits/fs_fwd.h /usr/include/c++/15/bits/fs_path.h \
+ /usr/include/c++/15/locale /usr/include/c++/15/bits/locale_facets.h \
+ /usr/include/c++/15/cwctype /usr/include/wctype.h \
+ /usr/include/bits/wctype-wchar.h \
+ /usr/include/c++/15/x86_64-redhat-linux/bits/ctype_base.h \
+ /usr/include/c++/15/x86_64-redhat-linux/bits/ctype_inline.h \
+ /usr/include/c++/15/bits/locale_facets.tcc \
+ /usr/include/c++/15/bits/locale_facets_nonio.h \
+ /usr/include/c++/15/x86_64-redhat-linux/bits/time_members.h \
+ /usr/include/c++/15/x86_64-redhat-linux/bits/messages_members.h \
+ /usr/include/libintl.h /usr/include/c++/15/bits/codecvt.h \
+ /usr/include/c++/15/bits/locale_facets_nonio.tcc \
+ /usr/include/c++/15/bits/locale_conv.h /usr/include/c++/15/iomanip \
+ /usr/include/c++/15/bits/quoted_string.h /usr/include/c++/15/sstream \
+ /usr/include/c++/15/istream /usr/include/c++/15/ios \
+ /usr/include/c++/15/bits/basic_ios.h \
+ /usr/include/c++/15/bits/basic_ios.tcc /usr/include/c++/15/ostream \
+ /usr/include/c++/15/bits/ostream.h /usr/include/c++/15/bits/ostream.tcc \
+ /usr/include/c++/15/bits/istream.tcc \
+ /usr/include/c++/15/bits/sstream.tcc /usr/include/c++/15/codecvt \
+ /usr/include/c++/15/bits/fs_dir.h /usr/include/c++/15/bits/fs_ops.h \
+ /usr/include/qt6/QtCore/QTextStream \
+ /usr/include/qt6/QtCore/qtextstream.h /usr/include/qt6/QtWidgets/QLabel \
+ /usr/include/qt6/QtWidgets/qlabel.h /usr/include/qt6/QtGui/qpicture.h \
+ /usr/include/qt6/QtWidgets/QFrame /usr/include/qt6/QtWidgets/qframe.h

@@ -11,8 +11,8 @@ MyFirstQtApp: \
   CMakeFiles/MyFirstQtApp.dir/academicmanager.cpp.o \
   CMakeFiles/MyFirstQtApp.dir/timer.cpp.o \
   CMakeFiles/MyFirstQtApp.dir/habit.cpp.o \
+  CMakeFiles/MyFirstQtApp.dir/routine.cpp.o \
   /usr/lib64/libQt6Widgets.so.6.10.1 \
-  /usr/lib64/libQt6Sql.so.6.10.1 \
   /usr/lib64/libQt6Gui.so.6.10.1 \
   /usr/lib64/libGLX.so \
   /usr/lib64/libOpenGL.so \
@@ -102,9 +102,9 @@ CMakeFiles/MyFirstQtApp.dir/timer.cpp.o:
 
 CMakeFiles/MyFirstQtApp.dir/habit.cpp.o:
 
-/usr/lib64/libQt6Widgets.so.6.10.1:
+CMakeFiles/MyFirstQtApp.dir/routine.cpp.o:
 
-/usr/lib64/libQt6Sql.so.6.10.1:
+/usr/lib64/libQt6Widgets.so.6.10.1:
 
 /usr/lib64/libQt6Gui.so.6.10.1:
 

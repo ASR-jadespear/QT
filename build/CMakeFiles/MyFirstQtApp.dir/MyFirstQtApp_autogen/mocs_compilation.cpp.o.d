@@ -345,26 +345,20 @@ CMakeFiles/MyFirstQtApp.dir/MyFirstQtApp_autogen/mocs_compilation.cpp.o: \
  /usr/include/qt6/QtWidgets/qstyle.h /usr/include/qt6/QtWidgets/qtabbar.h \
  /usr/include/qt6/QtWidgets/qrubberband.h \
  /run/media/asr/storage/QT/build/MyFirstQtApp_autogen/EWIEGA46WW/../../../academicmanager.hpp \
- /usr/include/qt6/QtSql/QSqlDatabase \
- /usr/include/qt6/QtSql/qsqldatabase.h \
- /usr/include/qt6/QtSql/qtsqlglobal.h \
- /usr/include/qt6/QtSql/qtsql-config.h \
- /usr/include/qt6/QtSql/qtsqlexports.h \
- /usr/include/qt6/QtCore/qmetaobject.h /usr/include/qt6/QtSql/QSqlQuery \
- /usr/include/qt6/QtSql/qsqlquery.h /usr/include/qt6/QtSql/qsqldatabase.h \
- /usr/include/qt6/QtSql/QSqlError /usr/include/qt6/QtSql/qsqlerror.h \
+ /usr/include/qt6/QtCore/QString /usr/include/qt6/QtCore/qstring.h \
  /usr/include/qt6/QtCore/QVector /usr/include/qt6/QtCore/qvector.h \
+ /usr/include/qt6/QtCore/QDate /usr/include/qt6/QtCore/qdatetime.h \
+ /usr/include/qt6/QtCore/qcalendar.h \
  /run/media/asr/storage/QT/build/MyFirstQtApp_autogen/EWIEGA46WW/../../../student.hpp \
  /run/media/asr/storage/QT/build/MyFirstQtApp_autogen/EWIEGA46WW/../../../person.hpp \
- /usr/include/qt6/QtCore/QString /usr/include/qt6/QtCore/qstring.h \
  /usr/include/qt6/QtCore/QMap /usr/include/qt6/QtCore/qmap.h \
  /usr/include/qt6/QtCore/QList /usr/include/qt6/QtCore/qlist.h \
  /run/media/asr/storage/QT/build/MyFirstQtApp_autogen/EWIEGA46WW/../../../teacher.hpp \
  /run/media/asr/storage/QT/build/MyFirstQtApp_autogen/EWIEGA46WW/../../../course.hpp \
  /run/media/asr/storage/QT/build/MyFirstQtApp_autogen/EWIEGA46WW/../../../habit.hpp \
- /usr/include/qt6/QtCore/QDate /usr/include/qt6/QtCore/qdatetime.h \
- /usr/include/qt6/QtCore/qcalendar.h /usr/include/qt6/QtCore/QStringList \
+ /usr/include/qt6/QtCore/QStringList \
  /usr/include/qt6/QtCore/qstringlist.h \
+ /run/media/asr/storage/QT/build/MyFirstQtApp_autogen/EWIEGA46WW/../../../routine.hpp \
  /run/media/asr/storage/QT/build/MyFirstQtApp_autogen/EWIEGA46WW/../../../timer.hpp \
  /usr/include/qt6/QtCore/QObject /usr/include/qt6/QtCore/qobject.h \
  /usr/include/qt6/QtCore/QTimer /usr/include/qt6/QtCore/qtimer.h \
@@ -372,12 +366,13 @@ CMakeFiles/MyFirstQtApp.dir/MyFirstQtApp_autogen/mocs_compilation.cpp.o: \
  /usr/include/qt6/QtCore/qabstracteventdispatcher.h \
  /usr/include/qt6/QtCore/qeventloop.h \
  /usr/include/qt6/QtCore/qdeadlinetimer.h \
- /usr/include/qt6/QtSql/QSqlTableModel \
- /usr/include/qt6/QtSql/qsqltablemodel.h \
- /usr/include/qt6/QtSql/qsqlquerymodel.h \
+ /usr/include/qt6/QtGui/QStandardItemModel \
+ /usr/include/qt6/QtGui/qstandarditemmodel.h \
  /usr/include/qt6/QtCore/QSortFilterProxyModel \
  /usr/include/qt6/QtCore/qsortfilterproxymodel.h \
  /usr/include/qt6/QtCore/qabstractproxymodel.h \
+ /usr/include/qt6/QtWidgets/QStyledItemDelegate \
+ /usr/include/qt6/QtWidgets/qstyleditemdelegate.h \
  /usr/include/qt6/QtCore/qtmochelpers.h \
  /usr/include/qt6/QtCore/qtmocconstants.h \
  /usr/include/qt6/QtCore/q20algorithm.h \

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(MyFirstQtApp VERSION 0.1 LANGUAGES CXX)
+project(Acadence VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -11,11 +11,11 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 # Find the Qt 6 libraries on your Fedora system
-find_package(Qt6 REQUIRED COMPONENTS Widgets Sql)
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
-add_executable(MyFirstQtApp WIN32 MACOSX_BUNDLE main.cpp mainwindow.cpp mainwindow.hpp mainwindow.ui person.hpp student.hpp student.cpp teacher.hpp teacher.cpp course.hpp course.cpp academicmanager.hpp academicmanager.cpp timer.hpp timer.cpp habit.hpp habit.cpp)
+add_executable(Acadence WIN32 MACOSX_BUNDLE main.cpp mainwindow.cpp mainwindow.hpp mainwindow.ui person.hpp person.cpp admin.hpp admin.cpp student.hpp student.cpp teacher.hpp teacher.cpp course.hpp course.cpp academicmanager.hpp academicmanager.cpp timer.hpp timer.cpp habit.hpp habit.cpp routine.hpp routine.cpp exceptions.hpp utils.hpp utils.cpp circularprogress.hpp circularprogress.cpp)
 
 # Link the Widgets module to your app
-target_link_libraries(MyFirstQtApp PRIVATE Qt6::Widgets Qt6::Sql)
+target_link_libraries(Acadence PRIVATE Qt6::Widgets)
 
 # Force CMake re-configuration to clear stale MOC files

@@ -1,56 +1,86 @@
 [
 {
   "directory": "/run/media/asr/storage/QT/build",
-  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtSql -g -std=gnu++17 -o CMakeFiles/MyFirstQtApp.dir/MyFirstQtApp_autogen/mocs_compilation.cpp.o -c /run/media/asr/storage/QT/build/MyFirstQtApp_autogen/mocs_compilation.cpp",
-  "file": "/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/mocs_compilation.cpp",
-  "output": "CMakeFiles/MyFirstQtApp.dir/MyFirstQtApp_autogen/mocs_compilation.cpp.o"
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/Acadence_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -g -std=gnu++17 -o CMakeFiles/Acadence.dir/Acadence_autogen/mocs_compilation.cpp.o -c /run/media/asr/storage/QT/build/Acadence_autogen/mocs_compilation.cpp",
+  "file": "/run/media/asr/storage/QT/build/Acadence_autogen/mocs_compilation.cpp",
+  "output": "CMakeFiles/Acadence.dir/Acadence_autogen/mocs_compilation.cpp.o"
 },
 {
   "directory": "/run/media/asr/storage/QT/build",
-  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtSql -g -std=gnu++17 -o CMakeFiles/MyFirstQtApp.dir/main.cpp.o -c /run/media/asr/storage/QT/main.cpp",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/Acadence_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -g -std=gnu++17 -o CMakeFiles/Acadence.dir/main.cpp.o -c /run/media/asr/storage/QT/main.cpp",
   "file": "/run/media/asr/storage/QT/main.cpp",
-  "output": "CMakeFiles/MyFirstQtApp.dir/main.cpp.o"
+  "output": "CMakeFiles/Acadence.dir/main.cpp.o"
 },
 {
   "directory": "/run/media/asr/storage/QT/build",
-  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtSql -g -std=gnu++17 -o CMakeFiles/MyFirstQtApp.dir/mainwindow.cpp.o -c /run/media/asr/storage/QT/mainwindow.cpp",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/Acadence_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -g -std=gnu++17 -o CMakeFiles/Acadence.dir/mainwindow.cpp.o -c /run/media/asr/storage/QT/mainwindow.cpp",
   "file": "/run/media/asr/storage/QT/mainwindow.cpp",
-  "output": "CMakeFiles/MyFirstQtApp.dir/mainwindow.cpp.o"
+  "output": "CMakeFiles/Acadence.dir/mainwindow.cpp.o"
 },
 {
   "directory": "/run/media/asr/storage/QT/build",
-  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtSql -g -std=gnu++17 -o CMakeFiles/MyFirstQtApp.dir/student.cpp.o -c /run/media/asr/storage/QT/student.cpp",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/Acadence_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -g -std=gnu++17 -o CMakeFiles/Acadence.dir/person.cpp.o -c /run/media/asr/storage/QT/person.cpp",
+  "file": "/run/media/asr/storage/QT/person.cpp",
+  "output": "CMakeFiles/Acadence.dir/person.cpp.o"
+},
+{
+  "directory": "/run/media/asr/storage/QT/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/Acadence_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -g -std=gnu++17 -o CMakeFiles/Acadence.dir/admin.cpp.o -c /run/media/asr/storage/QT/admin.cpp",
+  "file": "/run/media/asr/storage/QT/admin.cpp",
+  "output": "CMakeFiles/Acadence.dir/admin.cpp.o"
+},
+{
+  "directory": "/run/media/asr/storage/QT/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/Acadence_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -g -std=gnu++17 -o CMakeFiles/Acadence.dir/student.cpp.o -c /run/media/asr/storage/QT/student.cpp",
   "file": "/run/media/asr/storage/QT/student.cpp",
-  "output": "CMakeFiles/MyFirstQtApp.dir/student.cpp.o"
+  "output": "CMakeFiles/Acadence.dir/student.cpp.o"
 },
 {
   "directory": "/run/media/asr/storage/QT/build",
-  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtSql -g -std=gnu++17 -o CMakeFiles/MyFirstQtApp.dir/teacher.cpp.o -c /run/media/asr/storage/QT/teacher.cpp",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/Acadence_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -g -std=gnu++17 -o CMakeFiles/Acadence.dir/teacher.cpp.o -c /run/media/asr/storage/QT/teacher.cpp",
   "file": "/run/media/asr/storage/QT/teacher.cpp",
-  "output": "CMakeFiles/MyFirstQtApp.dir/teacher.cpp.o"
+  "output": "CMakeFiles/Acadence.dir/teacher.cpp.o"
 },
 {
   "directory": "/run/media/asr/storage/QT/build",
-  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtSql -g -std=gnu++17 -o CMakeFiles/MyFirstQtApp.dir/course.cpp.o -c /run/media/asr/storage/QT/course.cpp",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/Acadence_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -g -std=gnu++17 -o CMakeFiles/Acadence.dir/course.cpp.o -c /run/media/asr/storage/QT/course.cpp",
   "file": "/run/media/asr/storage/QT/course.cpp",
-  "output": "CMakeFiles/MyFirstQtApp.dir/course.cpp.o"
+  "output": "CMakeFiles/Acadence.dir/course.cpp.o"
 },
 {
   "directory": "/run/media/asr/storage/QT/build",
-  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtSql -g -std=gnu++17 -o CMakeFiles/MyFirstQtApp.dir/academicmanager.cpp.o -c /run/media/asr/storage/QT/academicmanager.cpp",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/Acadence_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -g -std=gnu++17 -o CMakeFiles/Acadence.dir/academicmanager.cpp.o -c /run/media/asr/storage/QT/academicmanager.cpp",
   "file": "/run/media/asr/storage/QT/academicmanager.cpp",
-  "output": "CMakeFiles/MyFirstQtApp.dir/academicmanager.cpp.o"
+  "output": "CMakeFiles/Acadence.dir/academicmanager.cpp.o"
 },
 {
   "directory": "/run/media/asr/storage/QT/build",
-  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtSql -g -std=gnu++17 -o CMakeFiles/MyFirstQtApp.dir/timer.cpp.o -c /run/media/asr/storage/QT/timer.cpp",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/Acadence_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -g -std=gnu++17 -o CMakeFiles/Acadence.dir/timer.cpp.o -c /run/media/asr/storage/QT/timer.cpp",
   "file": "/run/media/asr/storage/QT/timer.cpp",
-  "output": "CMakeFiles/MyFirstQtApp.dir/timer.cpp.o"
+  "output": "CMakeFiles/Acadence.dir/timer.cpp.o"
 },
 {
   "directory": "/run/media/asr/storage/QT/build",
-  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/MyFirstQtApp_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtSql -g -std=gnu++17 -o CMakeFiles/MyFirstQtApp.dir/habit.cpp.o -c /run/media/asr/storage/QT/habit.cpp",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/Acadence_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -g -std=gnu++17 -o CMakeFiles/Acadence.dir/habit.cpp.o -c /run/media/asr/storage/QT/habit.cpp",
   "file": "/run/media/asr/storage/QT/habit.cpp",
-  "output": "CMakeFiles/MyFirstQtApp.dir/habit.cpp.o"
+  "output": "CMakeFiles/Acadence.dir/habit.cpp.o"
+},
+{
+  "directory": "/run/media/asr/storage/QT/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/Acadence_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -g -std=gnu++17 -o CMakeFiles/Acadence.dir/routine.cpp.o -c /run/media/asr/storage/QT/routine.cpp",
+  "file": "/run/media/asr/storage/QT/routine.cpp",
+  "output": "CMakeFiles/Acadence.dir/routine.cpp.o"
+},
+{
+  "directory": "/run/media/asr/storage/QT/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/Acadence_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -g -std=gnu++17 -o CMakeFiles/Acadence.dir/utils.cpp.o -c /run/media/asr/storage/QT/utils.cpp",
+  "file": "/run/media/asr/storage/QT/utils.cpp",
+  "output": "CMakeFiles/Acadence.dir/utils.cpp.o"
+},
+{
+  "directory": "/run/media/asr/storage/QT/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/run/media/asr/storage/QT/build/Acadence_autogen/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib64/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -g -std=gnu++17 -o CMakeFiles/Acadence.dir/circularprogress.cpp.o -c /run/media/asr/storage/QT/circularprogress.cpp",
+  "file": "/run/media/asr/storage/QT/circularprogress.cpp",
+  "output": "CMakeFiles/Acadence.dir/circularprogress.cpp.o"
 }
 ]

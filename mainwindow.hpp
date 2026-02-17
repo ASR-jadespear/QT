@@ -5,8 +5,10 @@
 #include <QTableWidgetItem>    // Needed for the table slots
 #include "academicmanager.hpp" // Include your logic class
 #include "timer.hpp"
-#include <QSqlTableModel>
+#include "circularprogress.hpp"
+#include <QStandardItemModel>
 #include <QSortFilterProxyModel>
+#include <QStyledItemDelegate>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -15,11 +17,22 @@ namespace Ui
 }
 QT_END_NAMESPACE
 
+class CsvDelegate : public QStyledItemDelegate
+{
+    Q_OBJECT
+public:
+    explicit CsvDelegate(QObject *parent = nullptr);
+    QString currentTable;
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
+    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
+};
+
 /**
  * @brief The main application window.
  *
  * Handles all UI interactions, view switching based on roles, and integration
- * with the AcademicManager logic.
+ * with the AcadenceManager logic.
  */
 class MainWindow : public QMainWindow
 {
@@ -74,9 +87,11 @@ private slots:
     void on_chkMaghrib_toggled(bool checked);
     void on_chkIsha_toggled(bool checked);
 
+    void onChangePasswordClicked();
+
 private:
     Ui::MainWindow *ui;        ///< Pointer to the UI elements.
-    AcademicManager myManager; ///< The core logic engine.
+    AcadenceManager myManager; ///< The core logic engine.
 
     QVector<Student *> currentStudentList;
     QVector<Teacher *> currentTeacherList;
@@ -85,10 +100,13 @@ private:
 
     Timer *m_focusTimer;
     Timer *m_workoutTimer;
+    CircularProgress *m_focusProgress;
+    CircularProgress *m_workoutProgress;
     DurationHabit *activeTimerHabit; ///< Currently running habit for the timer.
 
-    QSqlTableModel *adminModel;
+    QStandardItemModel *adminModel;
     QSortFilterProxyModel *adminProxyModel;
+    CsvDelegate *csvDelegate;
 
     QString userRole; ///< Current user's role.
     int userId;       ///< Current user's ID.

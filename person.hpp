@@ -15,6 +15,10 @@ protected:
     int id;        ///< Unique identifier for the person.
     QString name;  ///< Full name of the person.
     QString email; ///< Contact email address.
+    QString username;
+    QString password;
+
+    static int personCount; // Static Class Data
 
 public:
     /**
@@ -23,13 +27,12 @@ public:
      * @param name Full name.
      * @param email Email address.
      */
-    Person(int id, QString name, QString email)
-        : id(id), name(name), email(email) {}
+    Person(int id, QString name, QString email, QString username = "", QString password = "");
 
     /**
      * @brief Virtual destructor to ensure proper cleanup of derived classes.
      */
-    virtual ~Person() {}
+    virtual ~Person();
 
     /**
      * @brief Pure virtual function to get the role of the person.
@@ -40,6 +43,13 @@ public:
     int getId() const { return id; }
     QString getName() const { return name; }
     QString getEmail() const { return email; }
+    QString getUsername() const { return username; }
+    QString getPassword() const { return password; }
+
+    void setUsername(const QString &u) { username = u; }
+    void setPassword(const QString &p) { password = p; }
+
+    static int getPersonCount();
 };
 
 #endif // PERSON_H

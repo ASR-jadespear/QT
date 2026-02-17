@@ -63,11 +63,11 @@ CMAKE_BINARY_DIR = /run/media/asr/storage/QT/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/MyFirstQtApp.dir/all
+all: CMakeFiles/Acadence.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
-codegen: CMakeFiles/MyFirstQtApp.dir/codegen
+codegen: CMakeFiles/Acadence.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -75,108 +75,108 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/MyFirstQtApp.dir/clean
-clean: CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/clean
-clean: CMakeFiles/MyFirstQtApp_autogen.dir/clean
+clean: CMakeFiles/Acadence.dir/clean
+clean: CMakeFiles/Acadence_autogen_timestamp_deps.dir/clean
+clean: CMakeFiles/Acadence_autogen.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/MyFirstQtApp.dir
+# Target rules for target CMakeFiles/Acadence.dir
 
 # All Build rule for target.
-CMakeFiles/MyFirstQtApp.dir/all: CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/all
-CMakeFiles/MyFirstQtApp.dir/all: CMakeFiles/MyFirstQtApp_autogen.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/asr/storage/QT/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11 "Built target MyFirstQtApp"
-.PHONY : CMakeFiles/MyFirstQtApp.dir/all
+CMakeFiles/Acadence.dir/all: CMakeFiles/Acadence_autogen_timestamp_deps.dir/all
+CMakeFiles/Acadence.dir/all: CMakeFiles/Acadence_autogen.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/asr/storage/QT/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 "Built target Acadence"
+.PHONY : CMakeFiles/Acadence.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/MyFirstQtApp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /run/media/asr/storage/QT/build/CMakeFiles 12
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/MyFirstQtApp.dir/all
+CMakeFiles/Acadence.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /run/media/asr/storage/QT/build/CMakeFiles 17
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Acadence.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /run/media/asr/storage/QT/build/CMakeFiles 0
-.PHONY : CMakeFiles/MyFirstQtApp.dir/rule
+.PHONY : CMakeFiles/Acadence.dir/rule
 
 # Convenience name for target.
-MyFirstQtApp: CMakeFiles/MyFirstQtApp.dir/rule
-.PHONY : MyFirstQtApp
+Acadence: CMakeFiles/Acadence.dir/rule
+.PHONY : Acadence
 
 # codegen rule for target.
-CMakeFiles/MyFirstQtApp.dir/codegen: CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/all
-CMakeFiles/MyFirstQtApp.dir/codegen: CMakeFiles/MyFirstQtApp_autogen.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/asr/storage/QT/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11 "Finished codegen for target MyFirstQtApp"
-.PHONY : CMakeFiles/MyFirstQtApp.dir/codegen
+CMakeFiles/Acadence.dir/codegen: CMakeFiles/Acadence_autogen_timestamp_deps.dir/all
+CMakeFiles/Acadence.dir/codegen: CMakeFiles/Acadence_autogen.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/asr/storage/QT/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 "Finished codegen for target Acadence"
+.PHONY : CMakeFiles/Acadence.dir/codegen
 
 # clean rule for target.
-CMakeFiles/MyFirstQtApp.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp.dir/build.make CMakeFiles/MyFirstQtApp.dir/clean
-.PHONY : CMakeFiles/MyFirstQtApp.dir/clean
+CMakeFiles/Acadence.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence.dir/build.make CMakeFiles/Acadence.dir/clean
+.PHONY : CMakeFiles/Acadence.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir
+# Target rules for target CMakeFiles/Acadence_autogen_timestamp_deps.dir
 
 # All Build rule for target.
-CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/build.make CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/build.make CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/asr/storage/QT/build/CMakeFiles --progress-num= "Built target MyFirstQtApp_autogen_timestamp_deps"
-.PHONY : CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/all
+CMakeFiles/Acadence_autogen_timestamp_deps.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence_autogen_timestamp_deps.dir/build.make CMakeFiles/Acadence_autogen_timestamp_deps.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence_autogen_timestamp_deps.dir/build.make CMakeFiles/Acadence_autogen_timestamp_deps.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/asr/storage/QT/build/CMakeFiles --progress-num= "Built target Acadence_autogen_timestamp_deps"
+.PHONY : CMakeFiles/Acadence_autogen_timestamp_deps.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/rule: cmake_check_build_system
+CMakeFiles/Acadence_autogen_timestamp_deps.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /run/media/asr/storage/QT/build/CMakeFiles 0
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Acadence_autogen_timestamp_deps.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /run/media/asr/storage/QT/build/CMakeFiles 0
-.PHONY : CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/rule
+.PHONY : CMakeFiles/Acadence_autogen_timestamp_deps.dir/rule
 
 # Convenience name for target.
-MyFirstQtApp_autogen_timestamp_deps: CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/rule
-.PHONY : MyFirstQtApp_autogen_timestamp_deps
+Acadence_autogen_timestamp_deps: CMakeFiles/Acadence_autogen_timestamp_deps.dir/rule
+.PHONY : Acadence_autogen_timestamp_deps
 
 # codegen rule for target.
-CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/build.make CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/asr/storage/QT/build/CMakeFiles --progress-num= "Finished codegen for target MyFirstQtApp_autogen_timestamp_deps"
-.PHONY : CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/codegen
+CMakeFiles/Acadence_autogen_timestamp_deps.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence_autogen_timestamp_deps.dir/build.make CMakeFiles/Acadence_autogen_timestamp_deps.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/asr/storage/QT/build/CMakeFiles --progress-num= "Finished codegen for target Acadence_autogen_timestamp_deps"
+.PHONY : CMakeFiles/Acadence_autogen_timestamp_deps.dir/codegen
 
 # clean rule for target.
-CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/build.make CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/clean
-.PHONY : CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/clean
+CMakeFiles/Acadence_autogen_timestamp_deps.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence_autogen_timestamp_deps.dir/build.make CMakeFiles/Acadence_autogen_timestamp_deps.dir/clean
+.PHONY : CMakeFiles/Acadence_autogen_timestamp_deps.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/MyFirstQtApp_autogen.dir
+# Target rules for target CMakeFiles/Acadence_autogen.dir
 
 # All Build rule for target.
-CMakeFiles/MyFirstQtApp_autogen.dir/all: CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp_autogen.dir/build.make CMakeFiles/MyFirstQtApp_autogen.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp_autogen.dir/build.make CMakeFiles/MyFirstQtApp_autogen.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/asr/storage/QT/build/CMakeFiles --progress-num=12 "Built target MyFirstQtApp_autogen"
-.PHONY : CMakeFiles/MyFirstQtApp_autogen.dir/all
+CMakeFiles/Acadence_autogen.dir/all: CMakeFiles/Acadence_autogen_timestamp_deps.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence_autogen.dir/build.make CMakeFiles/Acadence_autogen.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence_autogen.dir/build.make CMakeFiles/Acadence_autogen.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/asr/storage/QT/build/CMakeFiles --progress-num=17 "Built target Acadence_autogen"
+.PHONY : CMakeFiles/Acadence_autogen.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/MyFirstQtApp_autogen.dir/rule: cmake_check_build_system
+CMakeFiles/Acadence_autogen.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /run/media/asr/storage/QT/build/CMakeFiles 1
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/MyFirstQtApp_autogen.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Acadence_autogen.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /run/media/asr/storage/QT/build/CMakeFiles 0
-.PHONY : CMakeFiles/MyFirstQtApp_autogen.dir/rule
+.PHONY : CMakeFiles/Acadence_autogen.dir/rule
 
 # Convenience name for target.
-MyFirstQtApp_autogen: CMakeFiles/MyFirstQtApp_autogen.dir/rule
-.PHONY : MyFirstQtApp_autogen
+Acadence_autogen: CMakeFiles/Acadence_autogen.dir/rule
+.PHONY : Acadence_autogen
 
 # codegen rule for target.
-CMakeFiles/MyFirstQtApp_autogen.dir/codegen: CMakeFiles/MyFirstQtApp_autogen_timestamp_deps.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp_autogen.dir/build.make CMakeFiles/MyFirstQtApp_autogen.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/asr/storage/QT/build/CMakeFiles --progress-num=12 "Finished codegen for target MyFirstQtApp_autogen"
-.PHONY : CMakeFiles/MyFirstQtApp_autogen.dir/codegen
+CMakeFiles/Acadence_autogen.dir/codegen: CMakeFiles/Acadence_autogen_timestamp_deps.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence_autogen.dir/build.make CMakeFiles/Acadence_autogen.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/asr/storage/QT/build/CMakeFiles --progress-num=17 "Finished codegen for target Acadence_autogen"
+.PHONY : CMakeFiles/Acadence_autogen.dir/codegen
 
 # clean rule for target.
-CMakeFiles/MyFirstQtApp_autogen.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyFirstQtApp_autogen.dir/build.make CMakeFiles/MyFirstQtApp_autogen.dir/clean
-.PHONY : CMakeFiles/MyFirstQtApp_autogen.dir/clean
+CMakeFiles/Acadence_autogen.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Acadence_autogen.dir/build.make CMakeFiles/Acadence_autogen.dir/clean
+.PHONY : CMakeFiles/Acadence_autogen.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

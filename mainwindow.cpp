@@ -1,4 +1,5 @@
 #include "mainwindow.hpp"
+#include "utils.hpp"
 #include "ui_mainwindow.h"
 #include <QInputDialog>
 #include <QMessageBox>
@@ -7,24 +8,63 @@
 #include <QDate>
 #include <QTime>
 #include <algorithm>
+#include <QStandardItemModel>
+#include <QFile>
+#include <QTextStream>
+#include <QSpinBox>
+#include <QDoubleSpinBox>
+#include <QDateEdit>
+#include <QTimeEdit>
+#include <QFormLayout>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QGraphicsDropShadowEffect>
 
 MainWindow::MainWindow(QString role, int uid, QString name, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), userRole(role), userId(uid), userName(name)
 {
     activeTimerHabit = nullptr;
     ui->setupUi(this);
+    resize(1280, 720);
+
+    // Replace Focus Timer Label with Circular Progress
+    m_focusProgress = new CircularProgress(this);
+    if (ui->label_timerDisplay->parentWidget() && ui->label_timerDisplay->parentWidget()->layout())
+    {
+        auto layout = ui->label_timerDisplay->parentWidget()->layout();
+        layout->replaceWidget(ui->label_timerDisplay, m_focusProgress);
+        layout->setAlignment(m_focusProgress, Qt::AlignCenter); // Center the widget
+        ui->label_timerDisplay->hide();
+    }
+    m_focusProgress->setTimeText("00:00");
 
     // Initialize Timer
     m_focusTimer = new Timer(this);
-    connect(m_focusTimer, &Timer::timeUpdated, [this](QString time)
-            { ui->label_timerDisplay->setText(time); });
+    connect(m_focusTimer, &Timer::timeUpdated, [this](QString time, float progress)
+            {
+                m_focusProgress->setTimeText(time);
+                m_focusProgress->setProgress(1.0f - progress); // Invert so it fills up or empties based on preference
+            });
     connect(m_focusTimer, &Timer::finished, [this]()
             { QMessageBox::information(this, "Timer", "Focus session complete!"); });
 
+    // Replace Workout Timer Label with Circular Progress
+    m_workoutProgress = new CircularProgress(this);
+    if (ui->label_workoutTimerDisplay->parentWidget() && ui->label_workoutTimerDisplay->parentWidget()->layout())
+    {
+        auto layout = ui->label_workoutTimerDisplay->parentWidget()->layout();
+        layout->replaceWidget(ui->label_workoutTimerDisplay, m_workoutProgress);
+        layout->setAlignment(m_workoutProgress, Qt::AlignCenter); // Center the widget
+        ui->label_workoutTimerDisplay->hide();
+    }
+    m_workoutProgress->setTimeText("00:00");
+
     // Initialize Workout Timer
     m_workoutTimer = new Timer(this);
-    connect(m_workoutTimer, &Timer::timeUpdated, [this](QString time)
-            { ui->label_workoutTimerDisplay->setText(time); });
+    connect(m_workoutTimer, &Timer::timeUpdated, [this](QString time, float progress)
+            {
+                m_workoutProgress->setTimeText(time);
+                m_workoutProgress->setProgress(1.0f - progress); });
     connect(m_workoutTimer, &Timer::finished, [this]()
             { 
                 QMessageBox::information(this, "Habit", "Session complete!");
@@ -37,9 +77,25 @@ MainWindow::MainWindow(QString role, int uid, QString name, QWidget *parent)
 
     ui->label_welcome->setText("Welcome, " + role + " " + name);
 
+    // Add Shadow to Profile Box for depth
+    QGraphicsDropShadowEffect *profileShadow = new QGraphicsDropShadowEffect(ui->groupBox_profile);
+    profileShadow->setBlurRadius(20);
+    profileShadow->setXOffset(0);
+    profileShadow->setYOffset(5);
+    profileShadow->setColor(QColor(0, 0, 0, 40));
+    ui->groupBox_profile->setGraphicsEffect(profileShadow);
+
+    // Add Change Password Button to Profile Group
+    QPushButton *btnChangePass = new QPushButton("Change Password", this);
+    btnChangePass->setFixedWidth(200);
+    if (ui->groupBox_profile->layout())
+    {
+        ui->groupBox_profile->layout()->addWidget(btnChangePass);
+    }
+    connect(btnChangePass, &QPushButton::clicked, this, &MainWindow::onChangePasswordClicked);
+
     // Initialize Admin Model
-    adminModel = new QSqlTableModel(this);
-    adminModel->setEditStrategy(QSqlTableModel::OnFieldChange); // Auto-save on edit
+    adminModel = new QStandardItemModel(this);
 
     // Initialize Proxy Model for Search/Filter
     adminProxyModel = new QSortFilterProxyModel(this);
@@ -47,9 +103,13 @@ MainWindow::MainWindow(QString role, int uid, QString name, QWidget *parent)
     adminProxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
     adminProxyModel->setFilterKeyColumn(-1); // Filter all columns
     ui->adminTableView->setModel(adminProxyModel);
+    csvDelegate = new CsvDelegate(this);
+    ui->adminTableView->setItemDelegate(csvDelegate);
+    ui->adminTableView->setAlternatingRowColors(true);
 
     // Populate Table Selector
-    QStringList tables = QSqlDatabase::database().tables();
+    QStringList tables = {
+        "admins", "students", "teachers", "courses", "routine", "grades", "notices"};
     ui->tableComboBox->addItems(tables);
     // Trigger initial load
     if (!tables.isEmpty())
@@ -97,18 +157,31 @@ MainWindow::MainWindow(QString role, int uid, QString name, QWidget *parent)
     // Tab 6 (Queries) is visible to both
 
     // Load initial data (Students by default)
-    refreshDashboard();
-    refreshQueries();
-    if (role == "Student")
+    try
     {
-        refreshPlanner();
-        refreshHabits();
+        refreshDashboard();
+        refreshQueries();
+        if (role == "Student")
+        {
+            refreshPlanner();
+            refreshHabits();
 
-        // Auto-select the current day's routine (Qt days: 1=Mon ... 7=Sun)
-        int currentDayIndex = QDate::currentDate().dayOfWeek() % 7;
-        ui->comboRoutineDay->setCurrentIndex(currentDayIndex);
+            // Auto-select the current day's routine (Qt days: 1=Mon ... 7=Sun)
+            int currentDayIndex = QDate::currentDate().dayOfWeek() % 7;
+            ui->comboRoutineDay->setCurrentIndex(currentDayIndex);
 
-        refreshAcademics();
+            ui->tableRoutine->setAlternatingRowColors(true);
+            ui->tableTeacherRoutine->setAlternatingRowColors(true);
+            ui->tableAcademics->setAlternatingRowColors(true);
+            ui->tableGrading->setAlternatingRowColors(true);
+            ui->tableAttendance->setAlternatingRowColors(true);
+
+            refreshAcademics();
+        }
+    }
+    catch (const Acadence::Exception &e)
+    {
+        QMessageBox::critical(this, "Data Error", QString("Failed to load initial data:\n%1").arg(e.what()));
     }
 }
 
@@ -118,21 +191,83 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::onChangePasswordClicked()
+{
+    QDialog dlg(this);
+    dlg.setWindowTitle("Change Password");
+    dlg.setModal(true);
+    QFormLayout *layout = new QFormLayout(&dlg);
+
+    QLineEdit *oldPass = new QLineEdit(&dlg);
+    oldPass->setEchoMode(QLineEdit::Password);
+    layout->addRow("Old Password:", oldPass);
+
+    QLineEdit *newPass = new QLineEdit(&dlg);
+    newPass->setEchoMode(QLineEdit::Password);
+    layout->addRow("New Password:", newPass);
+
+    QLineEdit *confirmPass = new QLineEdit(&dlg);
+    confirmPass->setEchoMode(QLineEdit::Password);
+    layout->addRow("Confirm Password:", confirmPass);
+
+    QDialogButtonBox *btns = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &dlg);
+    layout->addRow(btns);
+
+    connect(btns, &QDialogButtonBox::accepted, &dlg, &QDialog::accept);
+    connect(btns, &QDialogButtonBox::rejected, &dlg, &QDialog::reject);
+
+    if (dlg.exec() == QDialog::Accepted)
+    {
+        if (newPass->text() != confirmPass->text())
+        {
+            QMessageBox::warning(this, "Error", "New passwords do not match.");
+            return;
+        }
+
+        QString error = Utils::validatePassword(newPass->text());
+        if (!error.isEmpty())
+        {
+            QMessageBox::warning(this, "Validation Error", error);
+            return;
+        }
+
+        try
+        {
+            if (myManager.changePassword(userId, userRole, oldPass->text(), newPass->text()))
+            {
+                QMessageBox::information(this, "Success", "Password changed successfully.");
+            }
+        }
+        catch (const Acadence::Exception &e)
+        {
+            QMessageBox::critical(this, "Error", e.what());
+        }
+    }
+}
+
 // === DASHBOARD ===
 
 void MainWindow::refreshDashboard()
 {
     ui->noticeListWidget->clear();
-    QVector<Notice> notices = myManager.getNotices();
+    QVector<Notice> notices;
+    try
+    {
+        notices = myManager.getNotices();
+    }
+    catch (const Acadence::Exception &e)
+    {
+        // Notices are non-critical, log or ignore
+    }
     for (const auto &n : notices)
     {
-        ui->noticeListWidget->addItem("[" + n.date + "] " + n.author + ": " + n.content);
+        ui->noticeListWidget->addItem("[" + n.getDate() + "] " + n.getAuthor() + ": " + n.getContent());
     }
 
     // Update Next Class - Only for Students
     if (userRole == "Student")
     {
-        QString nextClass = myManager.getNextClass();
+        QString nextClass = myManager.getNextClass(userId);
         if (nextClass.isEmpty())
         {
             ui->label_nextClass->setVisible(false);
@@ -201,7 +336,14 @@ void MainWindow::on_addNoticeButton_clicked()
     QString content = QInputDialog::getText(this, "Post Notice", "Content:", QLineEdit::Normal, "", &ok);
     if (ok && !content.isEmpty())
     {
-        myManager.addNotice(content, userName);
+        try
+        {
+            myManager.addNotice(content, userName);
+        }
+        catch (const Acadence::Exception &e)
+        {
+            QMessageBox::critical(this, "Error", e.what());
+        }
         refreshDashboard();
     }
 }
@@ -219,10 +361,10 @@ void MainWindow::refreshPlanner()
     QVector<Task> tasks = myManager.getTasks(userId);
     for (const auto &t : tasks)
     {
-        QString status = t.isCompleted ? "[DONE] " : "[TODO] ";
-        QListWidgetItem *item = new QListWidgetItem(status + t.description);
-        item->setData(Qt::UserRole, t.id);
-        if (t.isCompleted)
+        QString status = t.getIsCompleted() ? "[DONE] " : "[TODO] ";
+        QListWidgetItem *item = new QListWidgetItem(status + t.getDescription());
+        item->setData(Qt::UserRole, t.getId());
+        if (t.getIsCompleted())
             item->setForeground(Qt::gray);
         ui->taskListWidget->addItem(item);
     }
@@ -271,11 +413,11 @@ void MainWindow::refreshHabits()
 {
     // 1. Refresh Prayers
     DailyPrayerStatus prayers = myManager.getDailyPrayers(userId, QDate::currentDate().toString(Qt::ISODate));
-    ui->chkFajr->setChecked(prayers.fajr);
-    ui->chkDhuhr->setChecked(prayers.dhuhr);
-    ui->chkAsr->setChecked(prayers.asr);
-    ui->chkMaghrib->setChecked(prayers.maghrib);
-    ui->chkIsha->setChecked(prayers.isha);
+    ui->chkFajr->setChecked(prayers.getFajr());
+    ui->chkDhuhr->setChecked(prayers.getDhuhr());
+    ui->chkAsr->setChecked(prayers.getAsr());
+    ui->chkMaghrib->setChecked(prayers.getMaghrib());
+    ui->chkIsha->setChecked(prayers.getIsha());
 
     // 2. Refresh Habits List
     qDeleteAll(currentHabitList);
@@ -427,7 +569,7 @@ void MainWindow::refreshRoutine()
             delete s;
         }
     }
-    QVector<RoutineItem> items = myManager.getRoutineForDay(day, semester);
+    QVector<RoutineSession> items = myManager.getRoutineForDay(day, semester);
 
     QTime currentTime = QTime::currentTime();
     QString currentDay = QDate::currentDate().toString("dddd");
@@ -439,7 +581,7 @@ void MainWindow::refreshRoutine()
 
         if (isToday)
         {
-            QTime classTime = QTime::fromString(i.startTime, "HH:mm");
+            QTime classTime = QTime::fromString(i.getStartTime(), "HH:mm");
             int diff = currentTime.secsTo(classTime) / 60; // Difference in minutes
 
             if (diff < -90)
@@ -452,10 +594,10 @@ void MainWindow::refreshRoutine()
 
         int row = ui->tableRoutine->rowCount();
         ui->tableRoutine->insertRow(row);
-        ui->tableRoutine->setItem(row, 0, new QTableWidgetItem(i.startTime + " - " + i.endTime));
-        ui->tableRoutine->setItem(row, 1, new QTableWidgetItem(i.courseCode + ": " + i.courseName));
-        ui->tableRoutine->setItem(row, 2, new QTableWidgetItem(i.room));
-        ui->tableRoutine->setItem(row, 3, new QTableWidgetItem(i.instructor));
+        ui->tableRoutine->setItem(row, 0, new QTableWidgetItem(i.getStartTime() + " - " + i.getEndTime()));
+        ui->tableRoutine->setItem(row, 1, new QTableWidgetItem(i.getCourseCode() + ": " + i.getCourseName()));
+        ui->tableRoutine->setItem(row, 2, new QTableWidgetItem(i.getRoom()));
+        ui->tableRoutine->setItem(row, 3, new QTableWidgetItem(i.getInstructor()));
         ui->tableRoutine->setItem(row, 4, new QTableWidgetItem(status));
     }
 }
@@ -471,16 +613,16 @@ void MainWindow::refreshTeacherRoutine()
     QString day = ui->comboRoutineDayInput->currentText();
     // Teachers see all routines for the day to avoid conflicts, or we could filter.
     // Let's show all for now so they know room availability.
-    QVector<RoutineItem> items = myManager.getRoutineForDay(day);
+    QVector<RoutineSession> items = myManager.getRoutineForDay(day);
 
     for (const auto &i : items)
     {
         int row = ui->tableTeacherRoutine->rowCount();
         ui->tableTeacherRoutine->insertRow(row);
-        ui->tableTeacherRoutine->setItem(row, 0, new QTableWidgetItem(i.startTime + " - " + i.endTime));
-        ui->tableTeacherRoutine->setItem(row, 1, new QTableWidgetItem(i.courseCode + ": " + i.courseName));
-        ui->tableTeacherRoutine->setItem(row, 2, new QTableWidgetItem(i.room));
-        ui->tableTeacherRoutine->setItem(row, 3, new QTableWidgetItem(QString::number(i.semester)));
+        ui->tableTeacherRoutine->setItem(row, 0, new QTableWidgetItem(i.getStartTime() + " - " + i.getEndTime()));
+        ui->tableTeacherRoutine->setItem(row, 1, new QTableWidgetItem(i.getCourseCode() + ": " + i.getCourseName()));
+        ui->tableTeacherRoutine->setItem(row, 2, new QTableWidgetItem(i.getRoom()));
+        ui->tableTeacherRoutine->setItem(row, 3, new QTableWidgetItem(QString::number(i.getSemester())));
     }
 }
 
@@ -539,7 +681,7 @@ void MainWindow::refreshAcademics()
     QVector<Assessment> assessments = myManager.getAssessments(); // Get all for now
     for (const auto &a : assessments)
     {
-        ui->listAssessments->addItem(a.date + " - " + a.courseName + ": " + a.title + " (" + a.type + ")");
+        ui->listAssessments->addItem(a.getDate() + " - " + a.getCourseName() + ": " + a.getTitle() + " (" + a.getType() + ")");
     }
 
     // Attendance & Grades
@@ -548,15 +690,15 @@ void MainWindow::refreshAcademics()
     for (int i = 0; i < att.size(); ++i)
     {
         ui->tableAcademics->insertRow(i);
-        ui->tableAcademics->setItem(i, 0, new QTableWidgetItem(att[i].courseName));
+        ui->tableAcademics->setItem(i, 0, new QTableWidgetItem(att[i].getCourseName()));
 
-        double pct = (att[i].totalClasses > 0) ? (double)att[i].attendedClasses / att[i].totalClasses * 100.0 : 0.0;
+        double pct = (att[i].getTotalClasses() > 0) ? (double)att[i].getAttendedClasses() / att[i].getTotalClasses() * 100.0 : 0.0;
         QTableWidgetItem *pctItem = new QTableWidgetItem(QString::number(pct, 'f', 1) + "%");
         if (pct < 85.0)
             pctItem->setForeground(Qt::red);
         ui->tableAcademics->setItem(i, 1, pctItem);
 
-        QString scoreStr = QString::number(att[i].totalMarksObtained) + " / " + QString::number(att[i].totalMaxMarks);
+        QString scoreStr = QString::number(att[i].getTotalMarksObtained()) + " / " + QString::number(att[i].getTotalMaxMarks());
         ui->tableAcademics->setItem(i, 2, new QTableWidgetItem(scoreStr));
 
         QString status = (pct < 85.0) ? "Low Attendance" : "Good";
@@ -586,7 +728,7 @@ void MainWindow::refreshTeacherTools()
     QVector<Assessment> assessments = myManager.getAssessments();
     for (const auto &a : assessments)
     {
-        ui->comboTeacherAssessment->addItem(a.courseName + " - " + a.title, a.id);
+        ui->comboTeacherAssessment->addItem(a.getCourseName() + " - " + a.getTitle(), a.getId());
     }
 
     // Trigger table refresh
@@ -624,9 +766,9 @@ void MainWindow::refreshTeacherGrades()
     int courseId = -1;
     for (const auto &a : allAssessments)
     {
-        if (a.id == assessmentId)
+        if (a.getId() == assessmentId)
         {
-            courseId = a.courseId;
+            courseId = a.getCourseId();
             break;
         }
     }
@@ -691,7 +833,15 @@ void MainWindow::on_btnSaveGrades_clicked()
 void MainWindow::refreshTeacherAttendance()
 {
     ui->tableAttendance->clear();
-    int courseId = ui->comboAttendanceCourse->currentData().toInt();
+    int courseId = 0;
+    if (ui->comboAttendanceCourse->count() > 0)
+    {
+        courseId = ui->comboAttendanceCourse->currentData().toInt();
+    }
+    else
+    {
+        return;
+    }
     Course *c = myManager.getCourse(courseId);
     if (!c)
         return;
@@ -797,16 +947,16 @@ void MainWindow::refreshQueries()
         QString label;
         if (userRole == "Student")
         {
-            label = "Q: " + q.question + "\n   A: " + (q.answer.isEmpty() ? "(Waiting...)" : q.answer);
+            label = "Q: " + q.getQuestion() + "\n   A: " + (q.getAnswer().isEmpty() ? "(Waiting...)" : q.getAnswer());
         }
         else
         {
-            label = "[" + q.studentName + "] Q: " + q.question + "\n   A: " + (q.answer.isEmpty() ? "(Select to Reply)" : q.answer);
+            label = "[" + q.getStudentName() + "] Q: " + q.getQuestion() + "\n   A: " + (q.getAnswer().isEmpty() ? "(Select to Reply)" : q.getAnswer());
         }
 
         QListWidgetItem *item = new QListWidgetItem(label);
-        item->setData(Qt::UserRole, q.id);
-        if (q.answer.isEmpty())
+        item->setData(Qt::UserRole, q.getId());
+        if (q.getAnswer().isEmpty())
             item->setForeground(Qt::red);
         ui->listQueries->addItem(item);
     }
@@ -843,10 +993,70 @@ void MainWindow::on_btnQueryAction_clicked()
 
 // === ADMIN PANEL ===
 
+// Helper to save model data to text file
+void saveTableData(QStandardItemModel *model, const QString &tableName)
+{
+    QVector<QStringList> data;
+    for (int i = 0; i < model->rowCount(); ++i)
+    {
+        QStringList rowData;
+        for (int j = 0; j < model->columnCount(); ++j)
+        {
+            QStandardItem *item = model->item(i, j);
+            rowData << (item ? item->text() : "");
+        }
+        data.append(rowData);
+    }
+    AcadenceManager::writeCsv(tableName + ".csv", data);
+}
+
 void MainWindow::on_tableComboBox_currentTextChanged(const QString &tableName)
 {
-    adminModel->setTable(tableName);
-    adminModel->select(); // Refresh data
+    adminModel->clear();
+
+    // Disconnect previous connections to prevent multiple saves during load
+    disconnect(adminModel, nullptr, this, nullptr);
+    csvDelegate->currentTable = tableName;
+
+    QVector<QStringList> data;
+    try
+    {
+        data = AcadenceManager::readCsv(tableName + ".csv");
+    }
+    catch (const Acadence::Exception &e)
+    {
+        QMessageBox::warning(this, "Load Error", e.what());
+    }
+    for (const auto &row : data)
+    {
+        QList<QStandardItem *> items;
+        for (const QString &field : row)
+            items.append(new QStandardItem(field));
+        adminModel->appendRow(items);
+    }
+
+    // Set Headers
+    QStringList headers;
+    if (tableName == "admins")
+        headers << "ID" << "Username" << "Password" << "Name" << "Email";
+    else if (tableName == "students")
+        headers << "ID" << "Name" << "Email" << "Username" << "Password" << "Dept" << "Batch" << "Sem" << "Admission Date" << "CGPA";
+    else if (tableName == "teachers")
+        headers << "ID" << "Name" << "Email" << "Username" << "Password" << "Dept" << "Designation" << "Salary";
+    else if (tableName == "courses")
+        headers << "ID" << "Code" << "Name" << "Teacher ID" << "Semester" << "Credits";
+    else if (tableName == "routine")
+        headers << "Day" << "Start" << "End" << "Code" << "Name" << "Room" << "Instructor" << "Semester";
+    else if (tableName == "grades")
+        headers << "Student ID" << "Assessment ID" << "Marks";
+    else if (tableName == "notices")
+        headers << "Date" << "Author" << "Content";
+    adminModel->setHorizontalHeaderLabels(headers);
+
+    // Auto-save on edit
+    connect(adminModel, &QStandardItemModel::itemChanged, this, [this, tableName]()
+            { saveTableData(adminModel, tableName); });
+
     ui->adminTableView->resizeColumnsToContents();
 }
 
@@ -855,6 +1065,35 @@ void MainWindow::on_btnAddRow_clicked()
     // Insert a new empty row at the end
     int row = adminModel->rowCount();
     adminModel->insertRow(row);
+
+    QString currentTable = ui->tableComboBox->currentText();
+    QString nextIdStr = "";
+
+    // Auto-generate ID for tables with a primary key at column 0
+    if (currentTable == "admins" || currentTable == "students" ||
+        currentTable == "teachers" || currentTable == "courses")
+    {
+        int maxId = 0;
+        for (int i = 0; i < row; ++i)
+        {
+            QStandardItem *item = adminModel->item(i, 0);
+            if (item && item->text().toInt() > maxId)
+                maxId = item->text().toInt();
+        }
+        nextIdStr = QString::number(maxId + 1);
+    }
+
+    // Initialize items to prevent null pointers if saved immediately
+    for (int j = 0; j < adminModel->columnCount(); ++j)
+    {
+        if (j == 0 && !nextIdStr.isEmpty())
+            adminModel->setItem(row, j, new QStandardItem(nextIdStr));
+        else
+            adminModel->setItem(row, j, new QStandardItem(""));
+    }
+
+    // Trigger save
+    saveTableData(adminModel, currentTable);
 }
 
 void MainWindow::on_btnDeleteRow_clicked()
@@ -880,10 +1119,266 @@ void MainWindow::on_btnDeleteRow_clicked()
     {
         adminModel->removeRow(sourceRows[i]);
     }
-    adminModel->select(); // Refresh
+
+    // Trigger save
+    saveTableData(adminModel, ui->tableComboBox->currentText());
 }
 
 void MainWindow::on_searchLineEdit_textChanged(const QString &arg1)
 {
     adminProxyModel->setFilterFixedString(arg1);
+}
+
+// === CSV DELEGATE IMPLEMENTATION ===
+
+CsvDelegate::CsvDelegate(QObject *parent) : QStyledItemDelegate(parent) {}
+
+QWidget *CsvDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    int col = index.column();
+
+    // Admins: ID,Username,Password,Name,Email
+    if (currentTable == "admins")
+    {
+        if (col == 0)
+        { // ID
+            QSpinBox *sb = new QSpinBox(parent);
+            sb->setRange(1, 999999);
+            return sb;
+        }
+    }
+    // Students: ID,Name,Email,Username,Password,Dept,Batch,Sem,StudentID,DateAdmission,CGPA
+    else if (currentTable == "students")
+    {
+        if (col == 0)
+        { // ID
+            QSpinBox *sb = new QSpinBox(parent);
+            sb->setRange(1, 999999);
+            return sb;
+        }
+        if (col == 7)
+        { // Sem
+            QSpinBox *sb = new QSpinBox(parent);
+            sb->setRange(1, 8);
+            return sb;
+        }
+        if (col == 8)
+        { // DateAdmission
+            QDateEdit *de = new QDateEdit(parent);
+            de->setDisplayFormat("yyyy-MM-dd");
+            de->setCalendarPopup(true);
+            return de;
+        }
+        if (col == 9)
+        { // CGPA
+            QDoubleSpinBox *dsb = new QDoubleSpinBox(parent);
+            dsb->setRange(0.0, 4.0);
+            dsb->setSingleStep(0.01);
+            return dsb;
+        }
+        if (col == 5)
+        { // Dept
+            QComboBox *cb = new QComboBox(parent);
+            cb->addItems({"CSE", "EEE", "MCE", "CEE", "BTM", "TVE", "SWE"});
+            return cb;
+        }
+    }
+    // Teachers: ID,Name,Email,Username,Password,Dept,Designation,TeacherID,Salary
+    else if (currentTable == "teachers")
+    {
+        if (col == 0)
+        {
+            QSpinBox *sb = new QSpinBox(parent);
+            sb->setRange(1, 999999);
+            return sb;
+        }
+        if (col == 7)
+        { // Salary
+            QDoubleSpinBox *dsb = new QDoubleSpinBox(parent);
+            dsb->setRange(0.0, 1000000.0);
+            return dsb;
+        }
+        if (col == 5)
+        { // Dept
+            QComboBox *cb = new QComboBox(parent);
+            cb->addItems({"CSE", "EEE", "MCE", "CEE", "BTM", "TVE", "SWE"});
+            return cb;
+        }
+    }
+    // Courses: ID,Code,Name,TeacherID,Semester,Credits
+    else if (currentTable == "courses")
+    {
+        if (col == 0 || col == 3 || col == 5)
+        {
+            QSpinBox *sb = new QSpinBox(parent);
+            sb->setRange(1, 999999);
+            return sb;
+        }
+        if (col == 4)
+        { // Semester
+            QSpinBox *sb = new QSpinBox(parent);
+            sb->setRange(1, 8);
+            return sb;
+        }
+    }
+    // Routine: Day,Start,End,Code,Name,Room,Instructor,Semester
+    else if (currentTable == "routine")
+    {
+        if (col == 1 || col == 2)
+        { // Start, End
+            QTimeEdit *te = new QTimeEdit(parent);
+            te->setDisplayFormat("HH:mm");
+            return te;
+        }
+        if (col == 7)
+        { // Semester
+            QSpinBox *sb = new QSpinBox(parent);
+            sb->setRange(1, 8);
+            return sb;
+        }
+    }
+    // Notices: Date,Author,Content
+    else if (currentTable == "notices")
+    {
+        if (col == 0)
+        {
+            QDateEdit *de = new QDateEdit(parent);
+            de->setDisplayFormat("yyyy-MM-dd");
+            de->setCalendarPopup(true);
+            return de;
+        }
+    }
+
+    return QStyledItemDelegate::createEditor(parent, option, index);
+}
+
+void CsvDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
+{
+    QString val = index.model()->data(index, Qt::EditRole).toString();
+    if (QSpinBox *sb = qobject_cast<QSpinBox *>(editor))
+        sb->setValue(val.toInt());
+    else if (QDoubleSpinBox *dsb = qobject_cast<QDoubleSpinBox *>(editor))
+        dsb->setValue(val.toDouble());
+    else if (QComboBox *cb = qobject_cast<QComboBox *>(editor))
+        cb->setCurrentText(val);
+    else if (QDateEdit *de = qobject_cast<QDateEdit *>(editor))
+        de->setDate(QDate::fromString(val, "yyyy-MM-dd"));
+    else if (QTimeEdit *te = qobject_cast<QTimeEdit *>(editor))
+        te->setTime(QTime::fromString(val, "HH:mm"));
+    else
+        QStyledItemDelegate::setEditorData(editor, index);
+}
+
+void CsvDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
+{
+    // --- 1. Get Value from Editor ---
+    int col = index.column();
+    QString newVal;
+
+    if (QSpinBox *sb = qobject_cast<QSpinBox *>(editor))
+        newVal = QString::number(sb->value());
+    else if (QDoubleSpinBox *dsb = qobject_cast<QDoubleSpinBox *>(editor))
+        newVal = QString::number(dsb->value());
+    else if (QComboBox *cb = qobject_cast<QComboBox *>(editor))
+        newVal = cb->currentText();
+    else if (QDateEdit *de = qobject_cast<QDateEdit *>(editor))
+        newVal = de->date().toString("yyyy-MM-dd");
+    else if (QTimeEdit *te = qobject_cast<QTimeEdit *>(editor))
+        newVal = te->time().toString("HH:mm");
+    else if (QLineEdit *le = qobject_cast<QLineEdit *>(editor)) // Handle default text editor
+        newVal = le->text();
+    else
+    {
+        // Fallback for any other editor type
+        QStyledItemDelegate::setModelData(editor, model, index);
+        return;
+    }
+
+    // --- 2. Perform Validation ---
+
+    // ID Validation (Column 0 for user tables)
+    if (col == 0 && (currentTable == "admins" || currentTable == "students" || currentTable == "teachers" || currentTable == "courses"))
+    {
+        // Check for duplicate ID in current model
+        for (int i = 0; i < model->rowCount(); ++i)
+        {
+            if (i != index.row() && model->index(i, 0).data(Qt::EditRole).toString() == newVal)
+            {
+                QMessageBox::warning(editor->parentWidget(), "Validation Error", "ID must be unique.");
+                return; // Reject change
+            }
+        }
+    }
+
+    // Username Validation
+    // Admins: Col 1, Students: Col 3, Teachers: Col 3
+    bool isUsernameCol = (currentTable == "admins" && col == 1) ||
+                         ((currentTable == "students" || currentTable == "teachers") && col == 3);
+
+    if (isUsernameCol)
+    {
+        QString error = Utils::validateUsername(newVal);
+        if (!error.isEmpty())
+        {
+            QMessageBox::warning(editor->parentWidget(), "Validation Error", error);
+            return;
+        }
+
+        // Check uniqueness across all user tables
+        QStringList userTables = {"admins", "students", "teachers"};
+        for (const QString &table : userTables)
+        {
+            int uCol = (table == "admins") ? 1 : 3;
+            if (table == currentTable)
+            {
+                for (int i = 0; i < model->rowCount(); ++i)
+                {
+                    if (i != index.row() && model->index(i, uCol).data(Qt::EditRole).toString() == newVal)
+                    {
+                        QMessageBox::warning(editor->parentWidget(), "Validation Error", "Username '" + newVal + "' already taken.");
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                QVector<QStringList> data;
+                try
+                {
+                    data = AcadenceManager::readCsv(table + ".csv");
+                }
+                catch (...)
+                {
+                    continue;
+                }
+
+                for (const auto &row : data)
+                {
+                    if (row.size() > uCol && row[uCol] == newVal)
+                    {
+                        QMessageBox::warning(editor->parentWidget(), "Validation Error", "Username '" + newVal + "' already taken in " + table + ".");
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    // Password Validation
+    // Admins: Col 2, Students: Col 4, Teachers: Col 4
+    bool isPasswordCol = (currentTable == "admins" && col == 2) ||
+                         ((currentTable == "students" || currentTable == "teachers") && col == 4);
+
+    if (isPasswordCol)
+    {
+        QString error = Utils::validatePassword(newVal);
+        if (!error.isEmpty())
+        {
+            QMessageBox::warning(editor->parentWidget(), "Validation Error", error);
+            return;
+        }
+    }
+
+    // --- 3. Apply Data ---
+    model->setData(index, newVal, Qt::EditRole);
 }
