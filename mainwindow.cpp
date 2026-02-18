@@ -20,6 +20,13 @@
 #include <QPushButton>
 #include <QGraphicsDropShadowEffect>
 
+/**
+ * @brief Constructs the MainWindow.
+ * @param role The role of the logged-in user (Student, Teacher, Admin).
+ * @param uid The unique ID of the user.
+ * @param name The display name of the user.
+ * @param parent Parent widget.
+ */
 MainWindow::MainWindow(QString role, int uid, QString name, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), userRole(role), userId(uid), userName(name)
 {
@@ -27,7 +34,7 @@ MainWindow::MainWindow(QString role, int uid, QString name, QWidget *parent)
     ui->setupUi(this);
     resize(1280, 720);
 
-    // Replace Focus Timer Label with Circular Progress
+    // --- UI Setup: Replace Labels with Custom CircularProgress Widgets ---
     m_focusProgress = new CircularProgress(this);
     if (ui->label_timerDisplay->parentWidget() && ui->label_timerDisplay->parentWidget()->layout())
     {
@@ -38,7 +45,7 @@ MainWindow::MainWindow(QString role, int uid, QString name, QWidget *parent)
     }
     m_focusProgress->setTimeText("00:00");
 
-    // Initialize Timer
+    // --- Initialize Focus Timer ---
     m_focusTimer = new Timer(this);
     connect(m_focusTimer, &Timer::timeUpdated, [this](QString time, float progress)
             {
@@ -48,7 +55,7 @@ MainWindow::MainWindow(QString role, int uid, QString name, QWidget *parent)
     connect(m_focusTimer, &Timer::finished, [this]()
             { QMessageBox::information(this, "Timer", "Focus session complete!"); });
 
-    // Replace Workout Timer Label with Circular Progress
+    // --- Initialize Workout Timer ---
     m_workoutProgress = new CircularProgress(this);
     if (ui->label_workoutTimerDisplay->parentWidget() && ui->label_workoutTimerDisplay->parentWidget()->layout())
     {
@@ -59,7 +66,6 @@ MainWindow::MainWindow(QString role, int uid, QString name, QWidget *parent)
     }
     m_workoutProgress->setTimeText("00:00");
 
-    // Initialize Workout Timer
     m_workoutTimer = new Timer(this);
     connect(m_workoutTimer, &Timer::timeUpdated, [this](QString time, float progress)
             {
@@ -77,7 +83,7 @@ MainWindow::MainWindow(QString role, int uid, QString name, QWidget *parent)
 
     ui->label_welcome->setText("Welcome, " + role + " " + name);
 
-    // Add Shadow to Profile Box for depth
+    // --- Styling: Add Shadow to Profile Box ---
     QGraphicsDropShadowEffect *profileShadow = new QGraphicsDropShadowEffect(ui->groupBox_profile);
     profileShadow->setBlurRadius(20);
     profileShadow->setXOffset(0);
@@ -85,7 +91,7 @@ MainWindow::MainWindow(QString role, int uid, QString name, QWidget *parent)
     profileShadow->setColor(QColor(0, 0, 0, 40));
     ui->groupBox_profile->setGraphicsEffect(profileShadow);
 
-    // Add Change Password Button to Profile Group
+    // --- Profile Actions ---
     QPushButton *btnChangePass = new QPushButton("Change Password", this);
     btnChangePass->setFixedWidth(200);
     if (ui->groupBox_profile->layout())
@@ -94,10 +100,10 @@ MainWindow::MainWindow(QString role, int uid, QString name, QWidget *parent)
     }
     connect(btnChangePass, &QPushButton::clicked, this, &MainWindow::onChangePasswordClicked);
 
-    // Initialize Admin Model
+    // --- Admin Panel Setup ---
     adminModel = new QStandardItemModel(this);
 
-    // Initialize Proxy Model for Search/Filter
+    // Proxy Model for Search/Filter functionality in Admin Table
     adminProxyModel = new QSortFilterProxyModel(this);
     adminProxyModel->setSourceModel(adminModel);
     adminProxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
@@ -107,15 +113,15 @@ MainWindow::MainWindow(QString role, int uid, QString name, QWidget *parent)
     ui->adminTableView->setItemDelegate(csvDelegate);
     ui->adminTableView->setAlternatingRowColors(true);
 
-    // Populate Table Selector
+    // Populate Admin Table Selector
     QStringList tables = {
         "admins", "students", "teachers", "courses", "routine", "grades", "notices"};
     ui->tableComboBox->addItems(tables);
-    // Trigger initial load
+
     if (!tables.isEmpty())
         on_tableComboBox_currentTextChanged(tables.first());
 
-    // Role-based UI adjustments
+    // --- Role-Based UI Visibility Logic ---
     if (role == "Student")
     {
         ui->addNoticeButton->setVisible(false);  // Only teachers post notices
@@ -154,9 +160,8 @@ MainWindow::MainWindow(QString role, int uid, QString name, QWidget *parent)
         ui->label_notices->setVisible(false);
         ui->noticeListWidget->setVisible(false);
     }
-    // Tab 6 (Queries) is visible to both
 
-    // Load initial data (Students by default)
+    // --- Initial Data Load ---
     try
     {
         refreshDashboard();
@@ -245,7 +250,7 @@ void MainWindow::onChangePasswordClicked()
     }
 }
 
-// === DASHBOARD ===
+// ========================== DASHBOARD ==========================
 
 void MainWindow::refreshDashboard()
 {
@@ -353,7 +358,7 @@ void MainWindow::on_logoutButton_clicked()
     QApplication::exit(99);
 }
 
-// === PLANNER ===
+// ========================== PLANNER ==========================
 
 void MainWindow::refreshPlanner()
 {
@@ -407,7 +412,7 @@ void MainWindow::on_btnTimerStop_clicked()
     m_focusTimer->stop();
 }
 
-// === HABITS ===
+// ========================== HABITS ==========================
 
 void MainWindow::refreshHabits()
 {
@@ -552,7 +557,7 @@ void MainWindow::on_chkAsr_toggled(bool checked) { myManager.updateDailyPrayer(u
 void MainWindow::on_chkMaghrib_toggled(bool checked) { myManager.updateDailyPrayer(userId, QDate::currentDate().toString(Qt::ISODate), "maghrib", checked); }
 void MainWindow::on_chkIsha_toggled(bool checked) { myManager.updateDailyPrayer(userId, QDate::currentDate().toString(Qt::ISODate), "isha", checked); }
 
-// === ROUTINE ===
+// ========================== ROUTINE ==========================
 
 void MainWindow::refreshRoutine()
 {
@@ -672,7 +677,7 @@ void MainWindow::on_btnAddRoutine_Teacher_clicked()
     ui->editRoutineRoom->clear();
 }
 
-// === ACADEMICS (Student) ===
+// ========================== ACADEMICS (Student) ==========================
 
 void MainWindow::refreshAcademics()
 {
@@ -706,7 +711,7 @@ void MainWindow::refreshAcademics()
     }
 }
 
-// === TEACHER TOOLS ===
+// ========================== TEACHER TOOLS ==========================
 
 void MainWindow::refreshTeacherTools()
 {
@@ -828,7 +833,7 @@ void MainWindow::on_btnSaveGrades_clicked()
     }
 }
 
-// === ATTENDANCE ===
+// ========================== ATTENDANCE ==========================
 
 void MainWindow::refreshTeacherAttendance()
 {
@@ -935,7 +940,7 @@ void MainWindow::on_btnSaveAttendance_clicked()
     refreshTeacherAttendance();
 }
 
-// === QUERIES ===
+// ========================== QUERIES ==========================
 
 void MainWindow::refreshQueries()
 {
@@ -991,7 +996,7 @@ void MainWindow::on_btnQueryAction_clicked()
     }
 }
 
-// === ADMIN PANEL ===
+// ========================== ADMIN PANEL ==========================
 
 // Helper to save model data to text file
 void saveTableData(QStandardItemModel *model, const QString &tableName)
@@ -1129,7 +1134,7 @@ void MainWindow::on_searchLineEdit_textChanged(const QString &arg1)
     adminProxyModel->setFilterFixedString(arg1);
 }
 
-// === CSV DELEGATE IMPLEMENTATION ===
+// ========================== CSV DELEGATE ==========================
 
 CsvDelegate::CsvDelegate(QObject *parent) : QStyledItemDelegate(parent) {}
 

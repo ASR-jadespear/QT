@@ -1,3 +1,8 @@
+/**
+ * @file academicmanager.cpp
+ * @brief Core logic controller for the Acadence application.
+ * Handles File I/O, Authentication, and Data Management.
+ */
 #include "academicmanager.hpp"
 #include <QFile>
 #include <QTextStream>
@@ -5,6 +10,12 @@
 #include <QMap>
 
 // Helper functions for CSV handling
+/**
+ * @brief Reads a CSV file and parses it into a vector of string lists.
+ * Handles quoted fields containing commas or newlines.
+ * @param filename The path to the CSV file.
+ * @return A QVector of QStringList, where each inner list is a row.
+ */
 QVector<QStringList> AcadenceManager::readCsv(const QString &filename)
 {
     QVector<QStringList> data;
@@ -30,6 +41,7 @@ QVector<QStringList> AcadenceManager::readCsv(const QString &filename)
                 QChar c = line[i];
                 if (c == '"')
                 {
+                    // Handle escaped quotes ("") inside quoted fields
                     if (inQuotes && i + 1 < line.length() && line[i + 1] == '"')
                     {
                         currentField += '"'; // Escaped quote
@@ -37,11 +49,13 @@ QVector<QStringList> AcadenceManager::readCsv(const QString &filename)
                     }
                     else
                     {
+                        // Toggle quote state
                         inQuotes = !inQuotes;
                     }
                 }
                 else if (c == ',' && !inQuotes)
                 {
+                    // Field separator found outside of quotes
                     row.append(currentField.trimmed());
                     currentField.clear();
                 }
@@ -58,6 +72,10 @@ QVector<QStringList> AcadenceManager::readCsv(const QString &filename)
     return data;
 }
 
+/**
+ * @brief Escapes a string for CSV format.
+ * Wraps text in quotes if it contains commas, quotes, or newlines.
+ */
 static QString escapeCsv(const QString &val)
 {
     if (val.contains(',') || val.contains('"') || val.contains('\n'))
