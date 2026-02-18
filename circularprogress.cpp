@@ -39,15 +39,10 @@ void CircularProgress::paintEvent(QPaintEvent *event)
     p.setPen(trackPen);
     p.drawEllipse(rect);
 
-    // Draw Progress Arc with Gradient
-    QConicalGradient gradient(rect.center(), 90);
-    gradient.setColorAt(0, ringColor);
-    gradient.setColorAt(1, ringColor.lighter(140));
-
     QPen progressPen;
     progressPen.setWidth(12);
     progressPen.setCapStyle(Qt::RoundCap);
-    progressPen.setBrush(gradient);
+    progressPen.setColor(ringColor);
     p.setPen(progressPen);
 
     int startAngle = 90 * 16;
